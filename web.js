@@ -38,3 +38,4 @@ document.querySelectorAll('.project-card').forEach(card => {
     observer.observe(card);
 });
 
+
