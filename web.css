@@ -70,3 +70,17 @@ h1 {
     font-size: 0.8rem;
     text-transform: uppercase;
 }
+.code-container {
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+    font-size: 0.85rem;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 8px 15px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.keyword { color: #f92672; } /* Rosa */
+.variable { color: #a6e22e; } /* Verde */
+.method { color: #66d9ef; }   /* Cian */
+.string { color: #e6db74; }   /* Amarillento */
