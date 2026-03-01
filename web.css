@@ -1,6 +1,6 @@
 :root {
-    --bg: #05070a; /* Un negro más profundo */
-    --accent: #4fc3f7; /* Azul cian muy fino */
+    --bg: #05070a;
+    --accent: #4fc3f7;
     --text-main: #ffffff;
     --text-dim: #666;
 }
@@ -10,25 +10,34 @@ body {
     color: var(--text-main);
     font-family: 'Inter', sans-serif;
     line-height: 1.8;
+    margin: 0;
+    overflow-x: hidden;
 }
 
-/* El canvas ahora es una capa sutil */
+/* IMPORTANTE: Posicionamiento del fondo */
 #robotics-mesh-bg {
-    opacity: 0.2; /* Clave: muy tenue */
-    filter: blur(1px); /* Suaviza las líneas para que parezcan un plano técnico */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    opacity: 0.3;
+    filter: blur(0.5px);
 }
 
 .container {
     max-width: 650px;
-    margin: 15vh auto; /* Mucho aire arriba */
+    margin: 15vh auto;
     padding: 0 30px;
+    position: relative; /* Para que esté por encima del canvas */
 }
 
 h1 {
-    font-weight: 300; /* Letra delgada */
+    font-weight: 300;
     font-size: 2.8rem;
     letter-spacing: -2px;
-    margin-bottom: 0;
+    margin: 0;
 }
 
 .title-dev {
@@ -39,11 +48,6 @@ h1 {
     margin-bottom: 40px;
 }
 
-section {
-    margin-bottom: 80px;
-}
-
-/* Proyectos sin cajas, solo texto y hover sutil */
 .proyecto {
     padding: 20px 0;
     border-bottom: 1px solid #1a1a1a;
@@ -58,11 +62,11 @@ section {
 .proyecto h3 {
     font-size: 1.1rem;
     font-weight: 500;
-    margin: 0;
 }
 
-.proyecto p {
-    color: var(--text-dim);
-    font-size: 0.95rem;
-    margin: 5px 0;
+.proyecto a {
+    color: var(--accent);
+    text-decoration: none;
+    font-size: 0.8rem;
+    text-transform: uppercase;
 }
