@@ -1,11 +1,19 @@
 /* Variables de Color (Paleta Thavlik) */
 :root {
-    --bg: #05070a;
-    --accent: #4fc3f7; /* Azul Neón */
-    --sidebar-bg: rgba(5, 7, 10, 0.85); /* Fondo oscuro con transparencia */
-    --text-main: #ffffff;
-    --text-dim: #8b949e; /* Grisáceo técnico */
-    --border-color: rgba(255, 255, 255, 0.08);
+    /* Paleta exacta estilo Thavlik (Tonos Slate y Sky) */
+    --bg: #0B1120; /* Azul noche ultra oscuro, casi negro pero no del todo */
+    --sidebar-bg: rgba(15, 23, 42, 0.6); /* Sidebar más integrada y elegante */
+    --accent: #38BDF8; /* Azul cielo brillante pero suave (no neón) */
+    --text-main: #F8FAFC; /* Blanco hueso para títulos (reduce fatiga visual) */
+    --text-dim: #94A3B8; /* Gris pizarra para descripciones */
+    --border-color: rgba(148, 163, 184, 0.1); /* Bordes mucho más sutiles */
+
+    /* Colores del código (estilo GitHub Dark, más profesionales) */
+    --code-keyword: #FF7B72;
+    --code-variable: #D2A8FF;
+    --code-method: #79C0FF;
+    --code-string: #A5D6FF;
+    --status-dot: #10B981; /* Verde esmeralda menos chillón */
 }
 
 * {
@@ -59,13 +67,20 @@ body {
     align-items: center;
 }
 
+/* --- FORMATO DEL CÓDIGO JAVA --- */
+.keyword { color: var(--code-keyword); } 
+.variable { color: var(--code-variable); } 
+.method { color: var(--code-method); } 
+.string { color: var(--code-string); } 
+
+/* Indicador de estado parpadeante */
 .dot {
     height: 8px;
     width: 8px;
-    background-color: #a6e22e;
+    background-color: var(--status-dot);
     border-radius: 50%;
     margin-right: 10px;
-    box-shadow: 0 0 8px #a6e22e;
+    box-shadow: 0 0 8px var(--status-dot);
     animation: blink 2s infinite;
 }
 
@@ -167,15 +182,16 @@ h1 {
 
 .project-links a {
     font-family: 'JetBrains Mono', monospace;
-    color: var(--text-main);
-    text-decoration: none;
-    font-size: 0.8rem;
+    color: var(--accent); /* Forzamos el color azul cielo */
+    text-decoration: none; /* Quitamos el subrayado feo */
+    font-size: 0.85rem;
     margin-right: 20px;
+    padding-bottom: 2px;
     border-bottom: 1px solid transparent;
     transition: 0.3s;
 }
 
 .project-links a:hover {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
+    color: var(--text-main); /* Al pasar el ratón se vuelven blancos */
+    border-bottom-color: var(--text-main);
 }
