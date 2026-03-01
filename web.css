@@ -59,28 +59,30 @@ h1 {
     display: inline-block;
 }
 
-/* --- EN TU WEB.CSS --- */
-
-.project-grid {
-    display: grid !important; /* Forzamos que sea Grid */
-    /* Crea 3 columnas de al menos 280px, o 1fr si hay espacio, 
-       automáticamente adaptable */
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
-    gap: 2rem !important;
-    width: 100% !important; /* Asegura que ocupe todo el ancho del contenedor */
-    margin-top: 2rem;
-    padding: 0;
+/* Contenedor principal para que la web no se pegue a los bordes */
+.container {
+    max-width: 1200px; /* Ajusta este valor al ancho total que desees */
+    margin: 0 auto;
+    padding: 2rem;
 }
 
+.project-grid {
+    display: grid !important;
+    /* "3, 1fr" obliga a que siempre sean 3 columnas iguales */
+    grid-template-columns: repeat(3, 1fr) !important; 
+    gap: 1.5rem;
+    width: 100%;
+}
 
+/* Ajuste de las tarjetas para que no se deformen */
 .project-card {
     background: var(--card-bg);
-    padding: 1.5rem;
     border: 1px solid var(--border-color);
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Alinea los botones abajo si el texto varía */
-    transition: transform 0.2s, border-color 0.2s;
+    height: 100%; /* Para que todas midan lo mismo de alto */
+    max-width: 400px; /* Ancho máximo individual de cada tarjeta */
 }
 
 .project-card:hover {
