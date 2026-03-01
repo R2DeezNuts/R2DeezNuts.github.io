@@ -2,9 +2,9 @@
     --bg-color: #0d0d0d;
     --text-color: #e0e0e0;
     --accent-color: #4a9eff;
-    --card-bg: #1a1a1a;
-    --border-color: #333;
-    --font-main: 'Courier New', Courier, monospace; /* Look técnico */
+    --card-bg: #161616; /* Un poco más oscuro para contraste */
+    --border-color: #2a2a2a;
+    --font-main: 'Courier New', Courier, monospace;
 }
 
 * {
@@ -18,105 +18,128 @@ body {
     color: var(--text-color);
     font-family: var(--font-main);
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
+/* Contenedor unificado */
 .container {
-    max-width: 900px;
+    max-width: 1100px; /* Ancho ideal para 3 columnas */
     margin: 0 auto;
-    padding: 2rem;
+    padding: 0 2rem;
 }
 
+/* Navegación */
 nav {
     border-bottom: 1px solid var(--border-color);
-    padding: 1rem 0;
+    padding: 1.5rem 0;
 }
 
 nav .container {
     display: flex;
     justify-content: space-between;
-    padding-top: 0;
-    padding-bottom: 0;
+    align-items: center;
 }
 
+/* Hero Section */
 .hero {
-    padding: 5rem 2rem;
+    padding: 6rem 2rem;
 }
 
 h1 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     margin-bottom: 1rem;
     color: var(--accent-color);
+    letter-spacing: -1px;
 }
 
 .description {
-    font-size: 1.2rem;
-    max-width: 600px;
+    font-size: 1.1rem;
+    max-width: 650px;
+    color: #aaa;
 }
 
-.section-title {
-    margin-bottom: 2rem;
-    border-bottom: 2px solid var(--accent-color);
-    display: inline-block;
-}
-
-/* Contenedor principal para que la web no se pegue a los bordes */
-.container {
-    max-width: 1200px; /* Ajusta este valor al ancho total que desees */
-    margin: 0 auto;
-    padding: 2rem;
-}
-
+/* Grid de Proyectos - 3 Columnas Fijas */
 .project-grid {
     display: grid !important;
-    /* "3, 1fr" obliga a que siempre sean 3 columnas iguales */
     grid-template-columns: repeat(3, 1fr) !important; 
     gap: 1.5rem;
     width: 100%;
+    margin-bottom: 5rem;
 }
 
-/* Ajuste de las tarjetas para que no se deformen */
+/* Tarjetas de Proyecto */
 .project-card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    padding: 1.5rem;
+    padding: 1.8rem;
     display: flex;
     flex-direction: column;
-    height: 100%; /* Para que todas midan lo mismo de alto */
-    max-width: 400px; /* Ancho máximo individual de cada tarjeta */
+    height: 100%;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .project-card:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
     border-color: var(--accent-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .project-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
+    align-items: flex-start;
+    margin-bottom: 1.2rem;
 }
 
+.project-header h3 {
+    font-size: 1.25rem;
+}
+
+/* Etiquetas (Tags) */
 .tag {
-    font-size: 0.8rem;
-    background: #333;
-    padding: 2px 8px;
-    border-radius: 4px;
+    font-size: 0.7rem;
+    background: #222;
+    color: #888;
+    padding: 3px 8px;
+    border: 1px solid #333;
+    text-transform: uppercase;
 }
 
+.tag-closed {
+    background-color: #301a1a;
+    color: #ff8888;
+    border-color: #552222;
+}
+
+/* Tecnologías */
 .tech-stack {
-    margin: 1rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 1.5rem 0;
+    margin-top: auto; /* Empuja el stack hacia abajo */
 }
 
 .tech-stack span {
-    font-size: 0.85rem;
-    margin-right: 10px;
-    color: #888;
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #777;
+    background: #000;
+    padding: 4px 10px;
+    border: 1px solid #222;
 }
 
+.tech-stack i {
+    margin-right: 6px;
+    color: var(--accent-color);
+}
+
+/* Enlaces y Footer */
 a {
     color: var(--accent-color);
     text-decoration: none;
+    font-size: 0.9rem;
 }
 
 a:hover {
@@ -127,42 +150,37 @@ footer {
     text-align: center;
     padding: 4rem 2rem;
     border-top: 1px solid var(--border-color);
+    font-size: 0.8rem;
+    color: #555;
 }
 
 #back-to-top {
-    margin-top: 1rem;
+    margin-top: 2rem;
     background: transparent;
-    border: 1px solid var(--accent-color);
-    color: var(--accent-color);
-    padding: 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    color: #777;
+    padding: 0.6rem 1.2rem;
     cursor: pointer;
     font-family: var(--font-main);
-}
-.tech-stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; /* Espacio entre tecnologías */
-    margin: 1rem 0;
+    transition: all 0.2s;
 }
 
-.tech-stack span {
-    display: flex;
-    align-items: center; /* Alinea icono y texto verticalmente */
-    font-size: 0.85rem;
-    color: #888;
-    background: #111; /* Un fondo sutil para cada tecnología */
-    padding: 4px 8px;
-    border-radius: 4px;
+#back-to-top:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
 }
 
-.tech-stack i {
-    margin-right: 6px; /* Espacio entre icono y texto */
-    font-size: 1rem;
-    color: var(--accent-color); /* El icono usa tu color de acento */
+/* Ajuste para tablets */
+@media (max-width: 992px) {
+    .project-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
 }
 
-/* Estilo extra para etiquetas de Closed Source */
-.tag-closed {
-    background-color: #442222; /* Rojo oscuro sutil */
-    color: #ffcccc;
+/* Ajuste para móviles */
+@media (max-width: 600px) {
+    .project-grid {
+        grid-template-columns: 1fr !important;
+    }
+    h1 { font-size: 1.8rem; }
 }
