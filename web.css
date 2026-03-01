@@ -1,86 +1,71 @@
+/* web.css */
 :root {
     --bg: #05070a;
     --accent: #4fc3f7;
-    --text-main: #ffffff;
-    --text-dim: #666;
+    --sidebar-bg: rgba(10, 15, 20, 0.8);
 }
 
 body {
     background-color: var(--bg);
-    color: var(--text-main);
-    font-family: 'Inter', sans-serif;
-    line-height: 1.8;
     margin: 0;
-    overflow-x: hidden;
+    color: white;
+    font-family: 'JetBrains Mono', monospace;
+    display: flex;
 }
 
-/* IMPORTANTE: Posicionamiento del fondo */
-#robotics-mesh-bg {
+#pid-canvas {
     position: fixed;
     top: 0;
     left: 0;
+    z-index: -1;
+}
+
+.app-interface {
+    display: flex;
     width: 100vw;
     height: 100vh;
-    z-index: -1;
-    opacity: 0.3;
-    filter: blur(0.5px);
 }
 
-.container {
-    max-width: 650px;
-    margin: 15vh auto;
-    padding: 0 30px;
-    position: relative; /* Para que esté por encima del canvas */
+/* Barra lateral estilo Thavlik */
+.sidebar {
+    width: 250px;
+    background: var(--sidebar-bg);
+    border-right: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px;
+    backdrop-filter: blur(10px);
 }
 
-h1 {
-    font-weight: 300;
-    font-size: 2.8rem;
-    letter-spacing: -2px;
-    margin: 0;
-}
-
-.title-dev {
-    color: var(--accent);
-    font-family: monospace;
-    font-size: 0.9rem;
+.nav-links a {
     display: block;
-    margin-bottom: 40px;
-}
-
-.proyecto {
-    padding: 20px 0;
-    border-bottom: 1px solid #1a1a1a;
-    transition: all 0.4s ease;
-}
-
-.proyecto:hover {
-    padding-left: 10px;
-    border-bottom-color: var(--accent);
-}
-
-.proyecto h3 {
-    font-size: 1.1rem;
-    font-weight: 500;
-}
-
-.proyecto a {
-    color: var(--accent);
+    color: #666;
     text-decoration: none;
+    margin: 15px 0;
     font-size: 0.8rem;
-    text-transform: uppercase;
-}
-.code-container {
-    font-family: 'JetBrains Mono', 'Fira Code', monospace;
-    font-size: 0.85rem;
-    background: rgba(255, 255, 255, 0.03);
-    padding: 8px 15px;
-    border-radius: 4px;
-    display: inline-block;
-    margin-top: 10px;
+    transition: 0.3s;
 }
 
-.keyword { color: #f92672; } /* Rosa */
-.variable { color: #a6e22e; } /* Verde */
-.method { color: #66d9ef; }   /* Cian */
-.string { color: #e6db74; }   /* Amarillento */
+.nav-links a.active, .nav-links a:hover {
+    color: var(--accent);
+}
+
+.content {
+    flex: 1;
+    padding: 60px;
+    overflow-y: auto;
+}
+
+/* Indicador de estado parpadeante */
+.dot {
+    height: 8px;
+    width: 8px;
+    background-color: #a6e22e;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+    box-shadow: 0 0 8px #a6e22e;
+    animation: blink 2s infinite;
+}
+
+@keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
