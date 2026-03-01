@@ -1,197 +1,127 @@
-/* Variables de Color (Paleta Thavlik) */
 :root {
-    /* Paleta exacta estilo Thavlik (Tonos Slate y Sky) */
-    --bg: #0B1120; /* Azul noche ultra oscuro, casi negro pero no del todo */
-    --sidebar-bg: rgba(15, 23, 42, 0.6); /* Sidebar más integrada y elegante */
-    --accent: #38BDF8; /* Azul cielo brillante pero suave (no neón) */
-    --text-main: #F8FAFC; /* Blanco hueso para títulos (reduce fatiga visual) */
-    --text-dim: #94A3B8; /* Gris pizarra para descripciones */
-    --border-color: rgba(148, 163, 184, 0.1); /* Bordes mucho más sutiles */
-
-    /* Colores del código (estilo GitHub Dark, más profesionales) */
-    --code-keyword: #FF7B72;
-    --code-variable: #D2A8FF;
-    --code-method: #79C0FF;
-    --code-string: #A5D6FF;
-    --status-dot: #10B981; /* Verde esmeralda menos chillón */
+    --bg-color: #0d0d0d;
+    --text-color: #e0e0e0;
+    --accent-color: #4a9eff;
+    --card-bg: #1a1a1a;
+    --border-color: #333;
+    --font-main: 'Courier New', Courier, monospace; /* Look técnico */
 }
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 body {
-    background-color: var(--bg);
-    color: var(--text-main);
-    font-family: 'Inter', sans-serif;
-    overflow: hidden; /* Evita que toda la página haga scroll, solo el contenido central */
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-main);
+    line-height: 1.6;
 }
 
-/* El Canvas por detrás de todo */
-#pid-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: -1;
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
 }
 
-.app-interface {
+nav {
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 0;
+}
+
+nav .container {
     display: flex;
-    height: 100vh;
-    width: 100vw;
+    justify-content: space-between;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
-/* --- BARRA LATERAL --- */
-.sidebar {
-    width: 260px;
-    min-width: 260px;
-    background: var(--sidebar-bg);
-    border-right: 1px solid var(--border-color);
-    backdrop-filter: blur(10px);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Esto empuja el V2.0.26_STABLE hacia abajo */
-    padding: 40px 25px;
-}
-
-.status-indicator {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: #a6e22e; /* Verde estado */
-    margin-bottom: 50px;
-    display: flex;
-    align-items: center;
-}
-
-/* --- FORMATO DEL CÓDIGO JAVA --- */
-.keyword { color: var(--code-keyword); } 
-.variable { color: var(--code-variable); } 
-.method { color: var(--code-method); } 
-.string { color: var(--code-string); } 
-
-/* Indicador de estado parpadeante */
-.dot {
-    height: 8px;
-    width: 8px;
-    background-color: var(--status-dot);
-    border-radius: 50%;
-    margin-right: 10px;
-    box-shadow: 0 0 8px var(--status-dot);
-    animation: blink 2s infinite;
-}
-
-@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-.nav-links {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.nav-links a {
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--text-dim);
-    text-decoration: none;
-    font-size: 0.85rem;
-    transition: 0.3s ease;
-}
-
-.nav-links a:hover, .nav-links a.active {
-    color: var(--accent);
-}
-
-.sidebar-footer {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--text-dim);
-}
-
-/* --- CONTENIDO PRINCIPAL --- */
-.content {
-    flex: 1;
-    padding: 80px 10%;
-    overflow-y: auto; /* Permite hacer scroll solo en los proyectos */
-}
-
-.main-header {
-    margin-bottom: 70px;
+.hero {
+    padding: 5rem 2rem;
 }
 
 h1 {
-    font-size: 3.5rem;
-    font-weight: 300;
-    letter-spacing: -2px;
-    margin-bottom: 10px;
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
 }
 
-/* --- FORMATO DEL CÓDIGO JAVA --- */
-.code-container {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.95rem;
-    background: rgba(255, 255, 255, 0.02);
-    padding: 12px 18px;
-    border-radius: 6px;
+.description {
+    font-size: 1.2rem;
+    max-width: 600px;
+}
+
+.section-title {
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--accent-color);
+    display: inline-block;
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.project-card {
+    background: var(--card-bg);
+    padding: 1.5rem;
     border: 1px solid var(--border-color);
-    display: inline-block; /* Evita que el texto se rompa de manera extraña */
+    transition: transform 0.2s, border-color 0.2s;
 }
 
-/* Colores de Syntax Highlighting */
-.keyword { color: #f92672; } /* Rosa */
-.variable { color: #a6e22e; } /* Verde */
-.method { color: #66d9ef; } /* Cian */
-.string { color: #e6db74; } /* Amarillo */
+.project-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-color);
+}
 
-
-/* --- PROYECTOS --- */
-.projects-grid {
+.project-header {
     display: flex;
-    flex-direction: column;
-    gap: 40px;
-    max-width: 800px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
 }
 
-.proyecto {
-    padding-bottom: 25px;
-    border-bottom: 1px solid var(--border-color);
-    transition: 0.3s ease;
+.tag {
+    font-size: 0.8rem;
+    background: #333;
+    padding: 2px 8px;
+    border-radius: 4px;
 }
 
-.proyecto:hover {
-    border-bottom-color: var(--accent);
-    padding-left: 15px; /* Efecto de desplazamiento sutil al pasar el ratón */
+.tech-stack {
+    margin: 1rem 0;
 }
 
-.proyecto h3 {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.1rem;
-    color: var(--accent);
-    margin-bottom: 10px;
-    font-weight: 400;
-}
-
-.proyecto p {
-    color: var(--text-dim);
-    line-height: 1.6;
-    margin-bottom: 15px;
-    font-size: 0.95rem;
-}
-
-.project-links a {
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--accent); /* Forzamos el color azul cielo */
-    text-decoration: none; /* Quitamos el subrayado feo */
+.tech-stack span {
     font-size: 0.85rem;
-    margin-right: 20px;
-    padding-bottom: 2px;
-    border-bottom: 1px solid transparent;
-    transition: 0.3s;
+    margin-right: 10px;
+    color: #888;
 }
 
-.project-links a:hover {
-    color: var(--text-main); /* Al pasar el ratón se vuelven blancos */
-    border-bottom-color: var(--text-main);
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    text-align: center;
+    padding: 4rem 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+#back-to-top {
+    margin-top: 1rem;
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-family: var(--font-main);
 }
