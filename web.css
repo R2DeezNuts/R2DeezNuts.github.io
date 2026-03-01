@@ -1,141 +1,68 @@
-/* 1. Variables y Reset */
 :root {
-    --color-primario: #2c3e50;    /* Azul oscuro profesional */
-    --color-secundario: #3498db;  /* Azul brillante para acentos */
-    --color-fondo: #f8f9fa;
-    --color-texto: #333;
-    --transicion: all 0.3s ease;
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    --bg: #05070a; /* Un negro más profundo */
+    --accent: #4fc3f7; /* Azul cian muy fino */
+    --text-main: #ffffff;
+    --text-dim: #666;
 }
 
 body {
-    font-family: 'Segoe UI', Roboto, sans-serif;
-    background-color: var(--color-fondo);
-    color: var(--color-texto);
-    line-height: 1.6;
+    background-color: var(--bg);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.8;
 }
 
-/* 2. Header y Navegación */
-header {
-    background: var(--color-primario);
-    color: white;
-    padding: 3rem 1rem;
-    text-align: center;
+/* El canvas ahora es una capa sutil */
+#robotics-mesh-bg {
+    opacity: 0.2; /* Clave: muy tenue */
+    filter: blur(1px); /* Suaviza las líneas para que parezcan un plano técnico */
 }
 
-nav {
-    background: #1a252f;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: center;
-    padding: 1rem;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    margin: 0 15px;
-    font-weight: 500;
-    transition: var(--transicion);
-}
-
-nav a:hover {
-    color: var(--color-secundario);
-}
-
-/* 3. Contenedor Principal */
 .container {
-    max-width: 900px;
-    margin: 2rem auto;
-    padding: 0 20px;
+    max-width: 650px;
+    margin: 15vh auto; /* Mucho aire arriba */
+    padding: 0 30px;
+}
+
+h1 {
+    font-weight: 300; /* Letra delgada */
+    font-size: 2.8rem;
+    letter-spacing: -2px;
+    margin-bottom: 0;
+}
+
+.title-dev {
+    color: var(--accent);
+    font-family: monospace;
+    font-size: 0.9rem;
+    display: block;
+    margin-bottom: 40px;
 }
 
 section {
-    background: white;
-    padding: 2rem;
-    margin-bottom: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    margin-bottom: 80px;
 }
 
-h2 {
-    color: var(--color-primario);
-    margin-bottom: 1.5rem;
-    border-left: 4px solid var(--color-secundario);
-    padding-left: 15px;
-}
-
-/* 4. Tarjetas de Proyectos */
+/* Proyectos sin cajas, solo texto y hover sutil */
 .proyecto {
-    border: 1px solid #e1e8ed;
-    padding: 1.5rem;
-    margin: 1rem 0;
-    border-radius: 8px;
-    transition: var(--transicion);
+    padding: 20px 0;
+    border-bottom: 1px solid #1a1a1a;
+    transition: all 0.4s ease;
 }
 
 .proyecto:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    padding-left: 10px;
+    border-bottom-color: var(--accent);
 }
 
 .proyecto h3 {
-    margin-bottom: 0.5rem;
-    color: var(--color-secundario);
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0;
 }
 
-.proyecto a {
-    display: inline-block;
-    margin-top: 1rem;
-    color: var(--color-primario);
-    text-decoration: none;
-    font-weight: bold;
-}
-
-/* 5. Footer */
-footer {
-    text-align: center;
-    padding: 2rem;
-    background: #eee;
-    margin-top: 2rem;
-}
-
-/* 6. Responsive (Ajustes para móviles) */
-@media (max-width: 600px) {
-    nav {
-        flex-direction: column;
-        align-items: center;
-    }
-    nav a {
-        margin: 5px 0;
-    }
-}
-#robotics-mesh-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1; /* Lo envía detrás del contenido */
-    background-color: #0d1117; /* Fondo oscuro tipo GitHub */
-    
-    /* Efecto de cuadrícula técnica tenue de fondo */
-    background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 50px 50px;
-    background-position: center;
-}
-
-/* Asegúrate de que tu contenido tenga un z-index superior para que sea legible */
-.container, header, nav, footer {
-    position: relative;
-    z-index: 1;
+.proyecto p {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    margin: 5px 0;
 }
