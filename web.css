@@ -59,21 +59,19 @@ h1 {
     display: inline-block;
 }
 
+/* --- EN TU WEB.CSS --- */
+
 .project-grid {
-    display: grid;
-    /* Esto crea 3 columnas de igual tamaño */
-    grid-template-columns: repeat(3, 1fr); 
-    gap: 2rem;
+    display: grid !important; /* Forzamos que sea Grid */
+    /* Crea 3 columnas de al menos 280px, o 1fr si hay espacio, 
+       automáticamente adaptable */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 2rem !important;
+    width: 100% !important; /* Asegura que ocupe todo el ancho del contenedor */
     margin-top: 2rem;
+    padding: 0;
 }
 
-/* IMPORTANTE: Para que en el móvil no se vea apretado, 
-   añadimos este "Media Query" al final de tu CSS */
-@media (max-width: 768px) {
-    .project-grid {
-        grid-template-columns: 1fr; /* En móviles vuelve a ser 1 columna */
-    }
-}
 
 .project-card {
     background: var(--card-bg);
