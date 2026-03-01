@@ -5,44 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Robotics Engineer</title>
     <link rel="stylesheet" href="web.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono&display=swap" rel="stylesheet">
 </head>
 <body>
+    <canvas id="pid-canvas"></canvas>
 
-   <canvas id="pid-canvas"></canvas>
-
-<div class="app-interface">
-    <nav class="sidebar">
-        <div class="status-indicator">
-            <span class="dot"></span> SYSTEM_ACTIVE
-        </div>
-        <div class="nav-links">
-            <a href="#proyectos" class="active">/PROYECTOS</a>
-            <a href="#sobre-mi">/SOBRE_MI</a>
-            <a href="#logs">/TELEMETRIA</a>
-        </div>
-        <div class="sidebar-footer">
-            v2.0.26_STABLE
-        </div>
-    </nav>
-
-    <main class="content">
-        <header>
-            <h1>TU NOMBRE</h1>
-            <div class="code-container">
-                <span class="keyword">System</span>.<span class="variable">out</span>.<span class="method">println</span>(<span class="string">"Robotics Engineer"</span>);
+    <div class="app-interface">
+        
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="status-indicator">
+                    <span class="dot"></span> SYSTEM_ACTIVE
+                </div>
+                <div class="nav-links">
+                    <a href="#proyectos" class="active">/PROYECTOS</a>
+                    <a href="#sobre-mi">/SOBRE_MI</a>
+                    <a href="#logs">/TELEMETRIA</a>
+                </div>
             </div>
-        </header>
-
-        <section id="proyectos">
-            <div class="proyecto">
-                <h3>[01] INVERSE_KINEMATICS</h3>
-                <p>Optimization algorithm for 6-DOF manipulators.</p>
-                <a href="#">SRC_CODE</a>
+            <div class="sidebar-footer">
+                v2.0.26_STABLE
             </div>
-        </section>
-    </main>
-</div>
+        </nav>
+
+        <main class="content">
+            <header class="main-header">
+                <h1>Tu Nombre</h1>
+                <div class="code-container">
+                    <span class="keyword">System</span>.<span class="variable">out</span>.<span class="method">println</span>(<span class="string">"Robotics Engineer"</span>);
+                </div>
+            </header>
+
+            <section id="proyectos" class="projects-grid">
+                
+                <article class="proyecto">
+                    <h3>[01] INVERSE_KINEMATICS</h3>
+                    <p>Algoritmo de optimización para manipuladores de 6 grados de libertad (GDL). Implementado en C++ para cálculo en tiempo real.</p>
+                    <div class="project-links">
+                        <a href="#">SRC_CODE</a>
+                    </div>
+                </article>
+
+                <article class="proyecto">
+                    <h3>[02] SLAM_LIDAR_MAPPING</h3>
+                    <p>Mapeo y localización simultánea usando ROS2 y un sensor LiDAR 2D en un robot móvil diferencial. Incluye evasión de obstáculos dinámicos.</p>
+                    <div class="project-links">
+                        <a href="#">SRC_CODE</a>
+                        <a href="#">LIVE_DEMO</a>
+                    </div>
+                </article>
+
+            </section>
+        </main>
+
+    </div>
 
     <script src="web.js"></script>
 </body>
