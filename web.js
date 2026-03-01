@@ -1,55 +1,75 @@
-class Arm {
-    constructor() {
-        this.base = { x: Math.random() * canvas.width, y: Math.random() * canvas.height };
-        this.elbow = { x: 0, y: 0 };
-        this.end = { x: 0, y: 0 };
-        this.offset = Math.random() * Math.PI * 2;
-        
-        // Colores y grosores
-        this.colorSegment = "rgba(79, 195, 247, 0.2)"; 
-        this.colorJoint = "rgba(255, 255, 255, 0.4)"; 
-    }
+const canvas = document.getElementById('pid-canvas');
+const ctx = canvas.getContext('2d');
 
-    update(time) {
-        // Trayectoria de movimiento
-        this.end.x = this.base.x + Math.sin(time + this.offset) * 180;
-        this.end.y = this.base.y + Math.cos(time * 0.7 + this.offset) * 120;
+let width, height;
+let points = [];
+let setPoint = 300;
+let currentVal = 300;
+let errorSum = 0;
+let lastError = 0;
 
-        // Cinemática: El codo busca el equilibrio
-        this.elbow.x = (this.base.x + this.end.x) / 2 + Math.cos(time + this.offset) * 50;
-        this.elbow.y = (this.base.y + this.end.y) / 2 + Math.sin(time + this.offset) * 50;
-    }
+// Constantes PID (puedes jugar con ellas para cambiar la onda)
+const Kp = 0.05, Ki = 0.001, Kd = 0.1;
 
-    draw() {
-        // Dibujamos el "Bíceps" (más grueso)
-        this.drawSegment(this.base, this.elbow, 4);
-        
-        // Dibujamos el "Antebrazo" (más fino)
-        this.drawSegment(this.elbow, this.end, 2);
-
-        // Dibujamos las articulaciones (Joints)
-        this.drawJoint(this.base, 4);  // Hombro
-        this.drawJoint(this.elbow, 5); // Codo
-        this.drawJoint(this.end, 3);   // Muñeca/Gripper
-    }
-
-    drawSegment(p1, p2, width) {
-        ctx.beginPath();
-        ctx.moveTo(p1.x, p1.y);
-        ctx.lineTo(p2.x, p2.y);
-        ctx.lineWidth = width;
-        ctx.strokeStyle = this.colorSegment;
-        ctx.stroke();
-    }
-
-    drawJoint(p, size) {
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
-        ctx.fillStyle = this.colorJoint;
-        ctx.fill();
-        // Círculo exterior para dar aspecto de rodamiento
-        ctx.strokeStyle = this.colorSegment;
-        ctx.lineWidth = 1;
-        ctx.stroke();
-    }
+function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    setPoint = height / 2;
 }
+window.addEventListener('resize', resize);
+resize();
+
+function animate() {
+    ctx.fillStyle = "#05070a";
+    ctx.fillRect(0, 0, width, height);
+
+    // Cambiar el objetivo aleatoriamente cada cierto tiempo
+    if (Math.random() > 0.98) {
+        setPoint = Math.random() * (height * 0.6) + (height * 0.2);
+    }
+
+    // Cálculo simplificado de PID
+    let error = setPoint - currentVal;
+    errorSum += error;
+    let dError = error - lastError;
+    let output = (Kp * error) + (Ki * errorSum) + (Kd * dError);
+    
+    currentVal += output;
+    lastError = error;
+
+    // Guardar punto y desplazar
+    points.push(currentVal);
+    if (points.length > width / 5) points.shift();
+
+    // Dibujar rejilla (Grid)
+    ctx.strokeStyle = "rgba(255,255,255,0.03)";
+    ctx.lineWidth = 1;
+    for(let i=0; i<width; i+=50) {
+        ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, height); ctx.stroke();
+    }
+
+    // Dibujar SetPoint (Línea de objetivo)
+    ctx.setLineDash([5, 5]);
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+    ctx.beginPath();
+    ctx.moveTo(0, setPoint);
+    ctx.lineTo(width, setPoint);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Dibujar Señal de Control
+    ctx.strokeStyle = "#4fc3f7";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    let step = 5;
+    for (let i = 0; i < points.length; i++) {
+        let x = width - (points.length - i) * step;
+        if (i === 0) ctx.moveTo(x, points[i]);
+        else ctx.lineTo(x, points[i]);
+    }
+    ctx.stroke();
+
+    requestAnimationFrame(animate);
+}
+
+animate();
