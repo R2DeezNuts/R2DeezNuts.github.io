@@ -136,4 +136,31 @@ footer {
     cursor: pointer;
     font-family: var(--font-main);
 }
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Espacio entre tecnologías */
+    margin: 1rem 0;
+}
 
+.tech-stack span {
+    display: flex;
+    align-items: center; /* Alinea icono y texto verticalmente */
+    font-size: 0.85rem;
+    color: #888;
+    background: #111; /* Un fondo sutil para cada tecnología */
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.tech-stack i {
+    margin-right: 6px; /* Espacio entre icono y texto */
+    font-size: 1rem;
+    color: var(--accent-color); /* El icono usa tu color de acento */
+}
+
+/* Estilo extra para etiquetas de Closed Source */
+.tag-closed {
+    background-color: #442222; /* Rojo oscuro sutil */
+    color: #ffcccc;
+}
