@@ -61,8 +61,18 @@ h1 {
 
 .project-grid {
     display: grid;
-    grid-template-columns: 1fr;
+    /* Esto crea 3 columnas de igual tamaño */
+    grid-template-columns: repeat(3, 1fr); 
     gap: 2rem;
+    margin-top: 2rem;
+}
+
+/* IMPORTANTE: Para que en el móvil no se vea apretado, 
+   añadimos este "Media Query" al final de tu CSS */
+@media (max-width: 768px) {
+    .project-grid {
+        grid-template-columns: 1fr; /* En móviles vuelve a ser 1 columna */
+    }
 }
 
 .project-card {
