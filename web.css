@@ -117,3 +117,25 @@ footer {
         margin: 5px 0;
     }
 }
+#robotics-mesh-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Lo envía detrás del contenido */
+    background-color: #0d1117; /* Fondo oscuro tipo GitHub */
+    
+    /* Efecto de cuadrícula técnica tenue de fondo */
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    background-position: center;
+}
+
+/* Asegúrate de que tu contenido tenga un z-index superior para que sea legible */
+.container, header, nav, footer {
+    position: relative;
+    z-index: 1;
+}
