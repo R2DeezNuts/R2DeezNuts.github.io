@@ -79,6 +79,9 @@ h1 {
     background: var(--card-bg);
     padding: 1.5rem;
     border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Alinea los botones abajo si el texto varía */
     transition: transform 0.2s, border-color 0.2s;
 }
 
