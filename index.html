@@ -9,11 +9,26 @@
 </head>
 <body>
 
-    <canvas id="robotics-mesh-bg"></canvas>
+   <canvas id="pid-canvas"></canvas>
 
-    <div class="container">
+<div class="app-interface">
+    <nav class="sidebar">
+        <div class="status-indicator">
+            <span class="dot"></span> SYSTEM_ACTIVE
+        </div>
+        <div class="nav-links">
+            <a href="#proyectos" class="active">/PROYECTOS</a>
+            <a href="#sobre-mi">/SOBRE_MI</a>
+            <a href="#logs">/TELEMETRIA</a>
+        </div>
+        <div class="sidebar-footer">
+            v2.0.26_STABLE
+        </div>
+    </nav>
+
+    <main class="content">
         <header>
-            <h1>Tu Nombre</h1>
+            <h1>TU NOMBRE</h1>
             <div class="code-container">
                 <span class="keyword">System</span>.<span class="variable">out</span>.<span class="method">println</span>(<span class="string">"Robotics Engineer"</span>);
             </div>
@@ -21,12 +36,13 @@
 
         <section id="proyectos">
             <div class="proyecto">
-                <h3>Inverse Kinematics Solver</h3>
-                <p>Algoritmo de optimización para brazos de 6 GDL.</p>
-                <a href="#">Github</a>
+                <h3>[01] INVERSE_KINEMATICS</h3>
+                <p>Optimization algorithm for 6-DOF manipulators.</p>
+                <a href="#">SRC_CODE</a>
             </div>
         </section>
-    </div>
+    </main>
+</div>
 
     <script src="web.js"></script>
 </body>
