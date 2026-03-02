@@ -53,5 +53,3 @@ emailButtons.forEach(button => {
         });
     });
 });
-
-// Mantén aquí el resto de tu código (scroll, etc.)
