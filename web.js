@@ -57,3 +57,68 @@ emailButtons.forEach(button => {
         });
     });
 });
+// --- EN TU WEB.JS ---
+
+const canvas = document.getElementById('pid-background');
+const ctx = canvas.getContext('2d');
+
+// Configuración de pantalla completa
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+// Parámetros de las señales
+let time = 0;
+const signals = [
+    { name: 'Setpoint', color: '#ffffff', amplitude: 0.1, frequency: 0.01, speed: 0.02, phase: 0, noise: 0 },
+    { name: 'Process', color: '#f39c12', amplitude: 0.25, frequency: 0.02, speed: 0.04, phase: 2, noise: 15 },
+    { name: 'Control', color: '#4a9eff', amplitude: 0.15, frequency: 0.015, speed: 0.03, phase: 4, noise: 0 }
+];
+
+function drawPIDSignals() {
+    // Limpieza suave para efecto de rastro
+    ctx.fillStyle = 'rgba(13, 13, 13, 0.2)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.lineWidth = 1;
+    const centerY = canvas.height / 2;
+    const drawWidth = canvas.width;
+
+    signals.forEach(sig => {
+        ctx.beginPath();
+        ctx.strokeStyle = sig.color;
+        
+        // Brillo sutil (Glow)
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = sig.color;
+
+        for (let x = 0; x < drawWidth; x++) {
+            // Cálculo base de la onda (sinusoide + fase + tiempo)
+            let base_y = sig.amplitude * centerY * Math.sin((x * sig.frequency) + time * sig.speed + sig.phase);
+            
+            // Añadir ruido simulado si es necesario
+            let noise_y = (sig.noise > 0) ? (Math.random() - 0.5) * sig.noise : 0;
+            
+            let y = centerY + base_y + noise_y;
+
+            if (x === 0) {
+                ctx.moveTo(x, y);
+            } else {
+                ctx.lineTo(x, y);
+            }
+        }
+        ctx.stroke();
+        
+        // Reset del brillo para la siguiente señal
+        ctx.shadowBlur = 0;
+    });
+
+    time += 1;
+    requestAnimationFrame(drawPIDSignals); // Bucle de animación infinito
+}
+
+// Iniciar la animación
+drawPIDSignals();
