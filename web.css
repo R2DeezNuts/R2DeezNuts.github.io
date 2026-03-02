@@ -58,7 +58,7 @@ h1 {
     color: #aaa;
 }
 
-/* Grid de Proyectos - 3 Columnas Fijas */
+/* Grid de Proyectos - 3 Columnas Fijas eso */
 .project-grid {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important; 
