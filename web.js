@@ -35,20 +35,23 @@ document.querySelectorAll('.project-card').forEach(card => {
     card.style.transition = 'all 0.5s ease-out';
     observer.observe(card);
 });
-// Configuración para copiar el email
-const emailLink = document.getElementById('copy-email');
+// Seleccionamos todos los botones que tienen la clase 'copy-email'
+const emailButtons = document.querySelectorAll('.copy-email');
 const toast = document.getElementById('toast');
 const miEmail = 'juanjosepradoneira@gmail.com';
 
-emailLink.addEventListener('click', () => {
-    // Copiar al portapapeles
-    navigator.clipboard.writeText(miEmail).then(() => {
-        // Mostrar el pop-up (toast)
-        toast.classList.add('show');
-        
-        // Esconderlo tras 3 segundos
-        setTimeout(() => {
-            toast.classList.remove('show');
-        }, 3000);
+// Usamos un bucle para añadir el evento a cada uno
+emailButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        navigator.clipboard.writeText(miEmail).then(() => {
+            // Mostrar el pop-up único
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        });
     });
 });
+
+// Mantén aquí el resto de tu código (scroll, etc.)
