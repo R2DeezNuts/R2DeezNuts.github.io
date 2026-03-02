@@ -308,3 +308,23 @@ footer {
     color: #3498db !important;
     border-color: #2980b9 !important;
 }
+/* Cores para o proxecto do Péndulo */
+.tech-stack span.esp32 {
+    color: #e67e22; /* Laranxa microchip */
+    border-color: rgba(230, 126, 34, 0.3);
+}
+
+.tech-stack span.web {
+    color: #3498db; /* Azul web */
+    border-color: rgba(52, 152, 219, 0.3);
+}
+
+.tech-stack span.control {
+    color: #2ecc71; /* Verde algoritmos */
+    border-color: rgba(46, 204, 113, 0.3);
+}
+
+/* Estilo para o enlace de telemetría */
+.demo-link {
+    color: #e74c3c !important; /* Vermello alerta/dato */
+}
