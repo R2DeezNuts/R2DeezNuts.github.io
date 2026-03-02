@@ -39,7 +39,7 @@ document.querySelectorAll('.project-card').forEach(card => {
     card.style.transition = 'all 0.5s ease-out';
     observer.observe(card);
 });
-// Seleccionamos todos los botones que tienen la clase 'copy-email'
+// Seleccionamos todoss los botones que tienen la clase 'copy-email'
 const emailButtons = document.querySelectorAll('.copy-email');
 const toast = document.getElementById('toast');
 const miEmail = 'juanjosepradoneira@gmail.com';
