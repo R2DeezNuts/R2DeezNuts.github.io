@@ -1,4 +1,4 @@
-// Desplazamiento suave para los enlaces del menú
+// Desplazamiento suave para los enlaces del menúu
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
