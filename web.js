@@ -57,68 +57,53 @@ emailButtons.forEach(button => {
         });
     });
 });
-// --- EN TU WEB.JS ---
 
 const canvas = document.getElementById('pid-background');
 const ctx = canvas.getContext('2d');
 
-// Configuración de pantalla completa
-function resizeCanvas() {
+let time = 0;
+
+function resize() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 }
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
 
-// Parámetros de las señales
-let time = 0;
-const signals = [
-    { name: 'Setpoint', color: '#ffffff', amplitude: 0.1, frequency: 0.01, speed: 0.02, phase: 0, noise: 0 },
-    { name: 'Process', color: '#f39c12', amplitude: 0.25, frequency: 0.02, speed: 0.04, phase: 2, noise: 15 },
-    { name: 'Control', color: '#4a9eff', amplitude: 0.15, frequency: 0.015, speed: 0.03, phase: 4, noise: 0 }
-];
+window.onresize = resize;
+resize();
 
-function drawPIDSignals() {
-    // Limpieza suave para efecto de rastro
-    ctx.fillStyle = 'rgba(13, 13, 13, 0.2)';
+function animate() {
+    // Fondo semi-transparente para crear el efecto de rastro (trail)
+    ctx.fillStyle = 'rgba(13, 13, 13, 0.15)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.lineWidth = 1;
     const centerY = canvas.height / 2;
-    const drawWidth = canvas.width;
+    
+    // Configuración de las 3 ondas PID
+    const waves = [
+        { color: '#ffffff', amp: 50, freq: 0.01, speed: 0.05 }, // Setpoint
+        { color: '#f39c12', amp: 80, freq: 0.02, speed: 0.08 }, // Process (Naranja)
+        { color: '#4a9eff', amp: 40, freq: 0.015, speed: 0.03 } // Control (Azul)
+    ];
 
-    signals.forEach(sig => {
+    waves.forEach(wave => {
         ctx.beginPath();
-        ctx.strokeStyle = sig.color;
-        
-        // Brillo sutil (Glow)
-        ctx.shadowBlur = 8;
-        ctx.shadowColor = sig.color;
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = wave.color;
+        ctx.shadowBlur = 5;
+        ctx.shadowColor = wave.color;
 
-        for (let x = 0; x < drawWidth; x++) {
-            // Cálculo base de la onda (sinusoide + fase + tiempo)
-            let base_y = sig.amplitude * centerY * Math.sin((x * sig.frequency) + time * sig.speed + sig.phase);
-            
-            // Añadir ruido simulado si es necesario
-            let noise_y = (sig.noise > 0) ? (Math.random() - 0.5) * sig.noise : 0;
-            
-            let y = centerY + base_y + noise_y;
-
-            if (x === 0) {
-                ctx.moveTo(x, y);
-            } else {
-                ctx.lineTo(x, y);
-            }
+        for (let x = 0; x < canvas.width; x++) {
+            // Ecuación de la onda senoidal simulando telemetría
+            const y = centerY + Math.sin(x * wave.freq + time * wave.speed) * wave.amp;
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
         }
         ctx.stroke();
-        
-        // Reset del brillo para la siguiente señal
-        ctx.shadowBlur = 0;
     });
 
     time += 1;
-    requestAnimationFrame(drawPIDSignals); // Bucle de animación infinito
+    requestAnimationFrame(animate);
 }
 
-// Iniciar la animación
-drawPIDSignals();
+// Arrancar la animación
+animate();
