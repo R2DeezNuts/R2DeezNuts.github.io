@@ -261,3 +261,29 @@ footer {
     visibility: visible;
     opacity: 1;
 }
+
+/* Estilo para las tarjetas placeholder */
+.placeholder-card {
+    opacity: 0.7; /* Ligeramente más transparentes */
+    border-style: dashed; /* Bordes punteados para indicar que no están listos */
+}
+
+.coming-soon-text {
+    margin-top: auto;
+    font-size: 0.75rem;
+    color: var(--accent-color);
+    font-style: italic;
+    letter-spacing: 1px;
+}
+
+/* Nuevos colores de tecnología */
+.tech-stack span.ros {
+    color: #22314E;
+    border-color: rgba(34, 49, 78, 0.5);
+    background: #ffffff; /* ROS suele usar blanco/azul */
+}
+
+.tech-stack span.ai {
+    color: #ff00ff;
+    border-color: rgba(255, 0, 255, 0.3);
+}
