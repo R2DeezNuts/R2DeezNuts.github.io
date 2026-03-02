@@ -1,10 +1,14 @@
-// Desplazamiento suave para los enlaces del menúu
+// Desplazamiento suave mejorado
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-            behavior: 'smooth'
-        });
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start' // Alinea el inicio de la sección con el inicio de la pantalla
+            });
+        }
     });
 });
 // Botón de volver arriba
