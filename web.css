@@ -40,9 +40,27 @@ nav .container {
     align-items: center;
 }
 
-/* Hero Section */
+/* Modifica la sección Hero en tu web.css */
 .hero {
     padding: 6rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;    /* Centra los elementos horizontalmente */
+    text-align: center;     /* Centra el texto de los párrafos y títulos */
+}
+
+.hero .description {
+    margin-left: auto;      /* Estos dos márgenes en auto centran un bloque */
+    margin-right: auto;     /* con un max-width definido */
+    max-width: 650px;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center; /* Centra los enlaces de GitHub y Email */
+    align-items: center;
+    gap: 10px;               /* Espacio uniforme entre elementos */
+    margin-top: 1.5rem;
 }
 
 h1 {
