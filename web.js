@@ -7,8 +7,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         });
     });
 });
-
-
 // Botón de volver arriba
 const backToTop = document.getElementById('back-to-top');
 backToTop.addEventListener('click', () => {
@@ -17,7 +15,6 @@ backToTop.addEventListener('click', () => {
         behavior: 'smooth'
     });
 });
-
 // Efecto simple de revelación al hacer scroll
 const observerOptions = {
     threshold: 0.1
@@ -38,7 +35,6 @@ document.querySelectorAll('.project-card').forEach(card => {
     card.style.transition = 'all 0.5s ease-out';
     observer.observe(card);
 });
-
 // Configuración para copiar el email
 const emailLink = document.getElementById('copy-email');
 const toast = document.getElementById('toast');
