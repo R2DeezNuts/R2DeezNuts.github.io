@@ -23,7 +23,7 @@ body {
 
 /* Contenedor unificado */
 .container {
-    max-width: 1400px; /* Ancho ideal para 3 columnas */
+    max-width: 1300px; /* Ancho ideal para 3 columnas */
     margin: 0 auto;
     padding: 0 2rem;
 }
