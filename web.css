@@ -475,5 +475,5 @@ pid-background {
     height: 100vh;
     z-index: -1; /* Lo pone detrás de todo el contenido */
     background-color: #0d0d0d; /* Fondo base negro */
-    pointer-events: none; /* Los clics pasan a través del canvas si */
+    pointer-events: block; /* Los clics pasan a través del canvas si */
 }
