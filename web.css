@@ -173,6 +173,21 @@ h1 {
     margin-right: 6px;
     color: var(--accent-color);
 }
+/* Novas cores para a tech-stack de robótica */
+.tech-stack span.electronics {
+    color: #ffcc00;
+    border-color: rgba(255, 204, 0, 0.3);
+}
+
+.tech-stack span.mechanics {
+    color: #a0a0a0;
+    border-color: rgba(160, 160, 160, 0.3);
+}
+
+.tech-stack span.gitlab {
+    color: #fc6d26;
+    border-color: rgba(252, 109, 38, 0.3);
+}
 
 /* Enlaces y Footer */
 a {
