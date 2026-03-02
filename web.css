@@ -287,3 +287,24 @@ footer {
     color: #ff00ff;
     border-color: rgba(255, 0, 255, 0.3);
 }
+
+/* Color Verde para Open Source */
+.tag-open {
+    background-color: #1b2e1b !important; /* Fondo verde muy oscuro */
+    color: #2ecc71 !important;           /* Texto verde esmeralda */
+    border-color: #27ae60 !important;
+}
+
+/* Color Naranja para In Dev */
+.tag-dev {
+    background-color: #2e251b !important; /* Fondo naranja muy oscuro */
+    color: #f39c12 !important;           /* Texto naranja */
+    border-color: #d35400 !important;
+}
+
+/* Color Azul/Gris para Planned (Opcional) */
+.tag-planned {
+    background-color: #1b252e !important;
+    color: #3498db !important;
+    border-color: #2980b9 !important;
+}
