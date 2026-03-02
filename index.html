@@ -6,15 +6,14 @@
     <title> Juan Prado // Robotics </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="web.css">
-    
 </head>
 <body>
     <nav>
         <div class="container">
             <span class="logo">Juan José Prado Neira</span>
             <div class="menu">
-                <a href="#projects">Proyects</a>
-                <a href="#contact">Contacts</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
             </div>
         </div>
     </nav>
@@ -34,66 +33,60 @@
             I'm a robotics student. <br>
             Interested in robotics? <strong>Let's talk.</strong>
         </p>
-        </header>
+        <div class="social-links">
+            <a href="https://github.com/R2DeezNuts">gitHub</a> • 
+            <span class="copy-email" style="cursor: pointer; color: var(--accent-color);">email</span>
+        </div>
+    </header>
 
     <main class="container" id="projects">
         <div class="project-grid">
-
-
-
-
-            
             <section class="project-card">
                 <div class="project-header">
                     <h3>Eggbots // Sumo Battlebot</h3>
+                    <span class="tag tag-open">Open Source</span>
                 </div>
                 <p>
                     Proxecto de robótica de competición desenvolvido en <strong>grupos de 3</strong>. 
-                    O obxectivo principal foi o deseño e construción dun robot de combate de alta potencia para 
-                    <strong>gañar o torneo de Battlebots da EPSE</strong>.
+                    O obxectivo principal foi o deseño e construción dun robot de combate de alta potencia.
                 </p>
                 <div class="tech-stack">
                     <span class="cpp"><i class="fas fa-code"></i> C++</span>
                 </div>
                 <div class="project-links">
-                    <a href="https://github.com/R2DeezNuts/EggBot-Sumo-Battlebot-" target="_blank"><i class="fab fa-github"></i> GitHub
+                    <a href="https://github.com/R2DeezNuts/EggBot-Sumo-Battlebot-" target="_blank"><i class="fab fa-github"></i> GitHub</a>
                 </div>
             </section>
 
             <section class="project-card">
                 <div class="project-header">
                     <h3>Pendulo Invertido</h3>
+                    <span class="tag tag-open">Open Source</span>
                 </div>
                 <p>
-                    Sistema de <strong>control PID en tempo real (100 Hz)</strong> para a estabilización dun péndulo invertido. 
-                    Implementa estratexias de control avanzado como <strong>anti-windup</strong> e medidas de seguridade automatizadas.
+                    Sistema de <strong>control PID en tempo real (100 Hz)</strong> para a estabilización dun péndulo invertido.
                 </p>
                 <div class="tech-stack">
-                    <span class="cpp"><i class="fas fa-code"></i> C++</span>  
+                    <span class="cpp"><i class="fas fa-code"></i> C++</span>
                 </div>
                 <div class="project-links">
-                    <a href="https://github.com/R2DeezNuts/Pendulo-Invertido" target="_blank"><i class="fab fa-github"></i> GitHub
+                    <a href="https://github.com/R2DeezNuts/Pendulo-Invertido" target="_blank"><i class="fab fa-github"></i> GitHub</a>
                 </div>
             </section>
-
-            
-
-            
         </div>
     </main>
 
-    <footer class="container" id="contact"><hr style="border: 0; border-top: 1px solid var(--border-color); margin-bottom: 2rem;">>
+    <footer class="container" id="contact">
+        <hr style="border: 0; border-top: 1px solid var(--border-color); margin-bottom: 2rem;">
         <p>&copy; Learning...</p>
         <div class="social-links">
             <a href="https://github.com/R2DeezNuts">gitHub</a> • 
             <span class="copy-email" style="cursor: pointer; color: var(--accent-color);">email</span>
-
         </div>
-        
         <button id="back-to-top">Volver arriba ↑</button>
     </footer>
-    <div id="toast" class="toast">¡Email copied succesfully!</div>
 
+    <div id="toast" class="toast">¡Email copied successfully!</div>
     <script src="web.js"></script>
 </body>
 </html>
