@@ -406,3 +406,11 @@ footer {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
 }
+.project-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important; 
+    gap: 1.5rem;
+    width: 100%;
+    margin-bottom: 5rem;
+    align-items: stretch; /* Asegura que todas las tarjetas midan lo mismo */
+}
