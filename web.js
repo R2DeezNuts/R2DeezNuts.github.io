@@ -38,4 +38,20 @@ document.querySelectorAll('.project-card').forEach(card => {
     observer.observe(card);
 });
 
+// Configuración para copiar el email
+const emailLink = document.getElementById('copy-email');
+const toast = document.getElementById('toast');
+const miEmail = 'juanjosepradoneira@gmail.com';
 
+emailLink.addEventListener('click', () => {
+    // Copiar al portapapeles
+    navigator.clipboard.writeText(miEmail).then(() => {
+        // Mostrar el pop-up (toast)
+        toast.classList.add('show');
+        
+        // Esconderlo tras 3 segundos
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    });
+});
