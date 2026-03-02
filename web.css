@@ -383,24 +383,26 @@ footer {
     100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(243, 156, 18, 0); }
 }
 
-/* Barra de progreso minimalista */
+/* Busca y reemplaza estas dos reglas en tu web.css */
 .progress-bar {
     width: 200px;
-    height: 2px;
+    height: 4px; /* Aumentado un poco para que sea más visible */
     background: #222;
     overflow: hidden;
     position: relative;
+    border-radius: 2px; /* Bordes redondeados sutiles */
+    margin-top: 5px;
 }
 
 .progress-fill {
     width: 100%;
     height: 100%;
     background: #f39c12;
-    animation: loading 3s infinite ease-in-out;
+    box-shadow: 0 0 10px rgba(243, 156, 18, 0.5); /* Efecto de brillo */
+    animation: loading 2s infinite linear; /* Cambiado a linear para que sea constante */
 }
 
 @keyframes loading {
     0% { transform: translateX(-100%); }
-    50% { transform: translateX(0); }
     100% { transform: translateX(100%); }
 }
