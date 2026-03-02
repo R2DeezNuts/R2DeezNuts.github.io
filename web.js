@@ -8,6 +8,7 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     });
 });
 
+
 // Botón de volver arriba
 const backToTop = document.getElementById('back-to-top');
 backToTop.addEventListener('click', () => {
