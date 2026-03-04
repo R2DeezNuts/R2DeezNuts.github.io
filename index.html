@@ -34,20 +34,20 @@
 
 
 
-            
+
             <section class="project-card">
                 <div class="project-header">
                     <h3>Sumo Battlebot</h3>
                     <span class="tag tag-open">Hardware & Firmware</span>
                 </div>
                 <p>
-                    Robot de combate autónomo diseñado desde cero. Desarrollado sobre una PCB custom de 2 capas que aísla la etapa de potencia (LiPo 4S, drivers TB6612) de la lógica de 3.3V (ESP32-WROOM) empleando topología Star-GND para máxima inmunidad al ruido. El firmware, escrito en C++ modular vía PlatformIO, gestiona la toma de decisiones en tiempo real procesando la telemetría de una matriz de 5 sensores IR (TCRT5000) para evasión de bordes y seguimiento de objetivos.
+                    Robot de combate autónomo de alta potencia diseñado desde cero, integrando hardware, mecánica y software. Desarrollado sobre una PCB custom de 2 capas que aísla la etapa de potencia (LiPo 4S, drivers duales TB6612) de la lógica de 3.3V (ESP32-WROOM), empleando topología Star-GND para garantizar máxima inmunidad al ruido eléctrico de los motores. El chasis de doble altura optimiza el centro de gravedad albergando micromotores DC con reductora. El firmware, escrito en C++ modular vía PlatformIO, ejecuta una máquina de estados en tiempo real que procesa la telemetría de una matriz de 5 sensores IR (TCRT5000) para implementar rutinas agresivas de búsqueda, evasión de bordes y ataque directo.
                 </p>
                 <div class="tech-stack">
-                    <span>custom pcb (2-layer)</span>
+                    <span>custom pcb</span>
                     <span>esp32</span>
-                    <span>star-gnd</span>
-                    <span>c++ / platformIO</span>
+                    <span>c++</span>
+                    <span>state machine</span>
                 </div>
                 <div class="project-links">
                     <a href="https://github.com/R2DeezNuts/EggBot-Sumo-Battlebot-" target="_blank"><i class="fab fa-github"></i> source</a>
@@ -59,17 +59,38 @@
                     <h3>Péndulo Invertido</h3>
                     <span class="tag tag-open">Control Theory</span>
                 </div>
+                
                 <p>
-                    Estabilización dinámica en tiempo real de un sistema mecánico inestable. Implementación de un controlador PID de lazo cerrado determinista operando a un ciclo estricto de 100 Hz sobre un microcontrolador ESP32. El sistema integra algoritmos de mitigación de ruido para la adquisición de telemetría, ajuste fino empírico de ganancias (Kp, Ki, Kd) y generación de señales PWM de alta resolución para una actuación suave y precisa sobre los motores.
+                    Estabilización dinámica en tiempo real de un sistema mecánico inherentemente inestable. Implementación determinista de un controlador PID de lazo cerrado operando bajo un ciclo de trabajo estricto de 100 Hz sobre un microcontrolador ESP32. El sistema integra algoritmos de filtrado digital para mitigar el ruido en la adquisición de telemetría de los sensores, cálculo continuo del error de inclinación y ajuste fino empírico de las constantes proporcionales, integrales y derivativas (Kp, Ki, Kd). La salida del algoritmo genera señales PWM de alta resolución que comandan los drivers del motor, asegurando una corrección de posición suave, milimétrica y sin oscilaciones parásitas.
                 </p>
                 <div class="tech-stack">
                     <span>pid control loop</span>
                     <span>real-time (100hz)</span>
+                    <span>signal filtering</span>
                     <span>c++</span>
-                    <span>adc/pwm</span>
                 </div>
                 <div class="project-links">
                     <a href="https://github.com/R2DeezNuts/Pendulo-Invertido" target="_blank"><i class="fab fa-github"></i> source</a>
+                </div>
+            </section>
+
+            <section class="project-card placeholder-card">
+                <div class="project-header">
+                    <h3>CV Sumo Upgrade</h3>
+                    <span class="tag">Planned</span>
+                </div>
+                
+                <p>
+                    Evolución de la plataforma de combate Sumo hacia la percepción espacial avanzada. Este proyecto en fase de investigación busca sustituir la matriz de sensores infrarrojos unidimensionales por un sistema de visión artificial integrado en el chasis. La arquitectura delegará el procesamiento visual a un hardware dedicado ejecutando modelos ligeros de detección de objetos (OpenCV) para identificar la posición, distancia y trayectoria del oponente. Los datos vectoriales extraídos alimentarán el ESP32 principal para ejecutar algoritmos de navegación predictiva y tácticas de intercepción dinámica en el dohyo.
+                </p>
+                <div class="tech-stack">
+                    <span>computer vision</span>
+                    <span>opencv</span>
+                    <span>edge computing</span>
+                    <span>predictive navigation</span>
+                </div>
+                <div class="project-links">
+                    <a><i class="fas fa-lock"></i> in development</a>
                 </div>
             </section>
         
