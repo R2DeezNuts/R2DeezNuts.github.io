@@ -63,23 +63,13 @@ footer hr { border: 0; border-top: 1px solid var(--border-color); margin-bottom:
 
 /* --- ESTILOS PARA VÍDEO VERTICAL EN TARJETA (CORREGIDO) --- */
 
-/* Contenedor: Crea el espacio apaisado uniforme (2/1) */
-.project-card .video-container-vertical {
+/* --- ESTILO UNIFICADO 16:9 (IMAGEN Y VÍDEO) --- */
+.project-card .project-media {
     width: 100%;
-    aspect-ratio: 2 / 1; /* Mantenemos la armonía visual de las tarjetas */
-    background-color: #000; /* Fondo negro puro para las barras laterales */
-    display: flex; /* Para centrar el video */
-    justify-content: center; /* Centrado horizontal */
-    align-items: center; /* Centrado vertical */
+    aspect-ratio: 16 / 9; /* Formato panorámico estándar */
+    object-fit: cover;    /* Asegura que el contenido llene el espacio */
     border-radius: 2px;
-    margin-bottom: 1rem;
-    overflow: hidden; /* Asegura que nada sobresalga */
-}
-
-/* El vídeo en sí: Se adapta a la altura sin cortarse */
-.project-card .project-video-vertical {
-    height: 100%; /* Ocupa todo el alto disponible */
-    width: auto; /* El ancho se calcula automáticamente para mantener la proporción */
-    object-fit: contain; /* IMPORTANTE: Muestra el video COMPLETO dentro del contenedor */
-    opacity: 1;
+    margin-bottom: 1.5rem;
+    display: block;
+    background-color: #000;
 }
