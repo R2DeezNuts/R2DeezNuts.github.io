@@ -6,18 +6,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = canvas.getContext('2d');
         let w, h;
         
-        const cellSize = 45; // Tamaño de cada celda
+        const cellSize = 45; // Tamaño de la cuadrícula
         let cols, rows;
         let grid = [];
         
-        // El "Robot"
+        // Nuestro agente autónomo
         let robot = { x: 0, y: 0, col: 0, row: 0, speed: 2.5, radius: 5 };
         
-        // Destino
+        // El punto de destino
         let target = { col: -1, row: -1, active: false };
         let currentPath = [];
 
-        // Generar la cuadrícula
+        // Generar el mapa de obstáculos
         function initGrid() {
             w = canvas.width = window.innerWidth;
             h = canvas.height = window.innerHeight;
@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
             rows = Math.ceil(h / cellSize);
             grid = [];
 
-            // Llenar el mapa
             for (let i = 0; i < cols; i++) {
                 grid[i] = [];
                 for (let j = 0; j < rows; j++) {
@@ -33,36 +32,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Spawn seguro del robot
-            robot.col = Math.floor(Math.random() * cols);
-            robot.row = Math.floor(Math.random() * rows);
-            
-            // Asegurarnos de que no rompe los límites
-            if(robot.col >= cols) robot.col = cols - 1;
-            if(robot.row >= rows) robot.row = rows - 1;
-
-            grid[robot.col][robot.row].isWall = false; // Despejamos el spawn
+            // Spawn del robot asegurando que no caiga en un muro
+            robot.col = Math.floor(Math.random() * (cols - 2)) + 1;
+            robot.row = Math.floor(Math.random() * (rows - 2)) + 1;
+            grid[robot.col][robot.row].isWall = false; 
             
             robot.x = robot.col * cellSize + cellSize / 2;
             robot.y = robot.row * cellSize + cellSize / 2;
 
-            // Retrasamos el primer cálculo para asegurar que el canvas se dibuja primero
+            // Arrancar el cerebro del robot
             setTimeout(setRandomTarget, 100);
         }
 
         window.addEventListener('resize', initGrid);
         initGrid();
 
-        // Buscar nuevo objetivo
+        // Buscar una coordenada válida al azar
         function setRandomTarget() {
             let valid = false;
             let attempts = 0;
             
             while (!valid && attempts < 100) {
-                let rCol = Math.floor(Math.random() * cols);
-                let rRow = Math.floor(Math.random() * rows);
+                let rCol = Math.floor(Math.random() * (cols - 2)) + 1;
+                let rRow = Math.floor(Math.random() * (rows - 2)) + 1;
                 
-                // Verificación de seguridad extra
                 if (grid[rCol] && grid[rCol][rRow]) {
                     if (!grid[rCol][rRow].isWall && (rCol !== robot.col || rRow !== robot.row)) {
                         target.col = rCol;
@@ -76,7 +69,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (valid) calculatePath();
         }
 
-        // Heurística
         function heuristic(a, b) {
             return Math.hypot(a.i - b.i, a.j - b.j);
         }
@@ -84,10 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
         function getNeighbors(node) {
             let neighbors = [];
             let { i, j } = node;
-            const dirs = [
-                [0, -1], [0, 1], [-1, 0], [1, 0],   
-                [-1, -1], [1, -1], [-1, 1], [1, 1]  
-            ];
+            const dirs = [[0,-1], [0,1], [-1,0], [1,0], [-1,-1], [1,-1], [-1,1], [1,1]];
+            
             for (let d of dirs) {
                 let ni = i + d[0];
                 let nj = j + d[1];
@@ -98,14 +88,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return neighbors;
         }
 
-        // A* Pathfinding
+        // --- CEREBRO A* CORREGIDO ---
         function calculatePath() {
             if (!target.active) return;
             
             robot.col = Math.floor(robot.x / cellSize);
             robot.row = Math.floor(robot.y / cellSize);
 
-            // Evitar errores de lectura de arrays
             if (!grid[robot.col] || !grid[target.col] || !grid[robot.col][robot.row] || !grid[target.col][target.row]) {
                 setTimeout(setRandomTarget, 50);
                 return;
@@ -123,7 +112,13 @@ document.addEventListener('DOMContentLoaded', () => {
             fScore.set(start, heuristic(start, end));
 
             while (openSet.length > 0) {
-                openSet.sort((a, b) => (fScore.get(a) || Infinity) - (fScore.get(b) || Infinity));
+                // Ordenar por menor coste
+                openSet.sort((a, b) => {
+                    let fA = fScore.has(a) ? fScore.get(a) : Infinity;
+                    let fB = fScore.has(b) ? fScore.get(b) : Infinity;
+                    return fA - fB;
+                });
+                
                 let current = openSet.shift();
 
                 if (current === end) {
@@ -133,14 +128,19 @@ document.addEventListener('DOMContentLoaded', () => {
                         path.push(current);
                     }
                     currentPath = path.reverse();
-                    return; // ¡Ruta encontrada! Salimos de la función.
+                    return; // ¡Camino encontrado!
                 }
 
                 for (let neighbor of getNeighbors(current)) {
                     let isDiagonal = (current.i !== neighbor.i && current.j !== neighbor.j);
-                    let tentative_gScore = (gScore.get(current) || Infinity) + (isDiagonal ? 1.414 : 1);
+                    
+                    // LECTURA ESTRICTA DEL COSTE (Solución al bug del 0)
+                    let currentG = gScore.has(current) ? gScore.get(current) : Infinity;
+                    let tentative_gScore = currentG + (isDiagonal ? 1.414 : 1);
+                    
+                    let neighborG = gScore.has(neighbor) ? gScore.get(neighbor) : Infinity;
 
-                    if (tentative_gScore < (gScore.get(neighbor) || Infinity)) {
+                    if (tentative_gScore < neighborG) {
                         cameFrom.set(neighbor, current);
                         gScore.set(neighbor, tentative_gScore);
                         fScore.set(neighbor, tentative_gScore + heuristic(neighbor, end));
@@ -149,18 +149,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
-            // SOLUCIÓN AL CRASH: Si el código llega aquí, significa que no hay salida.
-            // En lugar de reiniciar el bucle en seco, vaciamos la ruta y pedimos otro destino de forma ASÍNCRONA.
+            // Si el robot está atrapado sin salida, busca otro lugar
             currentPath = [];
-            setTimeout(setRandomTarget, 100); 
+            setTimeout(setRandomTarget, 50); 
         }
 
-        // Bucle de dibujado continuo
+        // Bucle de dibujado
         function draw() {
             ctx.fillStyle = '#0b0f14';
             ctx.fillRect(0, 0, w, h);
 
-            // Dibujar mapa
+            // Dibujar el mapa y los obstáculos
             for (let i = 0; i < cols; i++) {
                 for (let j = 0; j < rows; j++) {
                     let cell = grid[i][j];
@@ -179,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Dibujar Ruta
+            // Dibujar la línea de la ruta
             if (currentPath.length > 1) {
                 ctx.beginPath();
                 ctx.moveTo(robot.x, robot.y);
@@ -194,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.setLineDash([]);
             }
 
-            // Mover el robot
+            // Mover al robot
             if (currentPath.length > 1) {
                 let nextNode = currentPath[1];
                 let targetX = nextNode.i * cellSize + cellSize / 2;
@@ -211,13 +210,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     robot.x = targetX;
                     robot.y = targetY;
                     currentPath.shift();
+                    
+                    // Al llegar al final, pedir nueva ruta asíncronamente
                     if (currentPath.length === 1) {
-                        setTimeout(setRandomTarget, 50); // Llama asíncronamente al llegar
+                        setTimeout(setRandomTarget, 50); 
                     }
                 }
             }
 
-            // Dibujar Destino
+            // Dibujar el punto de destino
             if (target.active) {
                 let tx = target.col * cellSize + cellSize / 2;
                 let ty = target.row * cellSize + cellSize / 2;
@@ -228,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.stroke();
             }
 
-            // Dibujar Robot
+            // Dibujar el Robot
             ctx.beginPath();
             ctx.arc(robot.x, robot.y, robot.radius, 0, Math.PI * 2);
             ctx.fillStyle = '#f39c12'; 
@@ -240,11 +241,10 @@ document.addEventListener('DOMContentLoaded', () => {
             requestAnimationFrame(draw);
         }
         
-        // Iniciamos el motor de dibujado
         draw();
     }
 
-    // --- 2. RESTO DE FUNCIONES (Scroll, Email, etc.) ---
+    // --- 2. UTILIDADES DE LA WEB ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
