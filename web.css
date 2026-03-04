@@ -92,8 +92,10 @@ nav .container { display: flex; justify-content: space-between; align-items: cen
 @keyframes glitch-text { 0%, 95% { transform: none; } 96% { transform: skewX(-15deg); } 98% { transform: skewX(15deg); } }
 
 /* FOOTER */
-footer { padding: 4rem 0; text-align: center; border-top: 1px solid var(--border-color); color: #475569; }
+footer { padding: 4rem 0; text-align: center; color: #475569; }
+footer hr { border: 0; border-top: 1px solid var(--border-color); margin-bottom: 2rem; }
 .social-links { margin: 1rem 0; display: flex; justify-content: center; gap: 20px; }
+.copy-email { cursor: pointer; color: var(--accent-color); }
 
 /* TOAST */
 .toast { visibility: hidden; background: #1a1a1a; color: var(--accent-color); border: 1px solid var(--accent-color); padding: 1rem; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); opacity: 0; transition: 0.4s; }
@@ -111,6 +113,7 @@ a:hover {
     color: var(--text-color); /* Se vuelve blanco o resalta */
     text-decoration: none;
 }
+.project-links { margin-top: 1rem; }
 .project-links a, .social-links a {
     font-family: var(--font-main);
     text-transform: lowercase; /* Estilo muy Thavlik */
