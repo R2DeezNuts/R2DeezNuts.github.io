@@ -11,9 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
         let grid = [];
         
         // El "Robot" (Agente autónomo)
-        let robot = { x: 0, y: 0, col: 0, row: 0, speed: 3.5, radius: 6 };
+        let robot = { x: 0, y: 0, col: 0, row: 0, speed: 2.5, radius: 5 };
         
-        // Destino (El ratón)
+        // Destino aleatorio
         let target = { col: -1, row: -1, active: false };
         let currentPath = [];
 
@@ -28,48 +28,48 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let i = 0; i < cols; i++) {
                 grid[i] = [];
                 for (let j = 0; j < rows; j++) {
-                    // 20% de probabilidad de generar un muro
-                    grid[i][j] = { i, j, isWall: Math.random() < 0.20 }; 
+                    // 15% de probabilidad de generar un muro (un poco menos para que fluya mejor)
+                    grid[i][j] = { i, j, isWall: Math.random() < 0.15 }; 
                 }
             }
 
-            // Hacer spawn del robot en el centro del mapa de forma segura
-            robot.col = Math.floor(cols / 2);
-            robot.row = Math.floor(rows / 2);
-            
-            // Despejamos la celda de inicio para que no nazca en un muro
-            if (grid[robot.col] && grid[robot.col][robot.row]) {
-                grid[robot.col][robot.row].isWall = false;
-            }
+            // Hacer spawn del robot de forma segura
+            robot.col = Math.floor(Math.random() * cols);
+            robot.row = Math.floor(Math.random() * rows);
+            grid[robot.col][robot.row].isWall = false; // Despejamos su punto de inicio
             
             robot.x = robot.col * cellSize + cellSize / 2;
             robot.y = robot.row * cellSize + cellSize / 2;
+
+            // Iniciar la primera búsqueda
+            setRandomTarget();
         }
 
         window.addEventListener('resize', initGrid);
         initGrid();
 
-        // Rastrear el ratón
-        window.addEventListener('mousemove', (e) => {
-            let col = Math.floor(e.clientX / cellSize);
-            let row = Math.floor(e.clientY / cellSize);
+        // Elegir un destino aleatorio válido
+        function setRandomTarget() {
+            let valid = false;
+            let attempts = 0;
             
-            if (col >= 0 && col < cols && row >= 0 && row < rows && !grid[col][row].isWall) {
-                // Solo recalcular la ruta si cambiamos a una celda nueva
-                if (target.col !== col || target.row !== row) {
-                    target.col = col;
-                    target.row = row;
+            while (!valid && attempts < 100) {
+                let rCol = Math.floor(Math.random() * cols);
+                let rRow = Math.floor(Math.random() * rows);
+                
+                // Asegurarse de que no sea un muro y de que no sea donde ya está el robot
+                if (!grid[rCol][rRow].isWall && (rCol !== robot.col || rRow !== robot.row)) {
+                    target.col = rCol;
+                    target.row = rRow;
                     target.active = true;
-                    calculatePath();
+                    valid = true;
                 }
+                attempts++;
             }
-        });
+            calculatePath();
+        }
 
-        window.addEventListener('mouseout', () => {
-            target.active = false;
-        });
-
-        // Heurística (Euclidiana para permitir movimientos diagonales)
+        // Heurística (Euclidiana para permitir diagonales fluidas)
         function heuristic(a, b) {
             return Math.hypot(a.i - b.i, a.j - b.j);
         }
@@ -79,8 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let neighbors = [];
             let { i, j } = node;
             const dirs = [
-                [0, -1], [0, 1], [-1, 0], [1, 0],   // Arriba, Abajo, Izq, Der
-                [-1, -1], [1, -1], [-1, 1], [1, 1]  // Diagonales
+                [0, -1], [0, 1], [-1, 0], [1, 0],   
+                [-1, -1], [1, -1], [-1, 1], [1, 1]  
             ];
             for (let d of dirs) {
                 let ni = i + d[0];
@@ -104,7 +104,10 @@ document.addEventListener('DOMContentLoaded', () => {
             let start = grid[robot.col][robot.row];
             let end = grid[target.col][target.row];
 
-            if (!start || !end || start.isWall) return;
+            if (!start || !end || start.isWall) {
+                setRandomTarget();
+                return;
+            }
 
             let openSet = [start];
             let cameFrom = new Map();
@@ -129,7 +132,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 for (let neighbor of getNeighbors(current)) {
-                    // Los movimientos diagonales cuestan un poco más (1.414 = raíz de 2)
                     let isDiagonal = (current.i !== neighbor.i && current.j !== neighbor.j);
                     let tentative_gScore = (gScore.get(current) || Infinity) + (isDiagonal ? 1.414 : 1);
 
@@ -141,7 +143,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             }
-            currentPath = []; // Si se queda encerrado, se vacía la ruta
+            
+            // Si llega aquí, significa que el destino está completamente rodeado de muros
+            // No hay ruta posible, así que elegimos otro destino
+            currentPath = [];
+            setRandomTarget();
         }
 
         // Bucle de renderizado y movimiento
@@ -149,7 +155,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillStyle = '#0b0f14';
             ctx.fillRect(0, 0, w, h);
 
-            // 1. Dibujar entorno (Obstáculos y Grid)
+            // 1. Dibujar entorno
             for (let i = 0; i < cols; i++) {
                 for (let j = 0; j < rows; j++) {
                     let cell = grid[i][j];
@@ -157,9 +163,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     let cy = j * cellSize;
 
                     if (cell.isWall) {
-                        ctx.fillStyle = 'rgba(56, 189, 248, 0.05)';
+                        ctx.fillStyle = 'rgba(56, 189, 248, 0.04)';
                         ctx.fillRect(cx, cy, cellSize, cellSize);
-                        ctx.strokeStyle = 'rgba(56, 189, 248, 0.1)';
+                        ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
                         ctx.strokeRect(cx, cy, cellSize, cellSize);
                     } else {
                         ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
@@ -176,14 +182,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     let p = currentPath[i];
                     ctx.lineTo(p.i * cellSize + cellSize / 2, p.j * cellSize + cellSize / 2);
                 }
-                ctx.strokeStyle = 'rgba(56, 189, 248, 0.4)';
-                ctx.lineWidth = 2;
+                ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)'; // Línea más sutil
+                ctx.lineWidth = 1.5;
                 ctx.setLineDash([4, 4]);
                 ctx.stroke();
                 ctx.setLineDash([]);
             }
 
-            // 3. Sistema de Control: Mover al Robot hacia el siguiente nodo
+            // 3. Sistema de Control (Movimiento)
             if (currentPath.length > 1) {
                 let nextNode = currentPath[1];
                 let targetX = nextNode.i * cellSize + cellSize / 2;
@@ -193,31 +199,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 let dy = targetY - robot.y;
                 let dist = Math.hypot(dx, dy);
 
-                // Si está lejos del nodo, camina. Si está cerca, se ajusta y pasa al siguiente
                 if (dist > robot.speed) {
                     robot.x += (dx / dist) * robot.speed;
                     robot.y += (dy / dist) * robot.speed;
                 } else {
                     robot.x = targetX;
                     robot.y = targetY;
-                    currentPath.shift(); // Borra el nodo visitado de la memoria
-                    if (currentPath.length === 1) calculatePath(); // Recalcula si llegó al final
+                    currentPath.shift();
+                    // Si llegamos al último nodo del camino, pedimos uno nuevo
+                    if (currentPath.length === 1) {
+                        setRandomTarget(); 
+                    }
                 }
             }
 
-            // Sistema de seguridad (Watchdog) para evitar que el robot se borre por un error de coma flotante
+            // Watchdog para fallos matemáticos
             if(isNaN(robot.x) || isNaN(robot.y)) {
-                robot.x = cellSize / 2;
-                robot.y = cellSize / 2;
+                setRandomTarget();
             }
 
-            // 4. Dibujar el Destino (Tu ratón)
+            // 4. Dibujar el Destino (Punto parpadeante)
             if (target.active) {
                 let tx = target.col * cellSize + cellSize / 2;
                 let ty = target.row * cellSize + cellSize / 2;
                 ctx.beginPath();
-                ctx.arc(tx, ty, 8, 0, Math.PI * 2);
-                ctx.strokeStyle = '#f39c12';
+                ctx.arc(tx, ty, 6, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(243, 156, 18, ${0.5 + Math.sin(Date.now() / 200) * 0.5})`; // Parpadeo suave
                 ctx.lineWidth = 2;
                 ctx.stroke();
             }
@@ -225,9 +232,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // 5. Dibujar el Robot
             ctx.beginPath();
             ctx.arc(robot.x, robot.y, robot.radius, 0, Math.PI * 2);
-            ctx.fillStyle = '#f39c12'; // Usamos tu color naranja
+            ctx.fillStyle = '#f39c12'; 
             ctx.shadowColor = '#f39c12';
-            ctx.shadowBlur = 15; // Brillo para que destaque bien
+            ctx.shadowBlur = 10; 
             ctx.fill();
             ctx.shadowBlur = 0; 
 
@@ -236,7 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
         draw();
     }
 
-    // --- UTILIDADES (Scroll y Menú) ---
+    // --- UTILIDADES ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
