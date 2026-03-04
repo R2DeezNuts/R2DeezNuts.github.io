@@ -1,89 +1,42 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Juan Prado // Robotics </title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="web.css">
-</head>
-<body>
-    <nav>
-        <div class="container">
-            <span class="logo">Juan José Prado Neira</span>
-            <div class="menu">
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
-            </div>
+<div class="project-grid">
+    <section class="project-card">
+        <div class="project-header">
+            <h3>Sumo Battlebot</h3>
+            <span class="tag tag-open">Open Source</span>
         </div>
-    </nav>
-
-    <header class="hero container">
-        <h1>Robotics student</h1>
-        <div class="wip-container">
-            <div class="wip-badge">
-                <span class="pulse-dot"></span>
-                SYSTEM STATUS: WORK IN PROGRESS
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
-            </div>
+        <p>Proxecto de robótica de competición. Deseño e construción dun robot de combate de alta potencia.</p>
+        <div class="tech-stack">
+            <span><i class="fas fa-microchip"></i> Electronics</span>
+            <span><i class="fas fa-cog"></i> Mechanics</span>
+            <span class="cpp">C++</span>
         </div>
-        <p class="description">
-            I'm a robotics student. <br>
-            Interested in robotics? <strong>Let's talk.</strong>
-        </p>
-        
-    </header>
-
-    <main class="container" id="projects">
-        <div class="project-grid">
-            <section class="project-card">
-                <div class="project-header">
-                    <h3>Sumo Battlebot</h3>
-                    <span class="tag tag-open">Open Source</span>
-                </div>
-                <p>
-                    Proxecto de robótica de competición desenvolvido en <strong>grupos de 3</strong>. 
-                    O obxectivo principal foi o deseño e construción dun robot de combate de alta potencia.
-                </p>
-                <div class="tech-stack">
-                    <span class="cpp"><i class="fas fa-code"></i> C++</span>
-                </div>
-                <div class="project-links">
-                    <a href="https://github.com/R2DeezNuts/EggBot-Sumo-Battlebot-" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                </div>
-            </section>
-
-            <section class="project-card">
-                <div class="project-header">
-                    <h3>Pendulo Invertido</h3>
-                    <span class="tag tag-open">Open Source</span>
-                </div>
-                <p>
-                    Sistema de <strong>control PID en tempo real (100 Hz)</strong> para a estabilización dun péndulo invertido.
-                </p>
-                <div class="tech-stack">
-                    <span class="cpp"><i class="fas fa-code"></i> C++</span>
-                </div>
-                <div class="project-links">
-                    <a href="https://github.com/R2DeezNuts/Pendulo-Invertido" target="_blank"><i class="fab fa-github"></i> GitHub</a>
-                </div>
-            </section>
+        <div class="project-links" style="margin-top: 1rem;">
+            <a href="https://github.com/R2DeezNuts/EggBot-Sumo-Battlebot-" target="_blank"><i class="fab fa-github"></i> Source</a>
         </div>
-    </main>
+    </section>
 
-    <footer class="container" id="contact">
-        <hr style="border: 0; border-top: 1px solid var(--border-color); margin-bottom: 2rem;">
-        <p>&copy; Learning...</p>
-        <div class="social-links">
-            <a href="https://github.com/R2DeezNuts">gitHub</a> • 
-            <span class="copy-email" style="cursor: pointer; color: var(--accent-color);">email</span>
+    <section class="project-card">
+        <div class="project-header">
+            <h3>Péndulo Invertido</h3>
+            <span class="tag tag-open">Open Source</span>
         </div>
-        <button id="back-to-top">Volver arriba ↑</button>
-    </footer>
+        <p>Sistema de control PID en tempo real (100 Hz) para a estabilización dun péndulo invertido.</p>
+        <div class="tech-stack">
+            <span>Control</span>
+            <span>ESP32</span>
+            <span class="cpp">C++</span>
+        </div>
+        <div class="project-links" style="margin-top: 1rem;">
+            <a href="https://github.com/R2DeezNuts/Pendulo-Invertido" target="_blank"><i class="fab fa-github"></i> Source</a>
+        </div>
+    </section>
 
-    <div id="toast" class="toast">¡Email copied successfully!</div>
-    <script src="web.js"></script>
-</body>
-</html>
+    <section class="project-card placeholder-card">
+        <div class="project-header">
+            <h3>Future Project</h3>
+            <span class="tag">Planned</span>
+        </div>
+        <p>Currently researching SLAM algorithms and LiDAR integration for autonomous navigation.</p>
+        <div class="coming-soon-text">LOADING_DATA...</div>
+    </section>
+</div>
