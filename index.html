@@ -5,186 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Juan Prado // Robotics </title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* FONDO DINÁMICO CANVAS */
-        #canvas-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
-            background-color: var(--bg-color);
-            pointer-events: none; /* Evita que bloquee los clics en la web */
-        }
-
-        /* VARIABLES UNIFICADAS */
-        :root {
-            --bg-color: #0b0f14; /* Azul noche muy oscuro, estilo Thavlik */
-            --text-color: #f8fafc;
-            --accent-color: #38bdf8;
-            --wip-color: #f39c12;
-            --card-bg: #111827; 
-            --border-color: rgba(148, 163, 184, 0.1);
-            --font-main: 'JetBrains Mono', 'Courier New', monospace;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            color: var(--text-color);
-            font-family: var(--font-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-            background-color: var(--bg-color); /* Respaldo por si falla el canvas */
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* NAVEGACIÓN */
-        nav { border-bottom: 1px solid var(--border-color); padding: 1.5rem 0; background: rgba(11, 15, 20, 0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
-        nav .container { display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-weight: bold; letter-spacing: -1px; }
-
-        /* HERO SECTION */
-        .hero {
-            padding: 8rem 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: clamp(2rem, 5vw, 3.5rem);
-            color: var(--accent-color);
-            text-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
-            margin-bottom: 0.5rem;
-            letter-spacing: -2px;
-        }
-
-        .description { color: #94a3b8; max-width: 600px; margin: 0 auto; font-size: 1.1rem; }
-
-        /* WIP SYSTEM */
-        .wip-container { margin: 1.5rem 0; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .wip-badge { color: var(--wip-color); font-size: 0.75rem; font-weight: bold; letter-spacing: 2px; display: flex; align-items: center; gap: 8px; animation: glitch-text 4s infinite; }
-        .pulse-dot { width: 8px; height: 8px; background-color: var(--wip-color); border-radius: 50%; animation: pulse 2s infinite; }
-
-        .progress-bar { width: 200px; height: 2px; background: rgba(243, 156, 18, 0.1); overflow: hidden; position: relative; }
-        .progress-fill { width: 100%; height: 100%; background: var(--wip-color); box-shadow: 0 0 10px var(--wip-color); animation: loading 2s infinite linear; }
-
-        /* GRID DE PROYECTOS */
-        .project-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-bottom: 5rem;
-        }
-
-        .project-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .project-card:hover {
-            transform: translateY(-8px) !important; /* El !important ayuda con la animación JS */
-            border-color: var(--accent-color);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-        }
-
-        .tag { font-size: 0.65rem; padding: 2px 8px; border-radius: 2px; text-transform: uppercase; font-weight: bold; }
-        .tag-open { background: rgba(46, 204, 113, 0.1); color: #2ecc71; border: 1px solid #2ecc71; }
-
-        .tech-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 1.5rem; }
-        .tech-stack span { font-size: 0.7rem; padding: 4px 10px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); color: #94a3b8; }
-
-        /* ANIMACIONES */
-        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(243, 156, 18, 0); } 100% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0); } }
-        @keyframes loading { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-        @keyframes glitch-text { 0%, 95% { transform: none; } 96% { transform: skewX(-15deg); } 98% { transform: skewX(15deg); } }
-
-        /* FOOTER */
-        footer { padding: 4rem 0; text-align: center; color: #475569; }
-        footer hr { border: 0; border-top: 1px solid var(--border-color); margin-bottom: 2rem; }
-        .social-links { margin: 1rem 0; display: flex; justify-content: center; gap: 20px; }
-        .copy-email { cursor: pointer; color: var(--accent-color); }
-
-        /* TOAST */
-        .toast { visibility: hidden; background: #1a1a1a; color: var(--accent-color); border: 1px solid var(--accent-color); padding: 1rem; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); opacity: 0; transition: 0.4s; }
-        .toast.show { visibility: visible; opacity: 1; }
-
-        /* ENLACES */
-        a, a:visited, a:active {
-            color: var(--accent-color);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        a:hover {
-            color: var(--text-color);
-            text-decoration: none;
-        }
-        .project-links { margin-top: 1rem; }
-        .project-links a, .social-links a {
-            font-family: var(--font-main);
-            text-transform: lowercase;
-            border-bottom: 1px solid transparent;
-            padding-bottom: 2px;
-        }
-
-        .project-links a:hover, .social-links a:hover {
-            border-bottom: 1px solid var(--text-color);
-        }
-        .menu a {
-            margin-left: 20px;
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        .menu a:hover {
-            opacity: 1;
-            color: var(--accent-color);
-        }
-
-        /* BOTÓN VOLVER ARRIBA */
-        #back-to-top {
-            display: inline-block;
-            margin-top: 2rem;
-            background: transparent;
-            border: 1px solid var(--border-color);
-            color: #777;
-            padding: 0.8rem 1.5rem;
-            cursor: pointer;
-            font-family: var(--font-main);
-            font-size: 0.8rem;
-            text-transform: lowercase;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        #back-to-top:hover {
-            border-color: var(--accent-color);
-            color: var(--accent-color);
-            box-shadow: 0 0 15px rgba(74, 158, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        #back-to-top:active {
-            transform: translateY(0);
-            background: rgba(74, 158, 255, 0.1);
-        }
-    </style>
+    <link rel="stylesheet" href="web.css">
 </head>
 <body>
-    <canvas id="canvas-bg"></canvas>
+    <canvas id="bg-canvas"></canvas>
 
     <nav>
         <div class="container">
@@ -199,18 +23,10 @@
     <header class="hero container">
         <h1>Robotics student</h1>
         <div class="wip-container">
-            <div class="wip-badge">
-                <span class="pulse-dot"></span>
-                SYSTEM STATUS: WORK IN PROGRESS
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill"></div>
-            </div>
+            <div class="wip-badge"><span class="pulse-dot"></span>SYSTEM STATUS: WORK IN PROGRESS</div>
+            <div class="progress-bar"><div class="progress-fill"></div></div>
         </div>
-        <p class="description">
-            I'm a robotics student. <br>
-            Interested in robotics? <strong>Let's talk.</strong>
-        </p>
+        <p class="description">I'm a robotics student.<br>Interested in robotics? <strong>Let's talk.</strong></p>
     </header>
 
     <main class="container" id="projects">
@@ -224,7 +40,7 @@
                 <div class="tech-stack">
                     <span><i class="fas fa-microchip"></i> Electronics</span>
                     <span><i class="fas fa-cog"></i> Mechanics</span>
-                    <span class="cpp">C++</span>
+                    <span>C++</span>
                 </div>
                 <div class="project-links">
                     <a href="https://github.com/R2DeezNuts/EggBot-Sumo-Battlebot-" target="_blank"><i class="fab fa-github"></i> Source</a>
@@ -240,20 +56,20 @@
                 <div class="tech-stack">
                     <span>Control</span>
                     <span>ESP32</span>
-                    <span class="cpp">C++</span>
+                    <span>C++</span>
                 </div>
                 <div class="project-links">
                     <a href="https://github.com/R2DeezNuts/Pendulo-Invertido" target="_blank"><i class="fab fa-github"></i> Source</a>
                 </div>
             </section>
         
-            <section class="project-card placeholder-card">
+            <section class="project-card">
                 <div class="project-header">
                     <h3>Future Project</h3>
                     <span class="tag">Planned</span>
                 </div>
                 <p>Currently researching SLAM algorithms and LiDAR integration for autonomous navigation.</p>
-                <div class="coming-soon-text">LOADING_DATA...</div>
+                <div class="tech-stack"><span>LOADING_DATA...</span></div>
             </section>
         </div>
     </main>
@@ -262,14 +78,14 @@
         <hr>
         <p>&copy; Learning...</p>
         <div class="social-links">
-            <a href="https://github.com/R2DeezNuts">gitHub</a> • 
+            <a href="https://github.com/R2DeezNuts" target="_blank">gitHub</a> • 
             <span class="copy-email">email</span>
         </div>
         <button id="back-to-top">Volver arriba ↑</button>
     </footer>
 
-    <div id="toast" class="toast">¡Email copied successfully!</div>
-    
+    <div id="toast" class="toast">¡Email copiado!</div>
+
     <script src="web.js"></script>
 </body>
 </html>
