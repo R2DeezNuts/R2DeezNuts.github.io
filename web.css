@@ -61,16 +61,17 @@ footer hr { border: 0; border-top: 1px solid var(--border-color); margin-bottom:
 @keyframes loading { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 @keyframes glitch { 0%, 95% { transform: none; } 96% { transform: skewX(-15deg); } 98% { transform: skewX(15deg); } }
 
-/* --- ESTILOS PARA IMÁGENES DE PROYECTOS  --- */
-.project-card .project-image {
-    width: 100%; /* Ocupa todo el ancho */
-    aspect-ratio: 2 / 1; /* Formato apaisado y uniforme */
-    object-fit: cover; /* Recorta para llenar el espacio sin deformar */
-    border-radius: 2px; /* Pequeño radio para que encaje */
+/* --- ESTILOS CORREGIDOS PARA IMÁGENES DE PROYECTOS (BORDES NÍTIDOS) --- */
+.project-card .project-image,
+.project-card video.project-image { /* También aplica a vídeos si usas la opción B */
+    width: 100%; /* Ocupa todo el ancho de la tarjeta */
+    aspect-ratio: 2 / 1; /* Formato apaisado uniforme (puedes ajustarlo si prefieres 16/9 o similar) */
+    object-fit: cover; /* Llena el espacio sin deformar la imagen */
+    border-radius: 2px; /* Un radio mínimo para suavizar la esquina, casi imperceptible */
     margin-bottom: 1rem; /* Espacio con el título */
-    opacity: 0.9; /* Un poco de transparencia para integración */
+    opacity: 1; /* Opacidad total, sin transparencia */
     
-    /* Pequeño degradado en la parte superior para integración con el fondo */
-    mask-image: linear-gradient(to top, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
-    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+    /* --- ELIMINADO EL DEGRADADO SUPERIOR --- */
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
 }
