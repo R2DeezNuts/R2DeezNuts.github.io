@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. MINIMOTOR PARA EL FONDO DE PARTÍCULAS
+    // 1. MOTOR DE NODOS Y CONEXIONES (ESTILO ROBÓTICA / IA)
     const canvas = document.getElementById('bg-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
@@ -12,27 +12,86 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', resize); 
         resize();
 
-        // Crear array de estrellas
-        const stars = Array.from({length: 120}, () => ({
+        // Rastrear la posición del ratón (actúa como un sensor central)
+        let mouse = { x: null, y: null, radius: 150 };
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        // Crear array de nodos (hemos bajado la cantidad para que las líneas no saturen la pantalla)
+        const nodeCount = 80;
+        const nodes = Array.from({length: nodeCount}, () => ({
             x: Math.random() * w, 
             y: Math.random() * h,
-            vx: (Math.random() - 0.5) * 0.3, 
-            vy: (Math.random() - 0.5) * 0.3,
-            r: Math.random() * 1.5, 
-            a: Math.random() * 0.6 + 0.1
+            vx: (Math.random() - 0.5) * 0.8, // Un poco más rápidos que las estrellas
+            vy: (Math.random() - 0.5) * 0.8,
+            r: Math.random() * 1.5 + 1 // Nodos un pelín más grandes
         }));
 
-        // Función de dibujado
+        // Distancia máxima para que dos nodos se conecten
+        const connectionDistance = 120;
+
+        // Función de dibujado principal
         function draw() {
             ctx.clearRect(0, 0, w, h);
-            stars.forEach(s => {
-                s.x = (s.x + s.vx + w) % w; // Si sale, vuelve a entrar
-                s.y = (s.y + s.vy + h) % h;
+            
+            // Actualizar posiciones y dibujar nodos
+            for (let i = 0; i < nodes.length; i++) {
+                let n = nodes[i];
+                
+                // Mover nodos y rebotar suavemente en los bordes
+                n.x += n.vx;
+                n.y += n.vy;
+                if (n.x < 0 || n.x > w) n.vx *= -1;
+                if (n.y < 0 || n.y > h) n.vy *= -1;
+
+                // Dibujar el punto (nodo)
                 ctx.beginPath(); 
-                ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(255, 255, 255, ${s.a})`; 
+                ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(56, 189, 248, 0.8)'; // Usamos tu color de acento azul
                 ctx.fill();
-            });
+
+                // Conectar con otros nodos
+                for (let j = i + 1; j < nodes.length; j++) {
+                    let n2 = nodes[j];
+                    let dx = n.x - n2.x;
+                    let dy = n.y - n2.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < connectionDistance) {
+                        ctx.beginPath();
+                        // La opacidad de la línea depende de lo cerca que estén
+                        let opacity = 1 - (distance / connectionDistance);
+                        ctx.strokeStyle = `rgba(56, 189, 248, ${opacity * 0.3})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(n.x, n.y);
+                        ctx.lineTo(n2.x, n2.y);
+                        ctx.stroke();
+                    }
+                }
+
+                // Interacción con el ratón (se conectan al cursor)
+                if (mouse.x != null && mouse.y != null) {
+                    let dxMouse = n.x - mouse.x;
+                    let dyMouse = n.y - mouse.y;
+                    let distanceMouse = Math.sqrt(dxMouse * dxMouse + dyMouse * dyMouse);
+
+                    if (distanceMouse < mouse.radius) {
+                        ctx.beginPath();
+                        let opacityMouse = 1 - (distanceMouse / mouse.radius);
+                        ctx.strokeStyle = `rgba(243, 156, 18, ${opacityMouse * 0.5})`; // Conexión naranja (wip-color) al ratón
+                        ctx.lineWidth = 1.5;
+                        ctx.moveTo(n.x, n.y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                    }
+                }
+            }
             requestAnimationFrame(draw);
         }
         draw();
