@@ -61,17 +61,12 @@ footer hr { border: 0; border-top: 1px solid var(--border-color); margin-bottom:
 @keyframes loading { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 @keyframes glitch { 0%, 95% { transform: none; } 96% { transform: skewX(-15deg); } 98% { transform: skewX(15deg); } }
 
-/* --- ESTILOS CORREGIDOS PARA IMÁGENES DE PROYECTOS (BORDES NÍTIDOS) --- */
-.project-card .project-image,
-.project-card video.project-image { /* También aplica a vídeos si usas la opción B */
-    width: 100%; /* Ocupa todo el ancho de la tarjeta */
-    aspect-ratio: 2 / 1; /* Formato apaisado uniforme (puedes ajustarlo si prefieres 16/9 o similar) */
-    object-fit: cover; /* Llena el espacio sin deformar la imagen */
-    border-radius: 2px; /* Un radio mínimo para suavizar la esquina, casi imperceptible */
-    margin-bottom: 1rem; /* Espacio con el título */
-    opacity: 1; /* Opacidad total, sin transparencia */
-    
-    /* --- ELIMINADO EL DEGRADADO SUPERIOR --- */
-    mask-image: none !important;
-    -webkit-mask-image: none !important;
+.project-card .project-image {
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    display: block; /* Evita espacios fantasma debajo del video */
+    border-radius: 2px;
+    margin-bottom: 1rem;
+    background-color: #000; /* Fondo negro mientras carga */
 }
