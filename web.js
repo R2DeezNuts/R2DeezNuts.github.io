@@ -4,30 +4,36 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('bg-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
-        let w, h;
+        let w, h; // Ancho y alto TOTAL del canvas
         
         const cellSize = 45; 
         let cols, rows;
         let grid = [];
-        let offsetX = 0, offsetY = 0; // Para centrar la cuadrícula en la pantalla
+        let offsetX = 0, offsetY = 0; 
         
         let robot = { x: 0, y: 0, col: 0, row: 0, speed: 2.5, radius: 5 };
         let target = { col: -1, row: -1, active: false };
         let currentPath = [];
         let isSearching = false; 
 
-        // Generar el mapa asegurando que no se salga de los bordes
+        // Generar el mapa respetando el menú superior
         function initGrid() {
             w = canvas.width = window.innerWidth;
             h = canvas.height = window.innerHeight;
             
-            // Usar Math.floor evita que el mapa sea más grande que la pantalla
-            cols = Math.floor(w / cellSize);
-            rows = Math.floor(h / cellSize);
+            // 1. Medimos exactamente cuánto ocupa tu menú de navegación
+            const nav = document.querySelector('nav');
+            const navHeight = nav ? nav.offsetHeight : 80; // Si no lo encuentra, asume 80px
             
-            // Calculamos el espacio sobrante para centrar la cuadrícula perfectamente
+            // 2. Calculamos el espacio real que le queda al mapa
+            let availableH = h - navHeight;
+            
+            cols = Math.floor(w / cellSize);
+            rows = Math.floor(availableH / cellSize); // Usamos solo el alto disponible
+            
+            // 3. Centramos el mapa, empujándolo hacia abajo el tamaño del menú
             offsetX = (w - (cols * cellSize)) / 2;
-            offsetY = (h - (rows * cellSize)) / 2;
+            offsetY = navHeight + (availableH - (rows * cellSize)) / 2;
 
             grid = [];
 
@@ -45,14 +51,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 grid[robot.col][robot.row].isWall = false; 
             }
             
-            // Posición física aplicando los márgenes
             robot.x = robot.col * cellSize + (cellSize / 2) + offsetX;
             robot.y = robot.row * cellSize + (cellSize / 2) + offsetY;
 
             setTimeout(setRandomTarget, 200);
         }
 
-        // Evitar que el scroll en móvil reinicie el mapa constantemente
         let lastW = window.innerWidth;
         let lastH = window.innerHeight;
         let resizeTimeout;
@@ -61,7 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
             resizeTimeout = setTimeout(() => {
                 let newW = window.innerWidth;
                 let newH = window.innerHeight;
-                // Solo reiniciar si el cambio es drástico (por ejemplo, rotar la pantalla)
                 if (Math.abs(lastW - newW) > 100 || Math.abs(lastH - newH) > 100) {
                     initGrid();
                     lastW = newW;
@@ -78,7 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let valid = false;
             let attempts = 0;
             
-            // Evitamos los bordes extremos del mapa (cols-2 y rows-2) para que el robot se mantenga bien visible
             let maxCol = Math.max(1, cols - 2);
             let maxRow = Math.max(1, rows - 2);
 
@@ -121,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
         function calculatePath() {
             isSearching = true;
             
-            // Restamos el offset para saber en qué casilla lógica está el robot
             robot.col = Math.floor((robot.x - offsetX) / cellSize);
             robot.row = Math.floor((robot.y - offsetY) / cellSize);
 
@@ -182,12 +183,11 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(setRandomTarget, 200); 
         }
 
-        // Bucle de dibujado
         function draw() {
             ctx.fillStyle = '#0b0f14';
             ctx.fillRect(0, 0, w, h);
 
-            // 1. Dibujar el mapa (Aplicando el offset)
+            // Dibujar mapa
             for (let i = 0; i < cols; i++) {
                 for (let j = 0; j < rows; j++) {
                     let cell = grid[i][j];
@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // 2. Dibujar la línea de la ruta
+            // Dibujar ruta
             if (currentPath.length > 1) {
                 ctx.beginPath();
                 ctx.moveTo(robot.x, robot.y);
@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.setLineDash([]);
             }
 
-            // 3. Sistema de Movimiento
+            // Mover robot
             if (currentPath.length > 1) {
                 let nextNode = currentPath[1];
                 let targetX = nextNode.i * cellSize + (cellSize / 2) + offsetX;
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // 4. Dibujar Destino
+            // Dibujar destino
             if (target.active) {
                 let tx = target.col * cellSize + (cellSize / 2) + offsetX;
                 let ty = target.row * cellSize + (cellSize / 2) + offsetY;
@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.stroke();
             }
 
-            // 5. Dibujar el Robot
+            // Dibujar robot
             ctx.beginPath();
             ctx.arc(robot.x, robot.y, robot.radius, 0, Math.PI * 2);
             ctx.fillStyle = '#f39c12'; 
