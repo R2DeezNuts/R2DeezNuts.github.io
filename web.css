@@ -99,3 +99,35 @@ footer { padding: 4rem 0; text-align: center; border-top: 1px solid var(--border
 .toast { visibility: hidden; background: #1a1a1a; color: var(--accent-color); border: 1px solid var(--accent-color); padding: 1rem; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); opacity: 0; transition: 0.4s; }
 .toast.show { visibility: visible; opacity: 1; }
 
+/* Esto quita el morado de "visitado" y el subrayado por defecto */
+a, a:visited, a:active {
+    color: var(--accent-color); /* El azul que elegimos */
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+/* Solo cambia cuando pasas el ratón por encima */
+a:hover {
+    color: var(--text-color); /* Se vuelve blanco o resalta */
+    text-decoration: none;
+}
+.project-links a, .social-links a {
+    font-family: var(--font-main);
+    text-transform: lowercase; /* Estilo muy Thavlik */
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+}
+
+.project-links a:hover, .social-links a:hover {
+    border-bottom: 1px solid var(--text-color);
+}
+.menu a {
+    margin-left: 20px;
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.menu a:hover {
+    opacity: 1;
+    color: var(--accent-color);
+}
