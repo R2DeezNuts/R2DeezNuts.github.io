@@ -9,22 +9,28 @@ document.addEventListener('DOMContentLoaded', () => {
         const cellSize = 45; 
         let cols, rows;
         let grid = [];
+        let offsetX = 0, offsetY = 0; // Para centrar la cuadrícula en la pantalla
         
-        // Nuestro agente autónomo
         let robot = { x: 0, y: 0, col: 0, row: 0, speed: 2.5, radius: 5 };
         let target = { col: -1, row: -1, active: false };
         let currentPath = [];
-        let isSearching = false; // Seguro anti-colapso
+        let isSearching = false; 
 
-        // Generar el mapa
+        // Generar el mapa asegurando que no se salga de los bordes
         function initGrid() {
             w = canvas.width = window.innerWidth;
             h = canvas.height = window.innerHeight;
-            cols = Math.ceil(w / cellSize);
-            rows = Math.ceil(h / cellSize);
+            
+            // Usar Math.floor evita que el mapa sea más grande que la pantalla
+            cols = Math.floor(w / cellSize);
+            rows = Math.floor(h / cellSize);
+            
+            // Calculamos el espacio sobrante para centrar la cuadrícula perfectamente
+            offsetX = (w - (cols * cellSize)) / 2;
+            offsetY = (h - (rows * cellSize)) / 2;
+
             grid = [];
 
-            // Solo 10% de muros para que el mapa sea más navegable
             for (let i = 0; i < cols; i++) {
                 grid[i] = [];
                 for (let j = 0; j < rows; j++) {
@@ -32,35 +38,55 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Spawn seguro en el centro
+            // Spawn del robot en el centro
             robot.col = Math.floor(cols / 2);
             robot.row = Math.floor(rows / 2);
             if (grid[robot.col] && grid[robot.col][robot.row]) {
                 grid[robot.col][robot.row].isWall = false; 
             }
             
-            robot.x = robot.col * cellSize + cellSize / 2;
-            robot.y = robot.row * cellSize + cellSize / 2;
+            // Posición física aplicando los márgenes
+            robot.x = robot.col * cellSize + (cellSize / 2) + offsetX;
+            robot.y = robot.row * cellSize + (cellSize / 2) + offsetY;
 
             setTimeout(setRandomTarget, 200);
         }
 
-        window.addEventListener('resize', initGrid);
+        // Evitar que el scroll en móvil reinicie el mapa constantemente
+        let lastW = window.innerWidth;
+        let lastH = window.innerHeight;
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                let newW = window.innerWidth;
+                let newH = window.innerHeight;
+                // Solo reiniciar si el cambio es drástico (por ejemplo, rotar la pantalla)
+                if (Math.abs(lastW - newW) > 100 || Math.abs(lastH - newH) > 100) {
+                    initGrid();
+                    lastW = newW;
+                    lastH = newH;
+                }
+            }, 300);
+        });
+        
         initGrid();
 
-        // Buscar una coordenada válida al azar
         function setRandomTarget() {
-            if (isSearching) return; // Si ya está calculando, no hacer nada
+            if (isSearching) return; 
             
             let valid = false;
             let attempts = 0;
             
+            // Evitamos los bordes extremos del mapa (cols-2 y rows-2) para que el robot se mantenga bien visible
+            let maxCol = Math.max(1, cols - 2);
+            let maxRow = Math.max(1, rows - 2);
+
             while (!valid && attempts < 200) {
-                let rCol = Math.floor(Math.random() * cols);
-                let rRow = Math.floor(Math.random() * rows);
+                let rCol = Math.floor(Math.random() * maxCol) + 1;
+                let rRow = Math.floor(Math.random() * maxRow) + 1;
                 
                 if (grid[rCol] && grid[rCol][rRow]) {
-                    // Verificamos que no sea muro y que no sea donde ya está
                     if (!grid[rCol][rRow].isWall && (rCol !== robot.col || rRow !== robot.row)) {
                         target.col = rCol;
                         target.row = rRow;
@@ -73,7 +99,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (valid) calculatePath();
         }
 
-        // Distancia Manhattan (ideal para cuadrículas de 4 direcciones)
         function heuristic(a, b) {
             return Math.abs(a.i - b.i) + Math.abs(a.j - b.j);
         }
@@ -81,7 +106,6 @@ document.addEventListener('DOMContentLoaded', () => {
         function getNeighbors(node) {
             let neighbors = [];
             let { i, j } = node;
-            // Movimiento ortogonal (Sin diagonales para evitar engancharse en esquinas)
             const dirs = [[0,-1], [0,1], [-1,0], [1,0]];
             
             for (let d of dirs) {
@@ -94,12 +118,12 @@ document.addEventListener('DOMContentLoaded', () => {
             return neighbors;
         }
 
-        // --- CEREBRO A* ---
         function calculatePath() {
             isSearching = true;
             
-            robot.col = Math.floor(robot.x / cellSize);
-            robot.row = Math.floor(robot.y / cellSize);
+            // Restamos el offset para saber en qué casilla lógica está el robot
+            robot.col = Math.floor((robot.x - offsetX) / cellSize);
+            robot.row = Math.floor((robot.y - offsetY) / cellSize);
 
             if (!grid[robot.col] || !grid[target.col] || !grid[robot.col][robot.row] || !grid[target.col][target.row]) {
                 isSearching = false;
@@ -153,8 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
-            // FALLBACK: Si llega aquí, está encerrado y no hay ruta posible.
-            // Para no colapsar, borramos la ruta y pedimos otro destino tras una breve pausa.
             currentPath = [];
             isSearching = false;
             setTimeout(setRandomTarget, 200); 
@@ -165,12 +187,12 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillStyle = '#0b0f14';
             ctx.fillRect(0, 0, w, h);
 
-            // 1. Dibujar el mapa y los obstáculos
+            // 1. Dibujar el mapa (Aplicando el offset)
             for (let i = 0; i < cols; i++) {
                 for (let j = 0; j < rows; j++) {
                     let cell = grid[i][j];
-                    let cx = i * cellSize;
-                    let cy = j * cellSize;
+                    let cx = i * cellSize + offsetX;
+                    let cy = j * cellSize + offsetY;
 
                     if (cell.isWall) {
                         ctx.fillStyle = 'rgba(56, 189, 248, 0.04)';
@@ -190,7 +212,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.moveTo(robot.x, robot.y);
                 for (let i = 1; i < currentPath.length; i++) {
                     let p = currentPath[i];
-                    ctx.lineTo(p.i * cellSize + cellSize / 2, p.j * cellSize + cellSize / 2);
+                    ctx.lineTo(p.i * cellSize + (cellSize / 2) + offsetX, p.j * cellSize + (cellSize / 2) + offsetY);
                 }
                 ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)'; 
                 ctx.lineWidth = 1.5;
@@ -199,11 +221,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.setLineDash([]);
             }
 
-            // 3. Sistema de Control Físico (Movimiento estricto)
+            // 3. Sistema de Movimiento
             if (currentPath.length > 1) {
                 let nextNode = currentPath[1];
-                let targetX = nextNode.i * cellSize + cellSize / 2;
-                let targetY = nextNode.j * cellSize + cellSize / 2;
+                let targetX = nextNode.i * cellSize + (cellSize / 2) + offsetX;
+                let targetY = nextNode.j * cellSize + (cellSize / 2) + offsetY;
 
                 let dx = targetX - robot.x;
                 let dy = targetY - robot.y;
@@ -213,13 +235,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     robot.x += (dx / dist) * robot.speed;
                     robot.y += (dy / dist) * robot.speed;
                 } else {
-                    // Ha llegado al centro de la celda
                     robot.x = targetX;
                     robot.y = targetY;
-                    currentPath.shift(); // Borramos el paso actual
+                    currentPath.shift(); 
                     
                     if (currentPath.length === 1) {
-                        currentPath = []; // Vaciado de seguridad
+                        currentPath = []; 
                         if (!isSearching) setTimeout(setRandomTarget, 100); 
                     }
                 }
@@ -227,8 +248,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 4. Dibujar Destino
             if (target.active) {
-                let tx = target.col * cellSize + cellSize / 2;
-                let ty = target.row * cellSize + cellSize / 2;
+                let tx = target.col * cellSize + (cellSize / 2) + offsetX;
+                let ty = target.row * cellSize + (cellSize / 2) + offsetY;
                 ctx.beginPath();
                 ctx.arc(tx, ty, 6, 0, Math.PI * 2);
                 ctx.strokeStyle = `rgba(243, 156, 18, ${0.5 + Math.sin(Date.now() / 200) * 0.5})`; 
