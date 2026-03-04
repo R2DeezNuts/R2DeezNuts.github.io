@@ -36,6 +36,8 @@
 
 
             <section class="project-card">
+                <img src="https://i.ibb.co/XF30z5q/image-0.png" alt="Autonomous Mini Sumo Battlebot, showing custom PCB and IR sensors" class="project-image" loading="lazy">
+                
                 <div class="project-header">
                     <h3>Sumo Battlebot</h3>
                     <span class="tag tag-open">Hardware & Firmware</span>
@@ -55,13 +57,14 @@
             </section>
         
             <section class="project-card">
+                <img src="https://i.ibb.co/D8GfXpY/image-1.png" alt="Illustrative diagram of Inverted Pendulum closed-loop PID control system" class="project-image" loading="lazy">
+                
                 <div class="project-header">
                     <h3>Péndulo Invertido</h3>
                     <span class="tag tag-open">Control Theory</span>
                 </div>
-                
                 <p>
-                    Estabilización dinámica en tiempo real de un sistema mecánico inherentemente inestable. Implementación determinista de un controlador PID de lazo cerrado operando bajo un ciclo de trabajo estricto de 100 Hz sobre un microcontrolador ESP32. El sistema integra algoritmos de filtrado digital para mitigar el ruido en la adquisición de telemetría de los sensores, cálculo continuo del error de inclinación y ajuste fino empírico de las constantes proporcionales, integrales y derivativas (Kp, Ki, Kd). La salida del algoritmo genera señales PWM de alta resolución que comandan los drivers del motor, asegurando una corrección de posición suave, milimétrica y sin oscilaciones parásitas.
+                    Estabilización dinámica en tiempo real de un sistema mecánico inherentemente inestable. Implementación determinista de un controlador PID de lazo cerrado operando bajo un ciclo de trabajo estricto de 100 Hz sobre un microcontrolador ESP32. El sistema integra algoritmos de filtrado digital para mitigar el ruido en la adquisición de telemetría de los sensores, cálculo continuo del error de inclinación y ajuste fino empírico de las constantes proporcionales, integrales y derivativas (Kp, Ki, Kd). La salida del algoritmo genera señales PWM de alta resolución que comandan los drivers del motor, asegurando una corrección de position suave, milimétrica y sin oscilaciones parásitas.
                 </p>
                 <div class="tech-stack">
                     <span>pid control loop</span>
@@ -75,11 +78,12 @@
             </section>
 
             <section class="project-card placeholder-card">
+                <img src="https://i.ibb.co/3fsyHwR/image-2.png" alt="Diagram visualization of CV object detection pipeline for Sumo robot" class="project-image" loading="lazy">
+                
                 <div class="project-header">
                     <h3>CV Sumo Upgrade</h3>
                     <span class="tag">Planned</span>
                 </div>
-                
                 <p>
                     Evolución de la plataforma de combate Sumo hacia la percepción espacial avanzada. Este proyecto en fase de investigación busca sustituir la matriz de sensores infrarrojos unidimensionales por un sistema de visión artificial integrado en el chasis. La arquitectura delegará el procesamiento visual a un hardware dedicado ejecutando modelos ligeros de detección de objetos (OpenCV) para identificar la posición, distancia y trayectoria del oponente. Los datos vectoriales extraídos alimentarán el ESP32 principal para ejecutar algoritmos de navegación predictiva y tácticas de intercepción dinámica en el dohyo.
                 </p>

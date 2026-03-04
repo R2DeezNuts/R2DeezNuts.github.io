@@ -60,3 +60,17 @@ footer hr { border: 0; border-top: 1px solid var(--border-color); margin-bottom:
 @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(243, 156, 18, 0); } 100% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0); } }
 @keyframes loading { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 @keyframes glitch { 0%, 95% { transform: none; } 96% { transform: skewX(-15deg); } 98% { transform: skewX(15deg); } }
+
+/* --- ESTILOS PARA IMÁGENES DE PROYECTOS  --- */
+.project-card .project-image {
+    width: 100%; /* Ocupa todo el ancho */
+    aspect-ratio: 2 / 1; /* Formato apaisado y uniforme */
+    object-fit: cover; /* Recorta para llenar el espacio sin deformar */
+    border-radius: 2px; /* Pequeño radio para que encaje */
+    margin-bottom: 1rem; /* Espacio con el título */
+    opacity: 0.9; /* Un poco de transparencia para integración */
+    
+    /* Pequeño degradado en la parte superior para integración con el fondo */
+    mask-image: linear-gradient(to top, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%);
+}
