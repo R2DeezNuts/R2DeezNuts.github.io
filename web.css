@@ -1,17 +1,15 @@
+/* VARIABLES UNIFICADAS */
 :root {
-    --bg-color: #0d0d0d;
-    --text-color: #e0e0e0;
-    --accent-color: #4a9eff;
-    --card-bg: #161616; /* Un poco más oscuro para contraste */
-    --border-color: #2a2a2a;
-    --font-main: 'Courier New', Courier, monospace;
+    --bg-color: #0b0f14; /* Un azul noche muy oscuro, estilo Thavlik */
+    --text-color: #f8fafc;
+    --accent-color: #38bdf8;
+    --wip-color: #f39c12;
+    --card-bg: #111827; 
+    --border-color: rgba(148, 163, 184, 0.1);
+    --font-main: 'JetBrains Mono', 'Courier New', monospace;
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
     background-color: var(--bg-color);
@@ -21,452 +19,82 @@ body {
     overflow-x: hidden;
 }
 
-/* Contenedor unificado */
 .container {
-    max-width: 1300px; /* Ancho ideal para 3 columnas */
+    max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
 }
 
-/* Navegación */
-nav {
-    border-bottom: 1px solid var(--border-color);
-    padding: 1.5rem 0;
-}
+/* NAVEGACIÓN */
+nav { border-bottom: 1px solid var(--border-color); padding: 1.5rem 0; background: rgba(11, 15, 20, 0.8); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; }
+nav .container { display: flex; justify-content: space-between; align-items: center; }
+.logo { font-weight: bold; letter-spacing: -1px; }
 
-nav .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Modifica la sección Hero en tu web.css */
+/* HERO SECTION */
 .hero {
-    padding: 6rem 2rem;
+    padding: 8rem 2rem;
     display: flex;
     flex-direction: column;
-    align-items: center;    /* Centra los elementos horizontalmente */
-    text-align: center;     /* Centra el texto de los párrafos y títulos */
-}
-
-.hero .description {
-    margin-left: auto;      /* Estos dos márgenes en auto centran un bloque */
-    margin-right: auto;     /* con un max-width definido */
-    max-width: 650px;
-}
-
-.social-links {
-    display: flex;
-    justify-content: center; /* Centra los enlaces de GitHub y Email */
     align-items: center;
-    gap: 10px;               /* Espacio uniforme entre elementos */
-    margin-top: 1.5rem;
+    text-align: center;
 }
 
-h1 {
-    font-size: 2.2rem;
-    margin-bottom: 1rem;
+.hero h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
     color: var(--accent-color);
-    letter-spacing: -1px;
+    text-shadow: 0 0 30px rgba(56, 189, 248, 0.3);
+    margin-bottom: 0.5rem;
+    letter-spacing: -2px;
 }
 
-.description {
-    font-size: 1.1rem;
-    max-width: 650px;
-    color: #aaa;
-}
+.description { color: #94a3b8; max-width: 600px; margin: 0 auto; font-size: 1.1rem; }
 
-/* Grid de Proyectos - 3 Columnas Fijas eso */
+/* WIP SYSTEM */
+.wip-container { margin: 1.5rem 0; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.wip-badge { color: var(--wip-color); font-size: 0.75rem; font-weight: bold; letter-spacing: 2px; display: flex; align-items: center; gap: 8px; animation: glitch-text 4s infinite; }
+.pulse-dot { width: 8px; height: 8px; background-color: var(--wip-color); border-radius: 50%; animation: pulse 2s infinite; }
+
+.progress-bar { width: 200px; height: 2px; background: rgba(243, 156, 18, 0.1); overflow: hidden; position: relative; }
+.progress-fill { width: 100%; height: 100%; background: var(--wip-color); box-shadow: 0 0 10px var(--wip-color); animation: loading 2s infinite linear; }
+
+/* GRID DE PROYECTOS */
 .project-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important; 
-    gap: 1.5rem;
-    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); /* Responsivo automático */
+    gap: 2rem;
     margin-bottom: 5rem;
 }
 
-/* Tarjetas de Proyecto */
 .project-card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
-    padding: 1.8rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .project-card:hover {
-    transform: translateY(-4px);
+    transform: translateY(-8px);
     border-color: var(--accent-color);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
+.tag { font-size: 0.65rem; padding: 2px 8px; border-radius: 2px; text-transform: uppercase; font-weight: bold; }
+.tag-open { background: rgba(46, 204, 113, 0.1); color: #2ecc71; border: 1px solid #2ecc71; }
 
+.tech-stack { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 1.5rem; }
+.tech-stack span { font-size: 0.7rem; padding: 4px 10px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); color: #94a3b8; }
 
+/* ANIMACIONES */
+@keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(243, 156, 18, 0); } 100% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0); } }
+@keyframes loading { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+@keyframes glitch-text { 0%, 95% { transform: none; } 96% { transform: skewX(-15deg); } 98% { transform: skewX(15deg); } }
 
-.project-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 1.2rem;
-}
+/* FOOTER */
+footer { padding: 4rem 0; text-align: center; border-top: 1px solid var(--border-color); color: #475569; }
+.social-links { margin: 1rem 0; display: flex; justify-content: center; gap: 20px; }
 
-.project-header h3 {
-    font-size: 1.25rem;
-}
-
-.tag {
-    font-size: 0.7rem;
-    background: #222;
-    color: #888;
-    padding: 3px 8px;
-    border: 1px solid #333;
-    text-transform: uppercase;
-}/*  */
-
-.tag-closed {
-    background-color: #301a1a;
-    color: #ff8888;
-    border-color: #552222;
-}
-
-/* Tecnologías */
-.tech-stack {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 1.5rem 0;
-    margin-top: auto; /* Empuja el stack hacia abajo */
-}
-
-/* Estilo base para todas las etiquetas de lenguaje */
-.tech-stack span {
-    display: flex;
-    align-items: center;
-    font-size: 0.75rem;
-    padding: 4px 10px;
-    border-radius: 4px;
-    background: #111; /* Fondo oscuro común */
-    border: 1px solid transparent;
-    transition: all 0.2s ease;
-}
-
-/* Colores específicos por lenguaje */
-.tech-stack span.rust {
-    color: #f06529;
-    border-color: rgba(240, 101, 41, 0.3);
-}
-
-.tech-stack span.svelte {
-    color: #ff3e00;
-    border-color: rgba(255, 62, 0, 0.3);
-}
-
-.tech-stack span.python {
-    color: #3776ab;
-    border-color: rgba(55, 118, 171, 0.3);
-}
-
-.tech-stack span.postgres {
-    color: #336791;
-    border-color: rgba(51, 103, 145, 0.3);
-}
-
-.tech-stack span.k8s {
-    color: #326ce5;
-    border-color: rgba(50, 108, 229, 0.3);
-}
-
-.tech-stack span.C++ {
-    color: #ffffff;
-    border-color: rgba(255, 255, 255, 0.3);
-}
-
-/* Asegura que el icono también herede el color */
-.tech-stack span i {
-    color: inherit !important;
-    margin-right: 6px;
-}
-
-.tech-stack i {
-    margin-right: 6px;
-    color: var(--accent-color);
-}
-/* Novas cores para a tech-stack de robótica */
-.tech-stack span.electronics {
-    color: #ffcc00;
-    border-color: rgba(255, 204, 0, 0.3);
-}
-
-.tech-stack span.mechanics {
-    color: #a0a0a0;
-    border-color: rgba(160, 160, 160, 0.3);
-}
-
-.tech-stack span.gitlab {
-    color: #fc6d26;
-    border-color: rgba(252, 109, 38, 0.3);
-}
-
-/* Enlaces y Footer */
-a {
-    color: var(--accent-color);
-    text-decoration: none;
-    font-size: 0.9rem;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-footer {
-    text-align: center;
-    padding: 4rem 2rem;
-    border-top: 1px solid var(--border-color);
-    font-size: 0.8rem;
-    color: #555;
-}
-
-#back-to-top {
-    margin-top: 2rem;
-    background: transparent;
-    border: 1px solid var(--border-color);
-    color: #777;
-    padding: 0.6rem 1.2rem;
-    cursor: pointer;
-    font-family: var(--font-main);
-    transition: all 0.2s;
-}
-
-#back-to-top:hover {
-    border-color: var(--accent-color);
-    color: var(--accent-color);
-}
-
-/* Ajuste para tablets */
-@media (max-width: 992px) {
-    .project-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-    }
-}
-
-/* Ajuste para móviles */
-@media (max-width: 600px) {
-    .project-grid {
-        grid-template-columns: 1fr !important;
-    }
-    h1 { font-size: 1.8rem; }
-}
-/* Estilo del Pop-up (Toast) */
-.toast {
-    visibility: hidden;
-    min-width: 250px;
-    background-color: #1a1a1a; /* Fondo oscuro como tus tarjetas */
-    color: var(--accent-color);
-    text-align: center;
-    border: 1px solid var(--accent-color);
-    padding: 16px;
-    position: fixed;
-    z-index: 1000;
-    left: 50%;
-    bottom: 30px;
-    transform: translateX(-50%);
-    font-size: 0.9rem;
-    transition: visibility 0s, opacity 0.5s linear;
-    opacity: 0;
-}
-
-.toast.show {
-    visibility: visible;
-    opacity: 1;
-}
-
-/* Estilo para las tarjetas placeholder */
-.placeholder-card {
-    opacity: 0.7; /* Ligeramente más transparentes */
-    border-style: dashed; /* Bordes punteados para indicar que no están listos */
-}
-
-.coming-soon-text {
-    margin-top: auto;
-    font-size: 0.75rem;
-    color: var(--accent-color);
-    font-style: italic;
-    letter-spacing: 1px;
-}
-
-/* Nuevos colores de tecnología */
-.tech-stack span.ros {
-    color: #22314E;
-    border-color: rgba(34, 49, 78, 0.5);
-    background: #ffffff; /* ROS suele usar blanco/azul */
-}
-
-.tech-stack span.ai {
-    color: #ff00ff;
-    border-color: rgba(255, 0, 255, 0.3);
-}
-
-/* Color Verde para Open Source */
-.tag-open {
-    background-color: #1b2e1b !important; /* Fondo verde muy oscuro */
-    color: #2ecc71 !important;           /* Texto verde esmeralda */
-    border-color: #27ae60 !important;
-}
-
-/* Color Naranja para In Dev */
-.tag-dev {
-    background-color: #2e251b !important; /* Fondo naranja muy oscuro */
-    color: #f39c12 !important;           /* Texto naranja */
-    border-color: #d35400 !important;
-}
-
-/* Color Azul/Gris para Planned (Opcional) */
-.tag-planned {
-    background-color: #1b252e !important;
-    color: #3498db !important;
-    border-color: #2980b9 !important;
-}
-/* Cores para o proxecto do Péndulo */
-.tech-stack span.esp32 {
-    color: #e67e22; /* Laranxa microchip */
-    border-color: rgba(230, 126, 34, 0.3);
-}
-
-.tech-stack span.web {
-    color: #3498db; /* Azul web */
-    border-color: rgba(52, 152, 219, 0.3);
-}
-
-.tech-stack span.control {
-    color: #2ecc71; /* Verde algoritmos */
-    border-color: rgba(46, 204, 113, 0.3);
-}
-
-/* Estilo para o enlace de telemetría */
-.demo-link {
-    color: #e74c3c !important; /* Vermello alerta/dato */
-}
-
-/* Contenedor WIP centrado */
-.wip-container {
-    margin: 1rem 0 2rem 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-}
-
-/* Badge co n texto naranja */
-.wip-badge {
-    color: #f39c12; /* Naranja */
-    font-size: 0.8rem;
-    font-weight: bold;
-    letter-spacing: 2px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* Punto pulsante (Efecto "Live") */
-.pulse-dot {
-    width: 8px;
-    height: 8px;
-    background-color: #f39c12;
-    border-radius: 50%;
-    box-shadow: 0 0 0 rgba(243, 156, 18, 0.4);
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(243, 156, 18, 0.7); }
-    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(243, 156, 18, 0); }
-    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(243, 156, 18, 0); }
-}
-
-/* Busca y reemplaza estas dos reglas en tu web.css */
-.progress-bar {
-    width: 200px;
-    height: 4px; /* Aumentado un poco para que sea más visible */
-    background: #222;
-    overflow: hidden;
-    position: relative;
-    border-radius: 2px; /* Bordes redondeados sutiles */
-    margin-top: 5px;
-}
-
-.progress-fill {
-    width: 100%;
-    height: 100%;
-    background: #f39c12;
-    box-shadow: 0 0 10px rgba(243, 156, 18, 0.5); /* Efecto de brillo */
-    animation: loading 2s infinite linear; /* Cambiado a linear para que sea constante */
-}
-
-@keyframes loading {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-.project-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, 1fr) !important; 
-    gap: 1.5rem;
-    width: 100%;
-    margin-bottom: 5rem;
-    align-items: stretch; /* Asegura que todas las tarjetas midan lo mismo */
-}
-/* 1. Efecto de sombreado (Glow) para el Hero */
-.hero h1 {
-    font-size: 2.8rem;
-    color: var(--accent-color);
-    text-shadow: 0 0 20px rgba(74, 158, 255, 0.4); /* Resplandor azul */
-    margin-bottom: 0.5rem;
-}
-
-/* Sombreado sutil para la descripción */
-.hero .description {
-    color: #bbb;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-}
-
-/* 2. Efecto Glitch para "SYSTEM STATUS" */
-.wip-badge {
-    position: relative;
-    color: #f39c12;
-    font-family: var(--font-main);
-    animation: glitch-text 4s infinite;
-}
-
-@keyframes glitch-text {
-    0%, 95%, 100% { transform: none; opacity: 1; }
-    96% { transform: skewX(-10deg); opacity: 0.8; }
-    97% { transform: skewX(10deg); opacity: 0.9; }
-    98% { opacity: 0.5; }
-    99% { transform: skewX(-5deg); opacity: 1; }
-}
-
-/* 3. Ajuste de la Barra de Progreso (para que se vea bien) */
-.progress-bar {
-    width: 250px; /* Un poco más larga */
-    height: 4px;
-    background: rgba(243, 156, 18, 0.1);
-    border: 1px solid rgba(243, 156, 18, 0.2);
-    overflow: hidden;
-    margin-top: 10px;
-}
-
-.progress-fill {
-    width: 100%;
-    height: 100%;
-    background: #f39c12;
-    box-shadow: 0 0 15px #f39c12;
-    animation: loading 2.5s infinite linear;
-}
-
-@keyframes loading {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-}
-
-
+/* TOAST */
+.toast { visibility: hidden; background: #1a1a1a; color: var(--accent-color); border: 1px solid var(--accent-color); padding: 1rem; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); opacity: 0; transition: 0.4s; }
+.toast.show { visibility: visible; opacity: 1; }
