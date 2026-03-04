@@ -1,67 +1,52 @@
-
-async function loadParticles() {
-    await tsParticles.load("tsparticles", {
-        "preset": "stars",
-        "background": {
-            "color": "#0b0f14"
-        },
-        "particles": {
-            "number": {
-                "value": 100,
-                "density": {
-                    "enable": true,
-                    "value_area": 800
-                }
+document.addEventListener('DOMContentLoaded', () => {
+    async function loadParticles() {
+        await tsParticles.load("tsparticles", {
+            "background": {
+                "color": "#0b0f14"
             },
-            "color": {
-                "value": "#ffffff"
-            },
-            "shape": {
-                "type": "circle"
-            },
-            "opacity": {
-                "value": 0.5,
-                "random": true,
-                "anim": {
-                    "enable": true,
-                    "speed": 1,
-                    "opacity_min": 0.1,
-                    "sync": false
-                }
-            },
-            "size": {
-                "value": 2,
-                "random": true,
-                "anim": {
-                    "enable": false
-                }
-            },
-            "line_linked": {
-                "enable": false
-            },
-            "move": {
-                "enable": true,
-                "speed": 0.5,
-                "direction": "none",
-                "random": true,
-                "straight": false,
-                "out_mode": "out",
-                "attract": {
-                    "enable": false
-                }
-            }
-        },
-        "interactivity": {
-            "events": {
-                "onhover": {
-                    "enable": false
+            "particles": {
+                "number": {
+                    "value": 80,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
                 },
-                "onclick": {
-                    "enable": false
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle"
+                },
+                "opacity": {
+                    "value": 0.5,
+                    "random": true
+                },
+                "size": {
+                    "value": 3,
+                    "random": true
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 0.5,
+                    "direction": "none",
+                    "out_mode": "out",
+                    "random": true,
+                    "straight": false
+                }
+            },
+            "interactivity": {
+                "events": {
+                    "onHover": {
+                        "enable": false
+                    },
+                    "onClick": {
+                        "enable": false
+                    }
                 }
             }
-        }
-    });
-}
+        });
+    }
 
-loadParticles();
+    loadParticles();
+});
