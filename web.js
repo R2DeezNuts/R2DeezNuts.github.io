@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('bg-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
-        let w, h; // Ancho y alto TOTAL del canvas
+        let w, h; 
         
         const cellSize = 45; 
         let cols, rows;
@@ -16,27 +16,38 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentPath = [];
         let isSearching = false; 
 
-        // Generar el mapa respetando el menú superior
+        // Función para obtener las coordenadas de las tarjetas de proyecto (zonas prohibidas)
+        function getForbiddenRects() {
+            const cards = document.querySelectorAll('.project-card');
+            const rects = [];
+            cards.forEach(card => {
+                const r = card.getBoundingClientRect();
+                rects.push({
+                    x: r.left,
+                    y: r.top,
+                    w: r.width,
+                    h: r.height
+                });
+            });
+            return rects;
+        }
+
         function initGrid() {
             w = canvas.width = window.innerWidth;
             h = canvas.height = window.innerHeight;
             
-            // 1. Medimos exactamente cuánto ocupa tu menú de navegación
             const nav = document.querySelector('nav');
-            const navHeight = nav ? nav.offsetHeight : 80; // Si no lo encuentra, asume 80px
+            const navHeight = nav ? nav.offsetHeight : 80; 
             
-            // 2. Calculamos el espacio real que le queda al mapa
             let availableH = h - navHeight;
             
             cols = Math.floor(w / cellSize);
-            rows = Math.floor(availableH / cellSize); // Usamos solo el alto disponible
+            rows = Math.floor(availableH / cellSize); 
             
-            // 3. Centramos el mapa, empujándolo hacia abajo el tamaño del menú
             offsetX = (w - (cols * cellSize)) / 2;
             offsetY = navHeight + (availableH - (rows * cellSize)) / 2;
 
             grid = [];
-
             for (let i = 0; i < cols; i++) {
                 grid[i] = [];
                 for (let j = 0; j < rows; j++) {
@@ -44,7 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Spawn del robot en el centro
             robot.col = Math.floor(cols / 2);
             robot.row = Math.floor(rows / 2);
             if (grid[robot.col] && grid[robot.col][robot.row]) {
@@ -77,17 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function setRandomTarget() {
             if (isSearching) return; 
-            
             let valid = false;
             let attempts = 0;
-            
             let maxCol = Math.max(1, cols - 2);
             let maxRow = Math.max(1, rows - 2);
 
             while (!valid && attempts < 200) {
                 let rCol = Math.floor(Math.random() * maxCol) + 1;
                 let rRow = Math.floor(Math.random() * maxRow) + 1;
-                
                 if (grid[rCol] && grid[rCol][rRow]) {
                     if (!grid[rCol][rRow].isWall && (rCol !== robot.col || rRow !== robot.row)) {
                         target.col = rCol;
@@ -109,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
             let neighbors = [];
             let { i, j } = node;
             const dirs = [[0,-1], [0,1], [-1,0], [1,0]];
-            
             for (let d of dirs) {
                 let ni = i + d[0];
                 let nj = j + d[1];
@@ -122,11 +128,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function calculatePath() {
             isSearching = true;
-            
             robot.col = Math.floor((robot.x - offsetX) / cellSize);
             robot.row = Math.floor((robot.y - offsetY) / cellSize);
 
-            if (!grid[robot.col] || !grid[target.col] || !grid[robot.col][robot.row] || !grid[target.col][target.row]) {
+            if (!grid[robot.col] || !grid[target.col]) {
                 isSearching = false;
                 setTimeout(setRandomTarget, 100);
                 return;
@@ -134,7 +139,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let start = grid[robot.col][robot.row];
             let end = grid[target.col][target.row];
-
             let openSet = [start];
             let cameFrom = new Map();
             let gScore = new Map();
@@ -144,12 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fScore.set(start, heuristic(start, end));
 
             while (openSet.length > 0) {
-                openSet.sort((a, b) => {
-                    let fA = fScore.has(a) ? fScore.get(a) : Infinity;
-                    let fB = fScore.has(b) ? fScore.get(b) : Infinity;
-                    return fA - fB;
-                });
-                
+                openSet.sort((a, b) => (fScore.get(a) || Infinity) - (fScore.get(b) || Infinity));
                 let current = openSet.shift();
 
                 if (current === end) {
@@ -164,12 +163,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 for (let neighbor of getNeighbors(current)) {
-                    let currentG = gScore.has(current) ? gScore.get(current) : Infinity;
-                    let tentative_gScore = currentG + 1;
-                    
-                    let neighborG = gScore.has(neighbor) ? gScore.get(neighbor) : Infinity;
-
-                    if (tentative_gScore < neighborG) {
+                    let tentative_gScore = (gScore.get(current) || 0) + 1;
+                    if (tentative_gScore < (gScore.get(neighbor) || Infinity)) {
                         cameFrom.set(neighbor, current);
                         gScore.set(neighbor, tentative_gScore);
                         fScore.set(neighbor, tentative_gScore + heuristic(neighbor, end));
@@ -177,7 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
             }
-            
             currentPath = [];
             isSearching = false;
             setTimeout(setRandomTarget, 200); 
@@ -187,32 +181,57 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.fillStyle = '#0b0f14';
             ctx.fillRect(0, 0, w, h);
 
-            // Dibujar mapa
+            const forbiddenRects = getForbiddenRects();
+
+            // 1. Dibujar Mapa (Solo en zonas libres)
             for (let i = 0; i < cols; i++) {
                 for (let j = 0; j < rows; j++) {
                     let cell = grid[i][j];
                     let cx = i * cellSize + offsetX;
                     let cy = j * cellSize + offsetY;
 
-                    if (cell.isWall) {
-                        ctx.fillStyle = 'rgba(56, 189, 248, 0.04)';
-                        ctx.fillRect(cx, cy, cellSize, cellSize);
-                        ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
-                        ctx.strokeRect(cx, cy, cellSize, cellSize);
-                    } else {
-                        ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
-                        ctx.fillRect(cx + cellSize/2 - 1, cy + cellSize/2 - 1, 2, 2);
+                    const isUnderCard = forbiddenRects.some(r => 
+                        cx + cellSize > r.x && cx < r.x + r.w &&
+                        cy + cellSize > r.y && cy < r.y + r.h
+                    );
+
+                    if (!isUnderCard) {
+                        if (cell.isWall) {
+                            ctx.fillStyle = 'rgba(56, 189, 248, 0.04)';
+                            ctx.fillRect(cx, cy, cellSize, cellSize);
+                            ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
+                            ctx.strokeRect(cx, cy, cellSize, cellSize);
+                        } else {
+                            ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+                            ctx.fillRect(cx + cellSize/2 - 1, cy + cellSize/2 - 1, 2, 2);
+                        }
                     }
                 }
             }
 
-            // Dibujar ruta
+            // 2. Dibujar Ruta (Solo segmentos visibles)
             if (currentPath.length > 1) {
                 ctx.beginPath();
-                ctx.moveTo(robot.x, robot.y);
-                for (let i = 1; i < currentPath.length; i++) {
+                let firstPoint = true;
+                for (let i = 0; i < currentPath.length; i++) {
                     let p = currentPath[i];
-                    ctx.lineTo(p.i * cellSize + (cellSize / 2) + offsetX, p.j * cellSize + (cellSize / 2) + offsetY);
+                    let px = p.i * cellSize + (cellSize / 2) + offsetX;
+                    let py = p.j * cellSize + (cellSize / 2) + offsetY;
+
+                    const pointUnderCard = forbiddenRects.some(r => 
+                        px > r.x && px < r.x + r.w && py > r.y && py < r.y + r.h
+                    );
+
+                    if (!pointUnderCard) {
+                        if (firstPoint) {
+                            ctx.moveTo(px, py);
+                            firstPoint = false;
+                        } else {
+                            ctx.lineTo(px, py);
+                        }
+                    } else {
+                        firstPoint = true; 
+                    }
                 }
                 ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)'; 
                 ctx.lineWidth = 1.5;
@@ -221,12 +240,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.setLineDash([]);
             }
 
-            // Mover robot
+            // 3. Mover Robot
             if (currentPath.length > 1) {
                 let nextNode = currentPath[1];
                 let targetX = nextNode.i * cellSize + (cellSize / 2) + offsetX;
                 let targetY = nextNode.j * cellSize + (cellSize / 2) + offsetY;
-
                 let dx = targetX - robot.x;
                 let dy = targetY - robot.y;
                 let dist = Math.hypot(dx, dy);
@@ -238,7 +256,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     robot.x = targetX;
                     robot.y = targetY;
                     currentPath.shift(); 
-                    
                     if (currentPath.length === 1) {
                         currentPath = []; 
                         if (!isSearching) setTimeout(setRandomTarget, 100); 
@@ -246,29 +263,38 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // Dibujar destino
+            // 4. Dibujar Robot y Destino (Si son visibles)
+            const robotVisible = !forbiddenRects.some(r => 
+                robot.x > r.x && robot.x < r.x + r.w && robot.y > r.y && robot.y < r.y + r.h
+            );
+
+            if (robotVisible) {
+                ctx.beginPath();
+                ctx.arc(robot.x, robot.y, robot.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#f39c12'; 
+                ctx.shadowColor = '#f39c12';
+                ctx.shadowBlur = 10; 
+                ctx.fill();
+                ctx.shadowBlur = 0; 
+            }
+
             if (target.active) {
                 let tx = target.col * cellSize + (cellSize / 2) + offsetX;
                 let ty = target.row * cellSize + (cellSize / 2) + offsetY;
-                ctx.beginPath();
-                ctx.arc(tx, ty, 6, 0, Math.PI * 2);
-                ctx.strokeStyle = `rgba(243, 156, 18, ${0.5 + Math.sin(Date.now() / 200) * 0.5})`; 
-                ctx.lineWidth = 2;
-                ctx.stroke();
+                const targetVisible = !forbiddenRects.some(r => 
+                    tx > r.x && tx < r.x + r.w && ty > r.y && ty < r.y + r.h
+                );
+                if (targetVisible) {
+                    ctx.beginPath();
+                    ctx.arc(tx, ty, 6, 0, Math.PI * 2);
+                    ctx.strokeStyle = `rgba(243, 156, 18, ${0.5 + Math.sin(Date.now() / 200) * 0.5})`; 
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+                }
             }
-
-            // Dibujar robot
-            ctx.beginPath();
-            ctx.arc(robot.x, robot.y, robot.radius, 0, Math.PI * 2);
-            ctx.fillStyle = '#f39c12'; 
-            ctx.shadowColor = '#f39c12';
-            ctx.shadowBlur = 10; 
-            ctx.fill();
-            ctx.shadowBlur = 0; 
 
             requestAnimationFrame(draw);
         }
-        
         draw();
     }
 
