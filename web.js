@@ -16,15 +16,18 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentPath = [];
         let isSearching = false; 
 
-        // Función para obtener las coordenadas de las tarjetas de proyecto (zonas prohibidas)
+        // CORRECCIÓN: Obtener rectángulos ajustados al scroll
         function getForbiddenRects() {
             const cards = document.querySelectorAll('.project-card');
             const rects = [];
+            const scrollY = window.scrollY;
+            const scrollX = window.scrollX;
+
             cards.forEach(card => {
                 const r = card.getBoundingClientRect();
                 rects.push({
-                    x: r.left,
-                    y: r.top,
+                    x: r.left + scrollX,
+                    y: r.top + scrollY,
                     w: r.width,
                     h: r.height
                 });
@@ -67,36 +70,18 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(setRandomTarget, 200);
         }
 
-        let lastW = window.innerWidth;
-        let lastH = window.innerHeight;
-        let resizeTimeout;
-        window.addEventListener('resize', () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                let newW = window.innerWidth;
-                let newH = window.innerHeight;
-                if (Math.abs(lastW - newW) > 100 || Math.abs(lastH - newH) > 100) {
-                    initGrid();
-                    lastW = newW;
-                    lastH = newH;
-                }
-            }, 300);
-        });
-        
+        window.addEventListener('resize', initGrid);
         initGrid();
 
         function setRandomTarget() {
             if (isSearching) return; 
             let valid = false;
             let attempts = 0;
-            let maxCol = Math.max(1, cols - 2);
-            let maxRow = Math.max(1, rows - 2);
-
             while (!valid && attempts < 200) {
-                let rCol = Math.floor(Math.random() * maxCol) + 1;
-                let rRow = Math.floor(Math.random() * maxRow) + 1;
+                let rCol = Math.floor(Math.random() * (cols - 2)) + 1;
+                let rRow = Math.floor(Math.random() * (rows - 2)) + 1;
                 if (grid[rCol] && grid[rCol][rRow]) {
-                    if (!grid[rCol][rRow].isWall && (rCol !== robot.col || rRow !== robot.row)) {
+                    if (!grid[rCol][rRow].isWall) {
                         target.col = rCol;
                         target.row = rRow;
                         target.active = true;
@@ -112,32 +97,18 @@ document.addEventListener('DOMContentLoaded', () => {
             return Math.abs(a.i - b.i) + Math.abs(a.j - b.j);
         }
 
-        function getNeighbors(node) {
-            let neighbors = [];
-            let { i, j } = node;
-            const dirs = [[0,-1], [0,1], [-1,0], [1,0]];
-            for (let d of dirs) {
-                let ni = i + d[0];
-                let nj = j + d[1];
-                if (ni >= 0 && ni < cols && nj >= 0 && nj < rows && grid[ni] && grid[ni][nj] && !grid[ni][nj].isWall) {
-                    neighbors.push(grid[ni][nj]);
-                }
-            }
-            return neighbors;
-        }
-
         function calculatePath() {
             isSearching = true;
-            robot.col = Math.floor((robot.x - offsetX) / cellSize);
-            robot.row = Math.floor((robot.y - offsetY) / cellSize);
+            let startCol = Math.floor((robot.x - offsetX) / cellSize);
+            let startRow = Math.floor((robot.y - offsetY) / cellSize);
 
-            if (!grid[robot.col] || !grid[target.col]) {
+            if (!grid[startCol] || !grid[target.col]) {
                 isSearching = false;
                 setTimeout(setRandomTarget, 100);
                 return;
             }
 
-            let start = grid[robot.col][robot.row];
+            let start = grid[startCol][startRow];
             let end = grid[target.col][target.row];
             let openSet = [start];
             let cameFrom = new Map();
@@ -162,45 +133,49 @@ document.addEventListener('DOMContentLoaded', () => {
                     return; 
                 }
 
-                for (let neighbor of getNeighbors(current)) {
-                    let tentative_gScore = (gScore.get(current) || 0) + 1;
-                    if (tentative_gScore < (gScore.get(neighbor) || Infinity)) {
-                        cameFrom.set(neighbor, current);
-                        gScore.set(neighbor, tentative_gScore);
-                        fScore.set(neighbor, tentative_gScore + heuristic(neighbor, end));
-                        if (!openSet.includes(neighbor)) openSet.push(neighbor);
+                const dirs = [[0,-1], [0,1], [-1,0], [1,0]];
+                for (let d of dirs) {
+                    let ni = current.i + d[0], nj = current.j + d[1];
+                    if (ni >= 0 && ni < cols && nj >= 0 && nj < rows && !grid[ni][nj].isWall) {
+                        let neighbor = grid[ni][nj];
+                        let tentative_gScore = (gScore.get(current) || 0) + 1;
+                        if (tentative_gScore < (gScore.get(neighbor) || Infinity)) {
+                            cameFrom.set(neighbor, current);
+                            gScore.set(neighbor, tentative_gScore);
+                            fScore.set(neighbor, tentative_gScore + heuristic(neighbor, end));
+                            if (!openSet.includes(neighbor)) openSet.push(neighbor);
+                        }
                     }
                 }
             }
-            currentPath = [];
             isSearching = false;
             setTimeout(setRandomTarget, 200); 
         }
 
         function draw() {
+            ctx.clearRect(0, 0, w, h);
             ctx.fillStyle = '#0b0f14';
             ctx.fillRect(0, 0, w, h);
 
             const forbiddenRects = getForbiddenRects();
+            const viewY = window.scrollY; // Dónde está el scroll ahora
 
-            // 1. Dibujar Mapa (Solo en zonas libres)
+            // 1. Dibujar Mapa
             for (let i = 0; i < cols; i++) {
                 for (let j = 0; j < rows; j++) {
-                    let cell = grid[i][j];
                     let cx = i * cellSize + offsetX;
                     let cy = j * cellSize + offsetY;
 
+                    // Ajustamos la posición del mapa al scroll para ver si choca con la tarjeta en pantalla
                     const isUnderCard = forbiddenRects.some(r => 
                         cx + cellSize > r.x && cx < r.x + r.w &&
-                        cy + cellSize > r.y && cy < r.y + r.h
+                        cy + viewY + cellSize > r.y && cy + viewY < r.y + r.h
                     );
 
                     if (!isUnderCard) {
-                        if (cell.isWall) {
+                        if (grid[i][j].isWall) {
                             ctx.fillStyle = 'rgba(56, 189, 248, 0.04)';
                             ctx.fillRect(cx, cy, cellSize, cellSize);
-                            ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
-                            ctx.strokeRect(cx, cy, cellSize, cellSize);
                         } else {
                             ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
                             ctx.fillRect(cx + cellSize/2 - 1, cy + cellSize/2 - 1, 2, 2);
@@ -209,88 +184,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            // 2. Dibujar Ruta (Solo segmentos visibles)
-            if (currentPath.length > 1) {
-                ctx.beginPath();
-                let firstPoint = true;
-                for (let i = 0; i < currentPath.length; i++) {
-                    let p = currentPath[i];
-                    let px = p.i * cellSize + (cellSize / 2) + offsetX;
-                    let py = p.j * cellSize + (cellSize / 2) + offsetY;
-
-                    const pointUnderCard = forbiddenRects.some(r => 
-                        px > r.x && px < r.x + r.w && py > r.y && py < r.y + r.h
-                    );
-
-                    if (!pointUnderCard) {
-                        if (firstPoint) {
-                            ctx.moveTo(px, py);
-                            firstPoint = false;
-                        } else {
-                            ctx.lineTo(px, py);
-                        }
-                    } else {
-                        firstPoint = true; 
-                    }
-                }
-                ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)'; 
-                ctx.lineWidth = 1.5;
-                ctx.setLineDash([4, 4]);
-                ctx.stroke();
-                ctx.setLineDash([]);
-            }
-
-            // 3. Mover Robot
+            // 2. Mover Robot (Lógica interna siempre activa)
             if (currentPath.length > 1) {
                 let nextNode = currentPath[1];
                 let targetX = nextNode.i * cellSize + (cellSize / 2) + offsetX;
                 let targetY = nextNode.j * cellSize + (cellSize / 2) + offsetY;
-                let dx = targetX - robot.x;
-                let dy = targetY - robot.y;
+                let dx = targetX - robot.x, dy = targetY - robot.y;
                 let dist = Math.hypot(dx, dy);
 
                 if (dist > robot.speed) {
                     robot.x += (dx / dist) * robot.speed;
                     robot.y += (dy / dist) * robot.speed;
                 } else {
-                    robot.x = targetX;
-                    robot.y = targetY;
-                    currentPath.shift(); 
-                    if (currentPath.length === 1) {
-                        currentPath = []; 
-                        if (!isSearching) setTimeout(setRandomTarget, 100); 
-                    }
+                    robot.x = targetX; robot.y = targetY;
+                    currentPath.shift();
+                    if (currentPath.length === 1) setTimeout(setRandomTarget, 50);
                 }
             }
 
-            // 4. Dibujar Robot y Destino (Si son visibles)
-            const robotVisible = !forbiddenRects.some(r => 
-                robot.x > r.x && robot.x < r.x + r.w && robot.y > r.y && robot.y < r.y + r.h
+            // 3. Dibujar Robot si es visible
+            const robotUnderCard = forbiddenRects.some(r => 
+                robot.x > r.x && robot.x < r.x + r.w && 
+                (robot.y + viewY) > r.y && (robot.y + viewY) < r.y + r.h
             );
 
-            if (robotVisible) {
+            if (!robotUnderCard) {
                 ctx.beginPath();
                 ctx.arc(robot.x, robot.y, robot.radius, 0, Math.PI * 2);
-                ctx.fillStyle = '#f39c12'; 
-                ctx.shadowColor = '#f39c12';
-                ctx.shadowBlur = 10; 
+                ctx.fillStyle = '#f39c12';
+                ctx.shadowBlur = 10; ctx.shadowColor = '#f39c12';
                 ctx.fill();
-                ctx.shadowBlur = 0; 
-            }
-
-            if (target.active) {
-                let tx = target.col * cellSize + (cellSize / 2) + offsetX;
-                let ty = target.row * cellSize + (cellSize / 2) + offsetY;
-                const targetVisible = !forbiddenRects.some(r => 
-                    tx > r.x && tx < r.x + r.w && ty > r.y && ty < r.y + r.h
-                );
-                if (targetVisible) {
-                    ctx.beginPath();
-                    ctx.arc(tx, ty, 6, 0, Math.PI * 2);
-                    ctx.strokeStyle = `rgba(243, 156, 18, ${0.5 + Math.sin(Date.now() / 200) * 0.5})`; 
-                    ctx.lineWidth = 2;
-                    ctx.stroke();
-                }
+                ctx.shadowBlur = 0;
             }
 
             requestAnimationFrame(draw);
@@ -298,20 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
         draw();
     }
 
-    // --- 2. UTILIDADES DE LA WEB ---
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) target.scrollIntoView({ behavior: 'smooth' });
-        });
-    });
-
-    const backToTopBtn = document.getElementById('back-to-top');
-    if (backToTopBtn) {
-        backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    }
-
+    // --- UTILIDADES (Email, Scroll, etc) ---
     const toast = document.getElementById('toast');
     document.querySelectorAll('.copy-email').forEach(btn => {
         btn.addEventListener('click', () => {
