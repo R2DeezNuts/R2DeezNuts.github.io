@@ -31,25 +31,26 @@
 
     <main class="container" id="projects">
         <div class="project-grid">
+
+
+
+            
             <section class="project-card">
                 <div class="project-header">
                     <h3>Sumo Battlebot</h3>
                     <span class="tag tag-open">Hardware & Firmware</span>
                 </div>
                 <p>
-                    <strong>Objetivo:</strong> Diseño integral de un robot de combate autónomo, desde la mecánica de doble altura hasta el firmware, maximizando la relación potencia-peso y la fiabilidad de los sensores.
-                    <br><br>
-                    <strong>Hardware & PCB:</strong> Diseño de PCB custom (2 capas) alojando un ESP32-WROOM, driver dual para motores DC y regulador Buck step-down (MP1584). Enrutado crítico optimizado: separación estricta de planos de potencia (LiPo 4S) y lógica (3.3V) implementando topología Star-GND y vías de unión para garantizar inmunidad al ruido eléctrico.
-                    <br><br>
-                    <strong>Firmware:</strong> Código C++ modular gestionado mediante PlatformIO. Arquitectura estructurada que desacopla la lectura ADC de la matriz de 5 sensores IR (TCRT5000), la generación de señales PWM y el algoritmo de toma de decisiones.
+                    Robot de combate autónomo diseñado desde cero. Desarrollado sobre una PCB custom de 2 capas que aísla la etapa de potencia (LiPo 4S, drivers TB6612) de la lógica de 3.3V (ESP32-WROOM) empleando topología Star-GND para máxima inmunidad al ruido. El firmware, escrito en C++ modular vía PlatformIO, gestiona la toma de decisiones en tiempo real procesando la telemetría de una matriz de 5 sensores IR (TCRT5000) para evasión de bordes y seguimiento de objetivos.
                 </p>
                 <div class="tech-stack">
-                    <span><i class="fas fa-layer-group"></i> Custom PCB (2-Layer)</span>
-                    <span><i class="fas fa-bolt"></i> Star-GND Routing</span>
-                    <span><i class="fas fa-code"></i> C++ / PlatformIO</span>
+                    <span>custom pcb (2-layer)</span>
+                    <span>esp32</span>
+                    <span>star-gnd</span>
+                    <span>c++ / platformIO</span>
                 </div>
                 <div class="project-links">
-                    <a href="https://github.com/R2DeezNuts/EggBot-Sumo-Battlebot-" target="_blank"><i class="fab fa-github"></i> Source Code</a>
+                    <a href="https://github.com/R2DeezNuts/EggBot-Sumo-Battlebot-" target="_blank"><i class="fab fa-github"></i> source</a>
                 </div>
             </section>
         
@@ -59,19 +60,16 @@
                     <span class="tag tag-open">Control Theory</span>
                 </div>
                 <p>
-                    <strong>Objetivo:</strong> Estabilización dinámica de un sistema mecánico inestable mediante la aplicación de teoría de control clásico en tiempo real.
-                    <br><br>
-                    <strong>Desarrollo Técnico:</strong> Implementación determinista de un controlador de lazo cerrado (PID) operando a un ciclo de trabajo estricto de 100 Hz sobre un ESP32. El sistema procesa la telemetría, calcula el error de inclinación y computa la acción de control en milisegundos.
-                    <br><br>
-                    <strong>Retos resueltos:</strong> Mitigación de ruido en la adquisición de datos, ajuste fino empírico de las ganancias (Kp, Ki, Kd) y generación de señales PWM de alta resolución para garantizar una actuación suave y precisa sobre los motores.
+                    Estabilización dinámica en tiempo real de un sistema mecánico inestable. Implementación de un controlador PID de lazo cerrado determinista operando a un ciclo estricto de 100 Hz sobre un microcontrolador ESP32. El sistema integra algoritmos de mitigación de ruido para la adquisición de telemetría, ajuste fino empírico de ganancias (Kp, Ki, Kd) y generación de señales PWM de alta resolución para una actuación suave y precisa sobre los motores.
                 </p>
                 <div class="tech-stack">
-                    <span><i class="fas fa-project-diagram"></i> PID Control Loop</span>
-                    <span><i class="fas fa-wave-square"></i> Real-Time (100Hz)</span>
-                    <span><i class="fas fa-microchip"></i> ESP32 ADC/PWM</span>
+                    <span>pid control loop</span>
+                    <span>real-time (100hz)</span>
+                    <span>c++</span>
+                    <span>adc/pwm</span>
                 </div>
                 <div class="project-links">
-                    <a href="https://github.com/R2DeezNuts/Pendulo-Invertido" target="_blank"><i class="fab fa-github"></i> Source Code</a>
+                    <a href="https://github.com/R2DeezNuts/Pendulo-Invertido" target="_blank"><i class="fab fa-github"></i> source</a>
                 </div>
             </section>
         
