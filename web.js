@@ -6,14 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = canvas.getContext('2d');
         let w, h; // Ancho y alto TOTAL del canvas
         
-        const cellSize = 45; 
+        const cellSize = 28;
+        const blockerPadding = 10;
         let cols, rows;
         let grid = [];
         let offsetX = 0, offsetY = 0; 
-        let contentGuardLeft = 0;
-        let contentGuardRight = 0;
-        let laneCells = { left: [], right: [] };
-        let activeLane = 'left';
+        let availableCells = [];
+        let obstacleUpdateQueued = false;
         
         let robot = { x: 0, y: 0, col: 0, row: 0, speed: 2.5, radius: 5 };
         let target = { col: -1, row: -1, active: false };
@@ -28,42 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return row * cellSize + (cellSize / 2) + offsetY;
         }
 
-        function updateContentGuard() {
-            const minLaneWidth = Math.max(cellSize * 2, Math.min(160, w * 0.22));
-            const guardWidth = Math.min(980, Math.max(360, w * 0.62));
-
-            contentGuardLeft = (w - guardWidth) / 2;
-            contentGuardRight = contentGuardLeft + guardWidth;
-
-            if (contentGuardLeft < minLaneWidth) {
-                contentGuardLeft = minLaneWidth;
-                contentGuardRight = w - minLaneWidth;
-            }
-        }
-
-        function getCellLane(col) {
-            const x = cellCenterX(col);
-            if (x < contentGuardLeft) return 'left';
-            if (x > contentGuardRight) return 'right';
-            return 'center';
-        }
-
-        function chooseCell(lane, preferCenter = false) {
-            const cells = laneCells[lane] || [];
-            if (cells.length === 0) return null;
-
-            if (!preferCenter) {
-                return cells[Math.floor(Math.random() * cells.length)];
-            }
-
-            const viewportCenterY = h * 0.5;
-            return cells.reduce((best, cell) => {
-                const bestDistance = Math.abs(cellCenterY(best.j) - viewportCenterY);
-                const cellDistance = Math.abs(cellCenterY(cell.j) - viewportCenterY);
-                return cellDistance < bestDistance ? cell : best;
-            }, cells[0]);
-        }
-
         function setRobotToCell(cell) {
             robot.col = cell.i;
             robot.row = cell.j;
@@ -71,11 +34,92 @@ document.addEventListener('DOMContentLoaded', () => {
             robot.y = cellCenterY(cell.j);
         }
 
-        // Generar el mapa respetando el menú superior y dejando libre la zona central de contenido.
+        function pointInRect(x, y, rect) {
+            return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+        }
+
+        function getContentBlockers() {
+            return [...document.querySelectorAll('.project-card')]
+                .map(element => element.getBoundingClientRect())
+                .filter(rect => rect.bottom > 0 && rect.top < h && rect.right > 0 && rect.left < w)
+                .map(rect => ({
+                    left: rect.left - blockerPadding,
+                    top: rect.top - blockerPadding,
+                    right: rect.right + blockerPadding,
+                    bottom: rect.bottom + blockerPadding
+                }));
+        }
+
+        function getCellAtPosition(x, y) {
+            const col = Math.floor((x - offsetX) / cellSize);
+            const row = Math.floor((y - offsetY) / cellSize);
+
+            if (col < 0 || col >= cols || row < 0 || row >= rows) {
+                return null;
+            }
+
+            return grid[col] && grid[col][row] ? grid[col][row] : null;
+        }
+
+        function moveRobotToNearestOpenCell() {
+            if (availableCells.length === 0) return false;
+
+            const nearest = availableCells.reduce((best, cell) => {
+                const bestDistance = Math.hypot(cellCenterX(best.i) - robot.x, cellCenterY(best.j) - robot.y);
+                const cellDistance = Math.hypot(cellCenterX(cell.i) - robot.x, cellCenterY(cell.j) - robot.y);
+                return cellDistance < bestDistance ? cell : best;
+            }, availableCells[0]);
+
+            setRobotToCell(nearest);
+            return true;
+        }
+
+        function refreshContentObstacles() {
+            const blockers = getContentBlockers();
+            availableCells = [];
+
+            for (let i = 0; i < cols; i++) {
+                for (let j = 0; j < rows; j++) {
+                    const cell = grid[i][j];
+                    cell.isReserved = blockers.some(rect => pointInRect(cellCenterX(cell.i), cellCenterY(cell.j), rect));
+                    cell.isWall = cell.staticWall || cell.isReserved;
+
+                    if (!cell.isWall) {
+                        availableCells.push(cell);
+                    }
+                }
+            }
+
+            const robotCell = getCellAtPosition(robot.x, robot.y);
+            if (!robotCell || robotCell.isWall) {
+                moveRobotToNearestOpenCell();
+                currentPath = [];
+                target.active = false;
+            }
+
+            const targetCell = target.active ? grid[target.col] && grid[target.col][target.row] : null;
+            if ((target.active && (!targetCell || targetCell.isWall)) || currentPath.some(cell => cell.isWall)) {
+                currentPath = [];
+                target.active = false;
+                if (!isSearching) setTimeout(setRandomTarget, 100);
+            }
+        }
+
+        function scheduleContentObstacleUpdate() {
+            if (obstacleUpdateQueued) return;
+            obstacleUpdateQueued = true;
+
+            requestAnimationFrame(() => {
+                obstacleUpdateQueued = false;
+                refreshContentObstacles();
+            });
+        }
+
+        // Generar el mapa respetando el menú superior; las tarjetas visibles se bloquean dinámicamente.
         function initGrid() {
             w = canvas.width = window.innerWidth;
             h = canvas.height = window.innerHeight;
-            laneCells = { left: [], right: [] };
+            availableCells = [];
             
             // 1. Medimos exactamente cuánto ocupa tu menú de navegación
             const nav = document.querySelector('nav');
@@ -90,28 +134,27 @@ document.addEventListener('DOMContentLoaded', () => {
             // 3. Centramos el mapa, empujándolo hacia abajo el tamaño del menú
             offsetX = (w - (cols * cellSize)) / 2;
             offsetY = navHeight + (availableH - (rows * cellSize)) / 2;
-            updateContentGuard();
 
             grid = [];
 
             for (let i = 0; i < cols; i++) {
                 grid[i] = [];
                 for (let j = 0; j < rows; j++) {
-                    const lane = getCellLane(i);
-                    const isReserved = lane === 'center';
-                    const isWall = isReserved || Math.random() < 0.07;
-                    grid[i][j] = { i, j, isWall, isReserved, lane };
-
-                    if (!isWall && lane !== 'center') {
-                        laneCells[lane].push(grid[i][j]);
-                    }
+                    const staticWall = Math.random() < 0.04;
+                    grid[i][j] = { i, j, staticWall, isWall: staticWall, isReserved: false };
                 }
             }
 
-            const availableLanes = ['left', 'right'].filter(lane => laneCells[lane].length > 0);
-            if (availableLanes.length > 0) {
-                activeLane = availableLanes[Math.floor(Math.random() * availableLanes.length)];
-                setRobotToCell(chooseCell(activeLane, true));
+            refreshContentObstacles();
+
+            if (availableCells.length > 0) {
+                const viewportCenterY = h * 0.5;
+                const initialCell = availableCells.reduce((best, cell) => {
+                    const bestDistance = Math.abs(cellCenterY(best.j) - viewportCenterY);
+                    const cellDistance = Math.abs(cellCenterY(cell.j) - viewportCenterY);
+                    return cellDistance < bestDistance ? cell : best;
+                }, availableCells[0]);
+                setRobotToCell(initialCell);
             }
 
             setTimeout(setRandomTarget, 200);
@@ -132,20 +175,37 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }, 300);
         });
+        window.addEventListener('scroll', scheduleContentObstacleUpdate, { passive: true });
+        window.addEventListener('load', scheduleContentObstacleUpdate);
         
         initGrid();
 
         function setRandomTarget() {
             if (isSearching) return; 
-            
-            const candidates = (laneCells[activeLane] || []).filter(cell => cell.i !== robot.col || cell.j !== robot.row);
+
+            const robotCell = getCellAtPosition(robot.x, robot.y);
+            if (!robotCell || robotCell.isWall) {
+                moveRobotToNearestOpenCell();
+            }
+
+            const candidates = availableCells.filter(cell => cell.i !== robot.col || cell.j !== robot.row);
             if (candidates.length === 0) return;
 
-            const nextTarget = candidates[Math.floor(Math.random() * candidates.length)];
-            target.col = nextTarget.i;
-            target.row = nextTarget.j;
-            target.active = true;
-            calculatePath();
+            const attempts = Math.min(80, candidates.length);
+            for (let i = 0; i < attempts; i++) {
+                const candidateIndex = Math.floor(Math.random() * candidates.length);
+                const nextTarget = candidates.splice(candidateIndex, 1)[0];
+                target.col = nextTarget.i;
+                target.row = nextTarget.j;
+                target.active = true;
+
+                if (calculatePath()) {
+                    return;
+                }
+            }
+
+            target.active = false;
+            setTimeout(setRandomTarget, 300);
         }
 
         function heuristic(a, b) {
@@ -175,8 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!grid[robot.col] || !grid[target.col] || !grid[robot.col][robot.row] || !grid[target.col][target.row] || grid[robot.col][robot.row].isWall || grid[target.col][target.row].isWall) {
                 isSearching = false;
-                setTimeout(setRandomTarget, 100);
-                return;
+                return false;
             }
 
             let start = grid[robot.col][robot.row];
@@ -207,7 +266,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     currentPath = path.reverse();
                     isSearching = false;
-                    return; 
+                    return true;
                 }
 
                 for (let neighbor of getNeighbors(current)) {
@@ -227,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             currentPath = [];
             isSearching = false;
-            setTimeout(setRandomTarget, 200); 
+            return false;
         }
 
         function draw() {
@@ -261,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.moveTo(robot.x, robot.y);
                 for (let i = 1; i < currentPath.length; i++) {
                     let p = currentPath[i];
-                    ctx.lineTo(p.i * cellSize + (cellSize / 2) + offsetX, p.j * cellSize + (cellSize / 2) + offsetY);
+                    ctx.lineTo(cellCenterX(p.i), cellCenterY(p.j));
                 }
                 ctx.strokeStyle = 'rgba(56, 189, 248, 0.2)'; 
                 ctx.lineWidth = 1.5;
@@ -296,7 +355,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Dibujar destino
-            if (target.active) {
+            const targetCell = target.active && grid[target.col] ? grid[target.col][target.row] : null;
+            if (target.active && targetCell && !targetCell.isWall) {
                 let tx = cellCenterX(target.col);
                 let ty = cellCenterY(target.row);
                 ctx.beginPath();
@@ -307,13 +367,16 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // Dibujar robot
-            ctx.beginPath();
-            ctx.arc(robot.x, robot.y, robot.radius, 0, Math.PI * 2);
-            ctx.fillStyle = '#f39c12'; 
-            ctx.shadowColor = '#f39c12';
-            ctx.shadowBlur = 10; 
-            ctx.fill();
-            ctx.shadowBlur = 0; 
+            const robotCell = getCellAtPosition(robot.x, robot.y);
+            if (robotCell && !robotCell.isWall) {
+                ctx.beginPath();
+                ctx.arc(robot.x, robot.y, robot.radius, 0, Math.PI * 2);
+                ctx.fillStyle = '#f39c12';
+                ctx.shadowColor = '#f39c12';
+                ctx.shadowBlur = 10;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+            }
 
             requestAnimationFrame(draw);
         }
