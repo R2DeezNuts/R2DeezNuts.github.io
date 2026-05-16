@@ -10,16 +10,72 @@ document.addEventListener('DOMContentLoaded', () => {
         let cols, rows;
         let grid = [];
         let offsetX = 0, offsetY = 0; 
+        let contentGuardLeft = 0;
+        let contentGuardRight = 0;
+        let laneCells = { left: [], right: [] };
+        let activeLane = 'left';
         
         let robot = { x: 0, y: 0, col: 0, row: 0, speed: 2.5, radius: 5 };
         let target = { col: -1, row: -1, active: false };
         let currentPath = [];
         let isSearching = false; 
 
-        // Generar el mapa respetando el menú superior
+        function cellCenterX(col) {
+            return col * cellSize + (cellSize / 2) + offsetX;
+        }
+
+        function cellCenterY(row) {
+            return row * cellSize + (cellSize / 2) + offsetY;
+        }
+
+        function updateContentGuard() {
+            const minLaneWidth = Math.max(cellSize * 2, Math.min(160, w * 0.22));
+            const guardWidth = Math.min(980, Math.max(360, w * 0.62));
+
+            contentGuardLeft = (w - guardWidth) / 2;
+            contentGuardRight = contentGuardLeft + guardWidth;
+
+            if (contentGuardLeft < minLaneWidth) {
+                contentGuardLeft = minLaneWidth;
+                contentGuardRight = w - minLaneWidth;
+            }
+        }
+
+        function getCellLane(col) {
+            const x = cellCenterX(col);
+            if (x < contentGuardLeft) return 'left';
+            if (x > contentGuardRight) return 'right';
+            return 'center';
+        }
+
+        function chooseCell(lane, preferCenter = false) {
+            const cells = laneCells[lane] || [];
+            if (cells.length === 0) return null;
+
+            if (!preferCenter) {
+                return cells[Math.floor(Math.random() * cells.length)];
+            }
+
+            const viewportCenterY = h * 0.5;
+            return cells.reduce((best, cell) => {
+                const bestDistance = Math.abs(cellCenterY(best.j) - viewportCenterY);
+                const cellDistance = Math.abs(cellCenterY(cell.j) - viewportCenterY);
+                return cellDistance < bestDistance ? cell : best;
+            }, cells[0]);
+        }
+
+        function setRobotToCell(cell) {
+            robot.col = cell.i;
+            robot.row = cell.j;
+            robot.x = cellCenterX(cell.i);
+            robot.y = cellCenterY(cell.j);
+        }
+
+        // Generar el mapa respetando el menú superior y dejando libre la zona central de contenido.
         function initGrid() {
             w = canvas.width = window.innerWidth;
             h = canvas.height = window.innerHeight;
+            laneCells = { left: [], right: [] };
             
             // 1. Medimos exactamente cuánto ocupa tu menú de navegación
             const nav = document.querySelector('nav');
@@ -34,25 +90,29 @@ document.addEventListener('DOMContentLoaded', () => {
             // 3. Centramos el mapa, empujándolo hacia abajo el tamaño del menú
             offsetX = (w - (cols * cellSize)) / 2;
             offsetY = navHeight + (availableH - (rows * cellSize)) / 2;
+            updateContentGuard();
 
             grid = [];
 
             for (let i = 0; i < cols; i++) {
                 grid[i] = [];
                 for (let j = 0; j < rows; j++) {
-                    grid[i][j] = { i, j, isWall: Math.random() < 0.10 }; 
+                    const lane = getCellLane(i);
+                    const isReserved = lane === 'center';
+                    const isWall = isReserved || Math.random() < 0.07;
+                    grid[i][j] = { i, j, isWall, isReserved, lane };
+
+                    if (!isWall && lane !== 'center') {
+                        laneCells[lane].push(grid[i][j]);
+                    }
                 }
             }
 
-            // Spawn del robot en el centro
-            robot.col = Math.floor(cols / 2);
-            robot.row = Math.floor(rows / 2);
-            if (grid[robot.col] && grid[robot.col][robot.row]) {
-                grid[robot.col][robot.row].isWall = false; 
+            const availableLanes = ['left', 'right'].filter(lane => laneCells[lane].length > 0);
+            if (availableLanes.length > 0) {
+                activeLane = availableLanes[Math.floor(Math.random() * availableLanes.length)];
+                setRobotToCell(chooseCell(activeLane, true));
             }
-            
-            robot.x = robot.col * cellSize + (cellSize / 2) + offsetX;
-            robot.y = robot.row * cellSize + (cellSize / 2) + offsetY;
 
             setTimeout(setRandomTarget, 200);
         }
@@ -78,27 +138,14 @@ document.addEventListener('DOMContentLoaded', () => {
         function setRandomTarget() {
             if (isSearching) return; 
             
-            let valid = false;
-            let attempts = 0;
-            
-            let maxCol = Math.max(1, cols - 2);
-            let maxRow = Math.max(1, rows - 2);
+            const candidates = (laneCells[activeLane] || []).filter(cell => cell.i !== robot.col || cell.j !== robot.row);
+            if (candidates.length === 0) return;
 
-            while (!valid && attempts < 200) {
-                let rCol = Math.floor(Math.random() * maxCol) + 1;
-                let rRow = Math.floor(Math.random() * maxRow) + 1;
-                
-                if (grid[rCol] && grid[rCol][rRow]) {
-                    if (!grid[rCol][rRow].isWall && (rCol !== robot.col || rRow !== robot.row)) {
-                        target.col = rCol;
-                        target.row = rRow;
-                        target.active = true;
-                        valid = true;
-                    }
-                }
-                attempts++;
-            }
-            if (valid) calculatePath();
+            const nextTarget = candidates[Math.floor(Math.random() * candidates.length)];
+            target.col = nextTarget.i;
+            target.row = nextTarget.j;
+            target.active = true;
+            calculatePath();
         }
 
         function heuristic(a, b) {
@@ -126,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
             robot.col = Math.floor((robot.x - offsetX) / cellSize);
             robot.row = Math.floor((robot.y - offsetY) / cellSize);
 
-            if (!grid[robot.col] || !grid[target.col] || !grid[robot.col][robot.row] || !grid[target.col][target.row]) {
+            if (!grid[robot.col] || !grid[target.col] || !grid[robot.col][robot.row] || !grid[target.col][target.row] || grid[robot.col][robot.row].isWall || grid[target.col][target.row].isWall) {
                 isSearching = false;
                 setTimeout(setRandomTarget, 100);
                 return;
@@ -191,6 +238,8 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let i = 0; i < cols; i++) {
                 for (let j = 0; j < rows; j++) {
                     let cell = grid[i][j];
+                    if (cell.isReserved) continue;
+
                     let cx = i * cellSize + offsetX;
                     let cy = j * cellSize + offsetY;
 
@@ -224,8 +273,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Mover robot
             if (currentPath.length > 1) {
                 let nextNode = currentPath[1];
-                let targetX = nextNode.i * cellSize + (cellSize / 2) + offsetX;
-                let targetY = nextNode.j * cellSize + (cellSize / 2) + offsetY;
+                let targetX = cellCenterX(nextNode.i);
+                let targetY = cellCenterY(nextNode.j);
 
                 let dx = targetX - robot.x;
                 let dy = targetY - robot.y;
@@ -248,8 +297,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Dibujar destino
             if (target.active) {
-                let tx = target.col * cellSize + (cellSize / 2) + offsetX;
-                let ty = target.row * cellSize + (cellSize / 2) + offsetY;
+                let tx = cellCenterX(target.col);
+                let ty = cellCenterY(target.row);
                 ctx.beginPath();
                 ctx.arc(tx, ty, 6, 0, Math.PI * 2);
                 ctx.strokeStyle = `rgba(243, 156, 18, ${0.5 + Math.sin(Date.now() / 200) * 0.5})`; 
