@@ -190,6 +190,42 @@ nav .container {
     border: 1px solid #2ecc71; 
 }
 
+.project-card p {
+    color: #cbd5e1;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.project-card code {
+    color: var(--accent-color);
+    font-family: var(--font-main);
+    font-size: 0.82rem;
+}
+
+.project-specs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin: 0.5rem 0 0;
+}
+
+.project-specs span {
+    border: 1px solid var(--border-color);
+    background: rgba(56, 189, 248, 0.04);
+    color: #94a3b8;
+    font-size: 0.72rem;
+    line-height: 1.35;
+    padding: 0.65rem;
+}
+
+.project-specs strong {
+    display: block;
+    color: var(--text-color);
+    font-size: 0.68rem;
+    margin-bottom: 0.2rem;
+    text-transform: uppercase;
+}
+
 .tech-stack { 
     display: flex; 
     flex-wrap: wrap; 
@@ -324,4 +360,10 @@ footer hr {
     0%, 95% { transform: none; } 
     96% { transform: skewX(-15deg); } 
     98% { transform: skewX(15deg); } 
+}
+
+@media (max-width: 520px) {
+    .project-specs {
+        grid-template-columns: 1fr;
+    }
 }

@@ -36,19 +36,29 @@
 
 
             <section class="project-card">
-                <img src="img/imagen-sumo.jpeg" alt="Sumo Battlebot Hardware" class="project-media">
+                <img src="img/imagen-sumo.jpeg" alt="ESP32 autonomous sumo robot with frontal sensors and dual motor drive" class="project-media">
                 <div class="project-header">
                     <h3>Sumo Battlebot</h3>
-                    <span class="tag tag-open">Hardware & Firmware</span>
+                    <span class="tag tag-open">Autonomous Combat</span>
                 </div>
                 <p>
-                    Robot de combate autónomo de alta potencia diseñado desde cero, integrando hardware, mecánica y software. Desarrollado sobre una PCB custom de 2 capas que aísla la etapa de potencia (LiPo 4S, drivers duales TB6612) de la lógica de 3.3V (ESP32-WROOM), empleando topología Star-GND para garantizar máxima inmunidad al ruido eléctrico de los motores. El chasis de doble altura optimiza el centro de gravedad albergando micromotores DC con reductora. El firmware, escrito en C++ modular vía PlatformIO, ejecuta una máquina de estados en tiempo real que procesa la telemetría de una matriz de 5 sensores IR (TCRT5000) para implementar rutinas agresivas de búsqueda, evasión de bordes y ataque directo.
+                    Robot sumo autónomo sobre ESP32 y PlatformIO, actualizado con la lógica real de competición. El firmware ejecuta un ciclo de control a 1 kHz, lee cuatro sensores fotoeléctricos E18 para localizar al rival en frente y a ±45°, y usa dos QRE1113 frontales con lectura por timing RC para detectar el borde del dohyo. La máquina de estados <code>STANDBY</code>, <code>READY</code>, <code>VERSUS</code> y <code>KILL</code> gestiona el retardo reglamentario de 5 s, el switch de seguridad, el rearme y la telemetría de diagnóstico.
                 </p>
+                <p>
+                    La estrategia prioriza escape de borde, recuperación con giro, retención temporal de detecciones, búsqueda alternante y ataque directo o corregido según la máscara de sensores. El proyecto incluye entornos PlatformIO separados para firmware principal, test de cableado y test serie de QRE, además de scripts Python para calibración de motores y control UDP durante pruebas.
+                </p>
+                <div class="project-specs" aria-label="Sumo battlebot technical summary">
+                    <span><strong>control</strong> 1 kHz loop / 10 Hz telemetry</span>
+                    <span><strong>sensors</strong> 4x E18 + 2x QRE1113</span>
+                    <span><strong>drive</strong> dual DC motors / 20 kHz PWM</span>
+                    <span><strong>safety</strong> switch debounce + kill latch</span>
+                </div>
                 <div class="tech-stack">
-                    <span>custom pcb</span>
                     <span>esp32</span>
-                    <span>c++</span>
+                    <span>platformio</span>
+                    <span>c++ firmware</span>
                     <span>state machine</span>
+                    <span>sensor fusion</span>
                 </div>
                 <div class="project-links">
                     <a href="https://github.com/R2DeezNuts/EggBot-Sumo-Battlebot-" target="_blank"><i class="fab fa-github"></i> source</a>
