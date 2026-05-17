@@ -481,6 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll('video[data-playback-rate]').forEach(video => {
         const rate = Number(video.dataset.playbackRate);
+        const loopEnd = Number(video.dataset.loopEnd);
         if (!Number.isNaN(rate) && rate > 0) {
             const applyPlaybackRate = () => {
                 video.playbackRate = rate;
@@ -488,6 +489,14 @@ document.addEventListener('DOMContentLoaded', () => {
             };
             applyPlaybackRate();
             video.addEventListener('loadedmetadata', applyPlaybackRate);
+        }
+        if (!Number.isNaN(loopEnd) && loopEnd > 0) {
+            video.addEventListener('timeupdate', () => {
+                if (video.currentTime >= loopEnd) {
+                    video.currentTime = 0;
+                    video.play();
+                }
+            });
         }
     });
 
