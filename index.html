@@ -67,22 +67,22 @@
             </section>
 
             <section class="project-card">
-                <video class="project-media" autoplay muted loop playsinline preload="metadata" data-playback-rate="1.5" data-loop-end="120" aria-label="Autonomous driving computer vision demo">
+                <video class="project-media" autoplay muted loop playsinline preload="metadata" data-playback-rate="1.5" data-loop-end="120" aria-label="Neural network autonomous driving demo">
                     <source src="img/coche_vision.mp4" type="video/mp4">
                 </video>
                 <div class="project-header">
-                    <h3>TFM: Conducción Autónoma por Visión</h3>
-                    <span class="tag tag-open">Autonomous Driving</span>
+                    <h3>Conducción Autónoma con Redes Neuronales</h3>
+                    <span class="tag tag-open">Neural Autonomy</span>
                 </div>
                 <p>
-                    Trabajo de fin de máster orientado a convertir un coche a escala en una plataforma de conducción autónoma por visión. El sistema observa la pista en tiempo real, entiende qué zona es transitable, detecta obstáculos y transforma esa percepción en decisiones de dirección y velocidad.
+                    Plataforma de conducción autónoma para un coche a escala basada en segmentación semántica con redes neuronales. El sistema interpreta cada frame para separar zona transitable y obstáculos, estima por dónde debe avanzar el vehículo y transforma esa salida del modelo en decisiones de dirección y velocidad.
                 </p>
                 <p>
-                    El objetivo no es solo que el coche avance, sino construir una arquitectura completa: captura de vídeo, modelo de visión, postprocesado, decisión autónoma, envío de comandos al hardware y mecanismos de seguridad para alternar entre modo manual y automático durante las pruebas.
+                    El objetivo no es solo que el coche avance, sino construir una arquitectura completa: captura de vídeo, inferencia neuronal, postprocesado de máscaras, decisión autónoma, envío de comandos al hardware y mecanismos de seguridad para alternar entre modo manual y automático durante las pruebas.
                 </p>
-                <div class="project-specs" aria-label="Autonomous driving vision project skills summary">
+                <div class="project-specs" aria-label="Neural autonomous driving project skills summary">
                     <span><strong>autonomy</strong> seguimiento de pista, evasión de obstáculos, steering/throttle</span>
-                    <span><strong>vision ai</strong> modelo UNet, segmentación semántica, máscaras y ROI</span>
+                    <span><strong>neural model</strong> UNet, segmentación semántica, máscaras y ROI</span>
                     <span><strong>ml pipeline</strong> anotación, preparación de dataset, PyTorch, métricas Dice/IoU</span>
                     <span><strong>embedded</strong> streaming de vídeo, sockets UDP/TCP, watchdog de seguridad</span>
                 </div>
