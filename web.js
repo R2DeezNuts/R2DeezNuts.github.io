@@ -479,6 +479,18 @@ document.addEventListener('DOMContentLoaded', () => {
         backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
     }
 
+    document.querySelectorAll('video[data-playback-rate]').forEach(video => {
+        const rate = Number(video.dataset.playbackRate);
+        if (!Number.isNaN(rate) && rate > 0) {
+            const applyPlaybackRate = () => {
+                video.playbackRate = rate;
+                video.defaultPlaybackRate = rate;
+            };
+            applyPlaybackRate();
+            video.addEventListener('loadedmetadata', applyPlaybackRate);
+        }
+    });
+
     const toast = document.getElementById('toast');
     document.querySelectorAll('.copy-email').forEach(btn => {
         btn.addEventListener('click', () => {
