@@ -67,32 +67,32 @@
             </section>
 
             <section class="project-card">
-                <video class="project-media" autoplay muted loop playsinline preload="metadata" data-playback-rate="1.5" aria-label="Autonomous Jetson car vision system demo">
+                <video class="project-media" autoplay muted loop playsinline preload="metadata" data-playback-rate="1.5" aria-label="Autonomous driving computer vision demo">
                     <source src="img/coche_vision.mp4" type="video/mp4">
                 </video>
                 <div class="project-header">
-                    <h3>TFM: Visión Autónoma Jetson</h3>
-                    <span class="tag tag-open">Computer Vision</span>
+                    <h3>TFM: Conducción Autónoma por Visión</h3>
+                    <span class="tag tag-open">Autonomous Driving</span>
                 </div>
                 <p>
-                    Sistema de percepción y control para un coche autónomo con Jetson Nano. El flujo entrena una UNet ligera de segmentación semántica para detectar circuito y obstáculos, exporta el modelo a ONNX y lo ejecuta en tiempo real con OpenCV DNN/ONNX Runtime. La salida de visión calcula centro de carril, riesgo de obstáculo, dirección y velocidad para enviar comandos al vehículo.
+                    Sistema de conducción autónoma para un coche a escala, centrado en percepción visual, seguimiento de pista y evasión de obstáculos. El proyecto usa un modelo de visión con IA basado en una UNet de segmentación semántica para separar zona transitable y obstáculos; a partir de esas máscaras se calcula el centro de trayectoria, el riesgo frontal y los comandos de dirección/aceleración.
                 </p>
                 <p>
-                    El proyecto demuestra trabajo completo de ingeniería: creación y preparación de dataset, entrenamiento con PyTorch, métricas de validación, optimización para hardware edge, streaming de vídeo Jetson-portátil, comunicación por sockets, watchdog de seguridad y arbitraje entre control manual y autónomo.
+                    La arquitectura combina entrenamiento en PC, inferencia de visión en el portátil, streaming de vídeo desde el coche y envío de control al sistema embebido mediante sockets. Incluye preparación de dataset, anotación, métricas de validación, postprocesado con OpenCV, control manual/autónomo, watchdog de seguridad y comunicación de baja latencia por red.
                 </p>
-                <div class="project-specs" aria-label="Jetson vision project skills summary">
-                    <span><strong>perception</strong> semantic segmentation, masks, ROI, morphology</span>
-                    <span><strong>ml pipeline</strong> dataset prep, PyTorch training, Dice/IoU metrics</span>
-                    <span><strong>deployment</strong> ONNX export, OpenCV DNN, edge runtime</span>
-                    <span><strong>robotics</strong> steering/throttle control, sockets, Jetson integration</span>
+                <div class="project-specs" aria-label="Autonomous driving vision project skills summary">
+                    <span><strong>autonomy</strong> lane tracking, obstacle avoidance, steering/throttle</span>
+                    <span><strong>vision ai</strong> UNet segmentation, masks, ROI, morphology</span>
+                    <span><strong>ml pipeline</strong> annotation, dataset prep, PyTorch, Dice/IoU</span>
+                    <span><strong>embedded</strong> video streaming, UDP/TCP sockets, safety watchdog</span>
                 </div>
                 <div class="tech-stack">
+                    <span>autonomous driving</span>
                     <span>python</span>
                     <span>pytorch</span>
                     <span>opencv</span>
-                    <span>onnx</span>
-                    <span>jetson nano</span>
-                    <span>real-time control</span>
+                    <span>udp sockets</span>
+                    <span>embedded systems</span>
                 </div>
                 <div class="project-links">
                     <a href="img/coche_vision.mp4" target="_blank" class="video-link"><i class="fas fa-play-circle"></i> video demo</a>
