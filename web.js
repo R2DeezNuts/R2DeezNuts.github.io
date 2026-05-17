@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let target = { col: -1, row: -1, active: false };
         let currentPath = [];
         let isSearching = false; 
+        let targetTimeout = null;
 
         function cellCenterX(col) {
             return col * cellSize + (cellSize / 2) + offsetX;
@@ -32,6 +33,11 @@ document.addEventListener('DOMContentLoaded', () => {
             robot.row = cell.j;
             robot.x = cellCenterX(cell.i);
             robot.y = cellCenterY(cell.j);
+        }
+
+        function noiseAt(col, row) {
+            const n = Math.sin((col * 127.1) + (row * 311.7)) * 43758.5453;
+            return n - Math.floor(n);
         }
 
         function pointInRect(x, y, rect) {
@@ -74,9 +80,41 @@ document.addEventListener('DOMContentLoaded', () => {
             return true;
         }
 
+        function queueRandomTarget(delay = 100) {
+            if (targetTimeout) clearTimeout(targetTimeout);
+            targetTimeout = setTimeout(() => {
+                targetTimeout = null;
+                setRandomTarget();
+            }, delay);
+        }
+
+        function cancelQueuedTarget() {
+            if (!targetTimeout) return;
+            clearTimeout(targetTimeout);
+            targetTimeout = null;
+        }
+
+        function recalculateRoute() {
+            if (!target.active) {
+                queueRandomTarget();
+                return false;
+            }
+
+            if (calculatePath()) {
+                cancelQueuedTarget();
+                return true;
+            }
+
+            currentPath = [];
+            target.active = false;
+            queueRandomTarget();
+            return false;
+        }
+
         function refreshContentObstacles() {
             const blockers = getContentBlockers();
             availableCells = [];
+            let robotMoved = false;
 
             for (let i = 0; i < cols; i++) {
                 for (let j = 0; j < rows; j++) {
@@ -92,16 +130,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const robotCell = getCellAtPosition(robot.x, robot.y);
             if (!robotCell || robotCell.isWall) {
-                moveRobotToNearestOpenCell();
+                robotMoved = moveRobotToNearestOpenCell();
                 currentPath = [];
-                target.active = false;
             }
 
             const targetCell = target.active ? grid[target.col] && grid[target.col][target.row] : null;
-            if ((target.active && (!targetCell || targetCell.isWall)) || currentPath.some(cell => cell.isWall)) {
+            if (target.active && (!targetCell || targetCell.isWall)) {
                 currentPath = [];
                 target.active = false;
-                if (!isSearching) setTimeout(setRandomTarget, 100);
+                if (!isSearching) queueRandomTarget();
+                return;
+            }
+
+            if (robotMoved || currentPath.some(cell => cell.isWall)) {
+                currentPath = [];
+                if (!isSearching) recalculateRoute();
             }
         }
 
@@ -116,10 +159,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Generar el mapa respetando el menú superior; las tarjetas visibles se bloquean dinámicamente.
-        function initGrid() {
+        function initGrid({ preserveState = false } = {}) {
+            const oldW = w || window.innerWidth;
+            const oldH = h || window.innerHeight;
+            const previousRobot = preserveState ? {
+                xRatio: oldW > 0 ? robot.x / oldW : 0.5,
+                yRatio: oldH > 0 ? robot.y / oldH : 0.5
+            } : null;
+            const previousTarget = preserveState && target.active ? {
+                xRatio: oldW > 0 ? cellCenterX(target.col) / oldW : 0.5,
+                yRatio: oldH > 0 ? cellCenterY(target.row) / oldH : 0.5
+            } : null;
+
             w = canvas.width = window.innerWidth;
             h = canvas.height = window.innerHeight;
             availableCells = [];
+            currentPath = [];
             
             // 1. Medimos exactamente cuánto ocupa tu menú de navegación
             const nav = document.querySelector('nav');
@@ -140,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
             for (let i = 0; i < cols; i++) {
                 grid[i] = [];
                 for (let j = 0; j < rows; j++) {
-                    const staticWall = Math.random() < 0.04;
+                    const staticWall = noiseAt(i, j) < 0.04;
                     grid[i][j] = { i, j, staticWall, isWall: staticWall, isReserved: false };
                 }
             }
@@ -148,16 +203,39 @@ document.addEventListener('DOMContentLoaded', () => {
             refreshContentObstacles();
 
             if (availableCells.length > 0) {
-                const viewportCenterY = h * 0.5;
-                const initialCell = availableCells.reduce((best, cell) => {
-                    const bestDistance = Math.abs(cellCenterY(best.j) - viewportCenterY);
-                    const cellDistance = Math.abs(cellCenterY(cell.j) - viewportCenterY);
-                    return cellDistance < bestDistance ? cell : best;
-                }, availableCells[0]);
-                setRobotToCell(initialCell);
+                if (previousRobot) {
+                    robot.x = previousRobot.xRatio * w;
+                    robot.y = previousRobot.yRatio * h;
+                    const preservedCell = getCellAtPosition(robot.x, robot.y);
+                    if (preservedCell && !preservedCell.isWall) {
+                        setRobotToCell(preservedCell);
+                    } else {
+                        moveRobotToNearestOpenCell();
+                    }
+                } else {
+                    const viewportCenterY = h * 0.5;
+                    const initialCell = availableCells.reduce((best, cell) => {
+                        const bestDistance = Math.abs(cellCenterY(best.j) - viewportCenterY);
+                        const cellDistance = Math.abs(cellCenterY(cell.j) - viewportCenterY);
+                        return cellDistance < bestDistance ? cell : best;
+                    }, availableCells[0]);
+                    setRobotToCell(initialCell);
+                }
             }
 
-            setTimeout(setRandomTarget, 200);
+            if (previousTarget) {
+                const preservedTarget = getCellAtPosition(previousTarget.xRatio * w, previousTarget.yRatio * h);
+                if (preservedTarget && !preservedTarget.isWall) {
+                    target.col = preservedTarget.i;
+                    target.row = preservedTarget.j;
+                    target.active = true;
+                    recalculateRoute();
+                    return;
+                }
+            }
+
+            target.active = false;
+            queueRandomTarget(200);
         }
 
         let lastW = window.innerWidth;
@@ -168,10 +246,12 @@ document.addEventListener('DOMContentLoaded', () => {
             resizeTimeout = setTimeout(() => {
                 let newW = window.innerWidth;
                 let newH = window.innerHeight;
-                if (Math.abs(lastW - newW) > 100 || Math.abs(lastH - newH) > 100) {
-                    initGrid();
+                if (lastW !== newW || lastH !== newH) {
+                    initGrid({ preserveState: true });
                     lastW = newW;
                     lastH = newH;
+                } else {
+                    refreshContentObstacles();
                 }
             }, 300);
         });
@@ -200,12 +280,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 target.active = true;
 
                 if (calculatePath()) {
+                    cancelQueuedTarget();
                     return;
                 }
             }
 
             target.active = false;
-            setTimeout(setRandomTarget, 300);
+            queueRandomTarget(300);
         }
 
         function heuristic(a, b) {
@@ -349,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     if (currentPath.length === 1) {
                         currentPath = []; 
-                        if (!isSearching) setTimeout(setRandomTarget, 100); 
+                        if (!isSearching) queueRandomTarget();
                     }
                 }
             }
