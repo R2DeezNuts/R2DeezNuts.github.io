@@ -65,6 +65,39 @@
                     <a href="img/video-sumo.mp4" target="_blank" class="video-link"><i class="fas fa-play-circle"></i> video demo</a>
                 </div>
             </section>
+
+            <section class="project-card">
+                <video class="project-media" autoplay muted loop playsinline preload="metadata" data-playback-rate="1.5" aria-label="Autonomous Jetson car vision system demo">
+                    <source src="img/coche_vision.mp4" type="video/mp4">
+                </video>
+                <div class="project-header">
+                    <h3>TFM: Visión Autónoma Jetson</h3>
+                    <span class="tag tag-open">Computer Vision</span>
+                </div>
+                <p>
+                    Sistema de percepción y control para un coche autónomo con Jetson Nano. El flujo entrena una UNet ligera de segmentación semántica para detectar circuito y obstáculos, exporta el modelo a ONNX y lo ejecuta en tiempo real con OpenCV DNN/ONNX Runtime. La salida de visión calcula centro de carril, riesgo de obstáculo, dirección y velocidad para enviar comandos al vehículo.
+                </p>
+                <p>
+                    El proyecto demuestra trabajo completo de ingeniería: creación y preparación de dataset, entrenamiento con PyTorch, métricas de validación, optimización para hardware edge, streaming de vídeo Jetson-portátil, comunicación por sockets, watchdog de seguridad y arbitraje entre control manual y autónomo.
+                </p>
+                <div class="project-specs" aria-label="Jetson vision project skills summary">
+                    <span><strong>perception</strong> semantic segmentation, masks, ROI, morphology</span>
+                    <span><strong>ml pipeline</strong> dataset prep, PyTorch training, Dice/IoU metrics</span>
+                    <span><strong>deployment</strong> ONNX export, OpenCV DNN, edge runtime</span>
+                    <span><strong>robotics</strong> steering/throttle control, sockets, Jetson integration</span>
+                </div>
+                <div class="tech-stack">
+                    <span>python</span>
+                    <span>pytorch</span>
+                    <span>opencv</span>
+                    <span>onnx</span>
+                    <span>jetson nano</span>
+                    <span>real-time control</span>
+                </div>
+                <div class="project-links">
+                    <a href="img/coche_vision.mp4" target="_blank" class="video-link"><i class="fas fa-play-circle"></i> video demo</a>
+                </div>
+            </section>
         
             <section class="project-card">
                 <img src="img/imagen-pendulo.jpeg" alt="Illustrative diagram of Inverted Pendulum closed-loop PID control system" class="project-image" loading="lazy">
