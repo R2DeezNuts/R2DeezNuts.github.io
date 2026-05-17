@@ -75,16 +75,16 @@
                     <span class="tag tag-open">Autonomous Driving</span>
                 </div>
                 <p>
-                    Sistema de conducción autónoma para un coche a escala, centrado en percepción visual, seguimiento de pista y evasión de obstáculos. El proyecto usa un modelo de visión con IA basado en una UNet de segmentación semántica para separar zona transitable y obstáculos; a partir de esas máscaras se calcula el centro de trayectoria, el riesgo frontal y los comandos de dirección/aceleración.
+                    Trabajo de fin de máster orientado a convertir un coche a escala en una plataforma de conducción autónoma por visión. El sistema observa la pista en tiempo real, entiende qué zona es transitable, detecta obstáculos y transforma esa percepción en decisiones de dirección y velocidad.
                 </p>
                 <p>
-                    La arquitectura combina entrenamiento en PC, inferencia de visión en el portátil, streaming de vídeo desde el coche y envío de control al sistema embebido mediante sockets. Incluye preparación de dataset, anotación, métricas de validación, postprocesado con OpenCV, control manual/autónomo, watchdog de seguridad y comunicación de baja latencia por red.
+                    El objetivo no es solo que el coche avance, sino construir una arquitectura completa: captura de vídeo, modelo de visión, postprocesado, decisión autónoma, envío de comandos al hardware y mecanismos de seguridad para alternar entre modo manual y automático durante las pruebas.
                 </p>
                 <div class="project-specs" aria-label="Autonomous driving vision project skills summary">
-                    <span><strong>autonomy</strong> lane tracking, obstacle avoidance, steering/throttle</span>
-                    <span><strong>vision ai</strong> UNet segmentation, masks, ROI, morphology</span>
-                    <span><strong>ml pipeline</strong> annotation, dataset prep, PyTorch, Dice/IoU</span>
-                    <span><strong>embedded</strong> video streaming, UDP/TCP sockets, safety watchdog</span>
+                    <span><strong>autonomy</strong> seguimiento de pista, evasión de obstáculos, steering/throttle</span>
+                    <span><strong>vision ai</strong> modelo UNet, segmentación semántica, máscaras y ROI</span>
+                    <span><strong>ml pipeline</strong> anotación, preparación de dataset, PyTorch, métricas Dice/IoU</span>
+                    <span><strong>embedded</strong> streaming de vídeo, sockets UDP/TCP, watchdog de seguridad</span>
                 </div>
                 <div class="tech-stack">
                     <span>autonomous driving</span>
