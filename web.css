@@ -176,13 +176,22 @@ nav .container {
 }
 
 .project-header {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.75rem;
+    position: relative;
 }
 
 .project-header h3 {
     font-size: 1.25rem;
-    margin-bottom: 0.35rem;
+    margin: 0;
     color: #f8fafc;
+}
+
+.project-divider {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(var(--neon-rgb), 0.10), rgba(255,255,255,0.04));
+    margin: 0 -1.25rem 1rem; /* extend to touch the card border */
 }
 
 .project-subtitle {
