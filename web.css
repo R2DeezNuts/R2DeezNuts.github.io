@@ -214,6 +214,10 @@ nav .container {
     position: absolute;
     inset: 0;
     background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.35));
+    pointer-events: none;
+}
+.youtube-preview.loaded::before {
+    display: none;
 }
 .youtube-play-button {
     position: absolute;
@@ -231,6 +235,9 @@ nav .container {
     place-items: center;
     cursor: pointer;
     transition: transform 0.2s ease, background 0.2s ease;
+}
+.youtube-preview.loaded .youtube-play-button {
+    display: none;
 }
 .youtube-play-button:hover {
     transform: translateX(-50%) scale(1.05);
