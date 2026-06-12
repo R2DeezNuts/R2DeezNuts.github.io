@@ -536,9 +536,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const loadVideo = () => {
             if (preview.classList.contains('loaded')) return;
             const iframe = document.createElement('iframe');
-            iframe.src = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autoplay=1&mute=1&playsinline=1&controls=0&disablekb=1&fs=0&loop=1&playlist=${videoId}&iv_load_policy=3&showinfo=0`;
+            iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1&autoplay=1&mute=1&playsinline=1&controls=0&disablekb=1&fs=0&loop=1&playlist=${videoId}&iv_load_policy=3&enablejsapi=1`;
             iframe.title = 'YouTube preview';
-            iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
+            iframe.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
             iframe.allowFullscreen = true;
             iframe.style.width = '100%';
             iframe.style.height = '100%';
@@ -546,6 +546,7 @@ document.addEventListener('DOMContentLoaded', () => {
             iframe.style.display = 'block';
 
             preview.innerHTML = '';
+            preview.style.backgroundImage = 'none';
             preview.appendChild(iframe);
             preview.classList.add('loaded');
         };
