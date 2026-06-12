@@ -509,4 +509,25 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+
+    // Ensure video previews attempt to autoplay and remove any residual play overlays
+    document.querySelectorAll('video.project-media').forEach(video => {
+        // try to play; if blocked, ensure muted and try again
+        try {
+            const p = video.play();
+            if (p && typeof p.catch === 'function') {
+                p.catch(() => {
+                    video.muted = true;
+                    video.play().catch(() => {});
+                });
+            }
+        } catch (e) {
+            video.muted = true;
+        }
+    });
+
+    // Hide any play-overlay elements just in case
+    document.querySelectorAll('.play-overlay').forEach(el => {
+        el.style.display = 'none';
+    });
 });
