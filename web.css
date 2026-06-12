@@ -157,9 +157,9 @@ nav .container {
 }
 
 .project-card:hover { 
-    transform: translateY(-8px); 
-    border-color: var(--accent-color); 
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); 
+    /* Removed global lift/scale to keep hover effects limited to media previews */
+    transform: none;
+    box-shadow: none;
 }
 
 /* Multimedia (Imágenes/Vídeos) en Tarjetas */
@@ -179,8 +179,15 @@ nav .container {
     position: relative;
     display: block;
 }
+.video-preview {
+    position: relative;
+    display: block;
+    border-radius: 2px;
+    transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
 .video-preview .project-media {
     cursor: pointer;
+    border-radius: 2px;
 }
 .play-overlay {
     position: absolute;
@@ -195,10 +202,9 @@ nav .container {
 }
 
 /* Hover & focus styles to indicate clickability */
-.video-preview:hover .project-media {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.45);
-    border: 1px solid var(--accent-color);
+.video-preview:hover {
+    /* Visual halo/border on hover without moving the element */
+    box-shadow: 0 0 0 4px rgba(56,189,248,0.08);
 }
 .video-preview:focus-visible {
     outline: 3px solid rgba(56,189,248,0.12);
