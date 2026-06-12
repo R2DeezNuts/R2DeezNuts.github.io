@@ -171,6 +171,38 @@ nav .container {
     display: block;
     background-color: #000;
     object-fit: contain;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+/* Clickable video preview linking to external video */
+.video-preview {
+    position: relative;
+    display: block;
+}
+.video-preview .project-media {
+    cursor: pointer;
+}
+.play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255,255,255,0.95);
+    font-size: 3rem;
+    pointer-events: none;
+    text-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+
+/* Hover & focus styles to indicate clickability */
+.video-preview:hover .project-media {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+    border: 1px solid var(--accent-color);
+}
+.video-preview:focus-visible {
+    outline: 3px solid rgba(56,189,248,0.12);
+    outline-offset: 3px;
 }
 
 video.project-media {
