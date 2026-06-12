@@ -171,83 +171,16 @@ nav .container {
     margin-bottom: 1.5rem;
     display: block;
     background-color: #000;
-    /* Aseguramos bordes nítidos sin degradados */
-    mask-image: none !important;
-    -webkit-mask-image: none !important;
     position: relative;
     overflow: hidden;
 }
-.youtube-embed {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-    border-radius: 2px;
-    background: #000;
+
+video.project-media {
+    max-height: 100%;
 }
-.youtube-frame {
-    position: absolute;
-    inset: 0;
-}
-.youtube-embed iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    display: block;
-}
-.youtube-preview {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    position: relative;
-    overflow: hidden;
-    border-radius: 2px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    display: grid;
-    place-items: center;
-    min-height: 200px;
-}
-.youtube-preview::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0.05), rgba(0,0,0,0.35));
-    pointer-events: none;
-}
-.youtube-preview.loaded::before {
-    display: none;
-}
-.youtube-play-button {
-    position: absolute;
-    left: 50%;
-    bottom: 20px;
-    transform: translateX(-50%);
-    z-index: 1;
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.8);
-    background: rgba(0,0,0,0.55);
-    color: #fff;
-    display: grid;
-    place-items: center;
-    cursor: pointer;
-    transition: transform 0.2s ease, background 0.2s ease;
-}
-.youtube-preview.loaded .youtube-play-button {
-    display: none;
-}
-.youtube-play-button:hover {
-    transform: translateX(-50%) scale(1.05);
-    background: rgba(0,0,0,0.75);
-}
-.youtube-play-button i {
-    font-size: 1.2rem;
-}
-.youtube-preview.loaded {
-    cursor: default;
+
+video.project-media::cue {
+    background: rgba(0, 0, 0, 0.8);
 }
 
 .tag { 
