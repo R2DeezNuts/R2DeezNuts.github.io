@@ -209,6 +209,16 @@ video.project-media {
     object-fit: contain;
 }
 
+/* Hide native large play button overlays in Chromium/WebKit */
+video::-webkit-media-controls-start-playback-button,
+video::-webkit-media-controls-overlay-play-button {
+    display: none !important;
+    -webkit-appearance: none;
+}
+video::-webkit-media-controls {
+    display: none !important;
+}
+
 .youtube-embed {
     width: 100%;
     aspect-ratio: 16 / 9;
