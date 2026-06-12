@@ -190,15 +190,9 @@ nav .container {
     border-radius: 2px;
 }
 .play-overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255,255,255,0.95);
-    font-size: 3rem;
+    /* Hidden by default — no overlay play button on video previews */
+    display: none !important;
     pointer-events: none;
-    text-shadow: 0 6px 18px rgba(0,0,0,0.6);
 }
 
 /* Hover & focus styles to indicate clickability */
