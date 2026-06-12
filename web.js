@@ -509,4 +509,36 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     });
+
+    document.querySelectorAll('.youtube-preview').forEach(preview => {
+        const videoId = preview.dataset.youtubeId;
+        if (!videoId) return;
+
+        const loadVideo = () => {
+            if (preview.classList.contains('loaded')) return;
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autoplay=1&mute=1&playsinline=1&controls=0&disablekb=1&fs=0&loop=1&playlist=${videoId}&iv_load_policy=3&showinfo=0`;
+            iframe.title = 'YouTube preview';
+            iframe.allow = 'autoplay; encrypted-media; picture-in-picture';
+            iframe.allowFullscreen = true;
+            iframe.style.width = '100%';
+            iframe.style.height = '100%';
+            iframe.style.border = '0';
+
+            preview.innerHTML = '';
+            preview.appendChild(iframe);
+            preview.classList.add('loaded');
+        };
+
+        preview.addEventListener('click', loadVideo);
+        preview.addEventListener('keydown', event => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                loadVideo();
+            }
+        });
+        preview.setAttribute('tabindex', '0');
+        preview.setAttribute('role', 'button');
+        preview.setAttribute('aria-label', 'Play video');
+    });
 });
