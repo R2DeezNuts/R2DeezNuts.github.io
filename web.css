@@ -252,10 +252,9 @@ nav .container {
 }
 
 /* Hover & focus styles to indicate clickability */
-.video-preview:hover {
-    /* Brighter neon halo on video previews, thin ring + soft glow */
+.video-preview:hover .project-media {
+    /* Keep the neon halo on the video itself so divider lines stay unchanged. */
     box-shadow: 0 0 0 1px rgba(var(--neon-rgb), 0.36), 0 0 5px rgba(var(--neon-rgb), 0.18);
-    z-index: 2;
 }
 .video-preview:focus-visible {
     outline: 3px solid rgba(56,189,248,0.12);
