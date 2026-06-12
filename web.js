@@ -510,9 +510,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    const youtubeThumbnailSizes = ['maxresdefault', 'sddefault', 'hqdefault', 'mqdefault', 'default'];
+
+    function loadYouTubeThumbnail(preview, videoId, index = 0) {
+        if (index >= youtubeThumbnailSizes.length) return;
+        const size = youtubeThumbnailSizes[index];
+        const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/${size}.jpg`;
+        const img = new Image();
+
+        img.onload = () => {
+            preview.style.backgroundImage = `url('${thumbnailUrl}')`;
+        };
+        img.onerror = () => {
+            loadYouTubeThumbnail(preview, videoId, index + 1);
+        };
+        img.src = thumbnailUrl;
+    }
+
     document.querySelectorAll('.youtube-preview').forEach(preview => {
         const videoId = preview.dataset.youtubeId;
         if (!videoId) return;
+
+        loadYouTubeThumbnail(preview, videoId);
 
         const loadVideo = () => {
             if (preview.classList.contains('loaded')) return;
@@ -524,6 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
             iframe.style.width = '100%';
             iframe.style.height = '100%';
             iframe.style.border = '0';
+            iframe.style.display = 'block';
 
             preview.innerHTML = '';
             preview.appendChild(iframe);
