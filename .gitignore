@@ -1,0 +1,9 @@
+### Ignorar vídeos grandes que no se publican en la web
+/img/combate1.mp4
+/img/combate2.mp4
+/img/combate3.mp4
+/img/video-coche.mp4
+
+# Mantener estos archivos trackeados porque se usan en la web
+# /img/coche_vision.mp4
+# /img/video-sumo.mp4
