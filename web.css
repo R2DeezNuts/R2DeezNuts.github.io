@@ -157,9 +157,9 @@ nav .container {
 }
 
 .project-card:hover {
-    /* Neon halo similar to thavlik.dev, no lift/transform */
+    /* Neon halo similar to thavlik.dev, symmetric glow (no downward offset) */
     transform: none;
-    box-shadow: 0 0 0 6px rgba(0,229,255,0.12), 0 12px 30px rgba(0,229,255,0.06);
+    box-shadow: 0 0 0 6px rgba(0,229,255,0.12), 0 0 18px rgba(0,229,255,0.06);
 }
 
 /* Multimedia (Imágenes/Vídeos) en Tarjetas */
@@ -197,8 +197,9 @@ nav .container {
 
 /* Hover & focus styles to indicate clickability */
 .video-preview:hover {
-    /* Neon halo on video preview hover */
-    box-shadow: 0 0 0 6px rgba(0,229,255,0.12), 0 10px 24px rgba(0,229,255,0.06);
+    /* Neon halo on video preview hover — symmetric glow so it matches the video box */
+    box-shadow: 0 0 0 6px rgba(0,229,255,0.14), 0 0 22px rgba(0,229,255,0.08);
+    z-index: 2;
 }
 .video-preview:focus-visible {
     outline: 3px solid rgba(56,189,248,0.12);
