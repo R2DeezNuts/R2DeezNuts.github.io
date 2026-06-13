@@ -1,10 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // --- 1. SIMULADOR DE NAVEGACIÓN AUTÓNOMA (A* PATHFINDING) ---
+    // --- 1. AUTONOMOUS NAVIGATION SIMULATOR (A* PATHFINDING) ---
     const canvas = document.getElementById('bg-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
-        let w, h; // Ancho y alto TOTAL del canvas
+        let w, h; // Full canvas width and height
         
         const cellSize = 28;
         const blockerPadding = 10;
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Generar el mapa respetando el menú superior; las tarjetas visibles se bloquean dinámicamente.
+        // Generate the map around the top menu; visible cards are blocked dynamically.
         function initGrid({ preserveState = false } = {}) {
             const oldW = w || window.innerWidth;
             const oldH = h || window.innerHeight;
@@ -176,17 +176,17 @@ document.addEventListener('DOMContentLoaded', () => {
             availableCells = [];
             currentPath = [];
             
-            // 1. Medimos exactamente cuánto ocupa tu menú de navegación
+            // 1. Measure the exact height of the navigation menu
             const nav = document.querySelector('nav');
-            const navHeight = nav ? nav.offsetHeight : 80; // Si no lo encuentra, asume 80px
+            const navHeight = nav ? nav.offsetHeight : 80; // Fallback to 80px if it is not found
             
-            // 2. Calculamos el espacio real que le queda al mapa
+            // 2. Calculate the real space left for the map
             let availableH = h - navHeight;
             
             cols = Math.floor(w / cellSize);
-            rows = Math.floor(availableH / cellSize); // Usamos solo el alto disponible
+            rows = Math.floor(availableH / cellSize); // Use only the available height
             
-            // 3. Centramos el mapa, empujándolo hacia abajo el tamaño del menú
+            // 3. Center the map and push it down by the menu height
             offsetX = (w - (cols * cellSize)) / 2;
             offsetY = navHeight + (availableH - (rows * cellSize)) / 2;
 
@@ -465,7 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
         draw();
     }
 
-    // --- 2. UTILIDADES DE LA WEB ---
+    // --- 2. WEBSITE UTILITIES ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
