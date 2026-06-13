@@ -47,19 +47,16 @@
                     </video>
                     <span class="play-overlay" aria-hidden="true"><i class="fas fa-play-circle"></i></span>
                 </a>
-                <div class="project-subtitle">Autonomous Sumo robot with ESP32, real-time sensor fusion and competition-grade ring control.</div>
+                <div class="project-subtitle">Autonomous competition robot focused on real-time sensing, decision logic and robust embedded control.</div>
                 <p>
-                    Autonomous sumo robot built on ESP32 and PlatformIO, updated with real competition logic. The firmware runs a 1 kHz control loop, reads four E18 photoelectric sensors to locate the opponent in front and at +/-45 degrees, and uses two front QRE1113 sensors with RC timing reads to detect the edge of the dohyo. The <code>STANDBY</code>, <code>READY</code>, <code>VERSUS</code>, and <code>KILL</code> state machine handles the official 5 s start delay, safety switch, rearming, and diagnostic telemetry.
-                </p>
-                <p>
-                    The strategy prioritizes edge escape, spin recovery, short-term detection memory, alternating search, and direct or corrected attacks depending on the sensor mask. The project includes separate PlatformIO environments for the main firmware, wiring tests, and QRE serial tests, plus Python scripts for motor calibration and UDP control during trials.
+                    Autonomous Sumo robot designed to react quickly in a constrained competitive arena. The project combines real-time embedded C++ control, sensor fusion, finite-state behavior, edge detection, opponent tracking and safety handling to turn noisy sensor input into reliable movement strategies such as searching, escaping, recovering and attacking.
                 </p>
                 <div class="tech-stack">
-                    <span>esp32</span>
-                    <span>platformio</span>
-                    <span>c++ firmware</span>
-                    <span>state machine</span>
+                    <span>embedded systems</span>
+                    <span>embedded c++</span>
+                    <span>real-time control</span>
                     <span>sensor fusion</span>
+                    <span>state machines</span>
                 </div>
                 <div class="project-links">
                     <a href="https://github.com/R2DeezNuts/EggBot-Sumo-Battlebot-" target="_blank"><i class="fab fa-github"></i> source</a>
@@ -78,12 +75,9 @@
                         <source src="img/video-coche.mp4" type="video/mp4">
                     </video>
                 </div>
-                <div class="project-subtitle">Scaled vehicle making real-time semantic segmentation decisions for lane keeping and obstacle avoidance.</div>
+                <div class="project-subtitle">Scaled autonomous vehicle using computer vision and neural perception for lane keeping and obstacle avoidance.</div>
                 <p>
-                    Autonomous driving platform for a scaled vehicle based on neural semantic segmentation. The system interprets each frame to separate drivable space from obstacles, estimates where the vehicle should move next, and turns the model output into steering and speed decisions.
-                </p>
-                <p>
-                    The goal is not just to make the car move, but to build a complete architecture: video capture, neural inference, mask post-processing, autonomous decision-making, hardware command delivery, and safety mechanisms for switching between manual and automatic modes during tests.
+                    Scaled autonomous driving platform built to perceive a track from camera input and convert that perception into steering and throttle decisions. The project brings together Python, PyTorch, OpenCV, semantic segmentation, dataset preparation, mask post-processing, real-time decision logic and embedded communication to create a complete loop from video capture to vehicle control.
                 </p>
                 <div class="tech-stack">
                     <span>autonomous driving</span>
@@ -94,6 +88,7 @@
                     <span>embedded systems</span>
                 </div>
                 <div class="project-links">
+                    <a href="https://github.com/R2DeezNuts/jetson-racer" target="_blank"><i class="fab fa-github"></i> source</a>
                     <a href="https://youtu.be/iftXwQ2Pxf0" target="_blank" class="video-link"><i class="fas fa-play-circle"></i> video demo</a>
                 </div>
             </section>
@@ -107,9 +102,9 @@
                 <div class="image-preview">
                     <img src="img/imagen-pendulo.jpeg" alt="Illustrative diagram of Inverted Pendulum closed-loop PID control system" class="project-image" loading="lazy">
                 </div>
-                <div class="project-subtitle">Closed-loop PID balancing demo with real-time feedback on ESP32.</div>
+                <div class="project-subtitle">Closed-loop control project for stabilizing an inherently unstable dynamic system.</div>
                 <p>
-                    Real-time dynamic stabilization of an inherently unstable mechanical system. Deterministic implementation of a closed-loop PID controller running on a strict 100 Hz cycle on an ESP32 microcontroller. The system integrates digital filtering algorithms to reduce noise in sensor telemetry, continuously computes tilt error, and empirically tunes the proportional, integral, and derivative constants (Kp, Ki, Kd). The algorithm output generates high-resolution PWM signals for the motor drivers, enabling smooth, precise position correction without parasitic oscillations.
+                    Inverted pendulum control project focused on stabilizing an inherently unstable mechanical system through closed-loop feedback. It applies real-time embedded control, PID tuning, digital signal filtering, sensor telemetry processing and actuator command generation to continuously estimate the tilt error and correct the system with smooth, precise motor response.
                 </p>
                 <div class="tech-stack">
                     <span>pid control loop</span>
@@ -133,16 +128,13 @@
                         <source src="img/sumo-vision.mp4" type="video/mp4">
                     </video>
                 </div>
-                <div class="project-subtitle">Laptop-side OpenCV control stack receiving ESP32-CAM video and sending real-time UDP commands to the Sumo robot.</div>
+                <div class="project-subtitle">Computer vision control stack for turning live camera input into autonomous Sumo robot commands.</div>
                 <p>
-                    Modular vision pipeline for the Sumo platform, launched from a laptop and connected to an ESP32-CAM video stream. The system listens for UDP frames on port 5005, reconstructs the camera feed, applies OpenCV processing with perspective correction, ROI masking, dark-line detection, contour analysis and object detection, then estimates the lane center, confidence and steering offset for each frame.
-                </p>
-                <p>
-                    The control layer combines automatic and manual modes, a PID-style steering correction, corner handling from single-line detections, and a reactive object-ejection protocol that focuses, approaches, pushes and rejoins the route. A diagnostic OpenCV dashboard shows the camera decision view, mask, detected ROI and bird/debug view, while the sender translates high-level actions into ASCII UDP motor commands with rate limiting and safe stop on exit.
+                    Vision-based control system for extending the Sumo platform with live perception and autonomous command generation. The project combines Python, OpenCV, UDP video streaming, perspective correction, ROI masking, contour-based line and object detection, PID-style steering, manual/automatic modes and a diagnostic dashboard to transform camera frames into safe, rate-limited robot actions.
                 </p>
                 <div class="tech-stack">
-                    <span>esp32-cam</span>
-                    <span>udp video</span>
+                    <span>embedded vision</span>
+                    <span>udp streaming</span>
                     <span>computer vision</span>
                     <span>opencv</span>
                     <span>perspective warp</span>
@@ -151,6 +143,7 @@
                     <span>manual/auto control</span>
                 </div>
                 <div class="project-links">
+                    <a href="https://github.com/R2DeezNuts/sumo-vision" target="_blank"><i class="fab fa-github"></i> source</a>
                     <a><i class="fas fa-wrench"></i> active prototype</a>
                 </div>
             </section>
