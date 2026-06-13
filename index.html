@@ -122,24 +122,36 @@
                 </div>
             </section>
 
-            <section class="project-card placeholder-card">
+            <section class="project-card">
                 <div class="project-header">
-                    <h3>CV Sumo Upgrade</h3>
+                    <h3>Vision-Based Sumo Control</h3>
                     
                 </div>
                     <hr class="project-divider" aria-hidden="true">
-                <div class="project-subtitle">Next-gen vision system for opponent tracking and predictive maneuvering.</div>
+                <div class="video-preview">
+                    <video autoplay muted loop playsinline class="project-media" preload="metadata">
+                        <source src="img/sumo-vision.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="project-subtitle">Laptop-side OpenCV control stack receiving ESP32-CAM video and sending real-time UDP commands to the Sumo robot.</div>
                 <p>
-                    Evolution of the Sumo combat platform toward advanced spatial perception. This research-stage project aims to replace the one-dimensional infrared sensor array with a computer vision system integrated into the chassis. The architecture will offload visual processing to dedicated hardware running lightweight object-detection models (OpenCV) to identify the opponent's position, distance, and trajectory. The extracted vector data will feed the main ESP32 so it can run predictive navigation algorithms and dynamic interception tactics on the dohyo.
+                    Modular vision pipeline for the Sumo platform, launched from a laptop and connected to an ESP32-CAM video stream. The system listens for UDP frames on port 5005, reconstructs the camera feed, applies OpenCV processing with perspective correction, ROI masking, dark-line detection, contour analysis and object detection, then estimates the lane center, confidence and steering offset for each frame.
+                </p>
+                <p>
+                    The control layer combines automatic and manual modes, a PID-style steering correction, corner handling from single-line detections, and a reactive object-ejection protocol that focuses, approaches, pushes and rejoins the route. A diagnostic OpenCV dashboard shows the camera decision view, mask, detected ROI and bird/debug view, while the sender translates high-level actions into ASCII UDP motor commands with rate limiting and safe stop on exit.
                 </p>
                 <div class="tech-stack">
+                    <span>esp32-cam</span>
+                    <span>udp video</span>
                     <span>computer vision</span>
                     <span>opencv</span>
-                    <span>edge computing</span>
-                    <span>predictive navigation</span>
+                    <span>perspective warp</span>
+                    <span>pid steering</span>
+                    <span>object ejection</span>
+                    <span>manual/auto control</span>
                 </div>
                 <div class="project-links">
-                    <a><i class="fas fa-lock"></i> in development</a>
+                    <a><i class="fas fa-wrench"></i> active prototype</a>
                 </div>
             </section>
         
