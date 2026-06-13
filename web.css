@@ -356,31 +356,35 @@ video.project-media::cue {
     --tag-rgb: 56, 189, 248;
     font-size: 0.7rem; 
     padding: 4px 10px; 
-    background: rgba(var(--tag-rgb), 0.11); 
-    border: 1px solid rgba(var(--tag-rgb), 0.5); 
+    background: rgba(var(--tag-rgb), 0.08); 
+    border: 1px solid rgba(var(--tag-rgb), 0.38); 
     color: rgb(var(--tag-rgb)); 
-    box-shadow: 0 0 12px rgba(var(--tag-rgb), 0.16);
-    text-shadow: 0 0 10px rgba(var(--tag-rgb), 0.3);
+    box-shadow: none;
+    text-shadow: 0 0 8px rgba(var(--tag-rgb), 0.18);
 }
 
-.tech-stack span:nth-child(5n + 1) {
-    --tag-rgb: 56, 189, 248;
+.tech-stack span:nth-child(6n + 1) {
+    --tag-rgb: 255, 132, 76;
 }
 
-.tech-stack span:nth-child(5n + 2) {
-    --tag-rgb: 45, 212, 191;
+.tech-stack span:nth-child(6n + 2) {
+    --tag-rgb: 181, 137, 255;
 }
 
-.tech-stack span:nth-child(5n + 3) {
-    --tag-rgb: 163, 230, 53;
+.tech-stack span:nth-child(6n + 3) {
+    --tag-rgb: 255, 180, 48;
 }
 
-.tech-stack span:nth-child(5n + 4) {
-    --tag-rgb: 244, 114, 182;
+.tech-stack span:nth-child(6n + 4) {
+    --tag-rgb: 78, 190, 255;
 }
 
-.tech-stack span:nth-child(5n + 5) {
-    --tag-rgb: 250, 204, 21;
+.tech-stack span:nth-child(6n + 5) {
+    --tag-rgb: 0, 217, 255;
+}
+
+.tech-stack span:nth-child(6n + 6) {
+    --tag-rgb: 76, 134, 255;
 }
 
 /* Project buttons and links */
