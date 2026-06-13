@@ -353,12 +353,34 @@ video.project-media::cue {
 }
 
 .tech-stack span { 
+    --tag-rgb: 56, 189, 248;
     font-size: 0.7rem; 
     padding: 4px 10px; 
-    background: rgba(255,255,255,0.03); 
-    border: 1px solid var(--border-color); 
-    color: #94a3b8; 
+    background: rgba(var(--tag-rgb), 0.06); 
+    border: 1px solid rgba(var(--tag-rgb), 0.28); 
+    color: rgb(var(--tag-rgb)); 
+    box-shadow: 0 0 8px rgba(var(--tag-rgb), 0.07);
     text-transform: lowercase; /* Thavlik style */
+}
+
+.tech-stack span:nth-child(5n + 1) {
+    --tag-rgb: 56, 189, 248;
+}
+
+.tech-stack span:nth-child(5n + 2) {
+    --tag-rgb: 45, 212, 191;
+}
+
+.tech-stack span:nth-child(5n + 3) {
+    --tag-rgb: 163, 230, 53;
+}
+
+.tech-stack span:nth-child(5n + 4) {
+    --tag-rgb: 244, 114, 182;
+}
+
+.tech-stack span:nth-child(5n + 5) {
+    --tag-rgb: 250, 204, 21;
 }
 
 /* Project buttons and links */
