@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -49,17 +49,11 @@
                 </a>
                 <div class="project-subtitle">Autonomous Sumo robot with ESP32, real-time sensor fusion and competition-grade ring control.</div>
                 <p>
-                    Robot sumo autónomo sobre ESP32 y PlatformIO, actualizado con la lógica real de competición. El firmware ejecuta un ciclo de control a 1 kHz, lee cuatro sensores fotoeléctricos E18 para localizar al rival en frente y a ±45°, y usa dos QRE1113 frontales con lectura por timing RC para detectar el borde del dohyo. La máquina de estados <code>STANDBY</code>, <code>READY</code>, <code>VERSUS</code> y <code>KILL</code> gestiona el retardo reglamentario de 5 s, el switch de seguridad, el rearme y la telemetría de diagnóstico.
+                    Autonomous sumo robot built on ESP32 and PlatformIO, updated with real competition logic. The firmware runs a 1 kHz control loop, reads four E18 photoelectric sensors to locate the opponent in front and at +/-45 degrees, and uses two front QRE1113 sensors with RC timing reads to detect the edge of the dohyo. The <code>STANDBY</code>, <code>READY</code>, <code>VERSUS</code>, and <code>KILL</code> state machine handles the official 5 s start delay, safety switch, rearming, and diagnostic telemetry.
                 </p>
                 <p>
-                    La estrategia prioriza escape de borde, recuperación con giro, retención temporal de detecciones, búsqueda alternante y ataque directo o corregido según la máscara de sensores. El proyecto incluye entornos PlatformIO separados para firmware principal, test de cableado y test serie de QRE, además de scripts Python para calibración de motores y control UDP durante pruebas.
+                    The strategy prioritizes edge escape, spin recovery, short-term detection memory, alternating search, and direct or corrected attacks depending on the sensor mask. The project includes separate PlatformIO environments for the main firmware, wiring tests, and QRE serial tests, plus Python scripts for motor calibration and UDP control during trials.
                 </p>
-                <div class="project-specs" aria-label="Sumo battlebot technical summary">
-                    <span><strong>control</strong> 1 kHz loop / 10 Hz telemetry</span>
-                    <span><strong>sensors</strong> 4x E18 + 2x QRE1113</span>
-                    <span><strong>drive</strong> dual DC motors / 20 kHz PWM</span>
-                    <span><strong>safety</strong> switch debounce + kill latch</span>
-                </div>
                 <div class="tech-stack">
                     <span>esp32</span>
                     <span>platformio</span>
@@ -75,7 +69,7 @@
 
             <section class="project-card">
                 <div class="project-header">
-                    <h3>Conducción Autónoma con Redes Neuronales</h3>
+                    <h3>Autonomous Driving with Neural Networks</h3>
                     
                 </div>
                     <hr class="project-divider" aria-hidden="true">
@@ -86,17 +80,11 @@
                 </div>
                 <div class="project-subtitle">Scaled vehicle making real-time semantic segmentation decisions for lane keeping and obstacle avoidance.</div>
                 <p>
-                    Plataforma de conducción autónoma para un coche a escala basada en segmentación semántica con redes neuronales. El sistema interpreta cada frame para separar zona transitable y obstáculos, estima por dónde debe avanzar el vehículo y transforma esa salida del modelo en decisiones de dirección y velocidad.
+                    Autonomous driving platform for a scaled vehicle based on neural semantic segmentation. The system interprets each frame to separate drivable space from obstacles, estimates where the vehicle should move next, and turns the model output into steering and speed decisions.
                 </p>
                 <p>
-                    El objetivo no es solo que el coche avance, sino construir una arquitectura completa: captura de vídeo, inferencia neuronal, postprocesado de máscaras, decisión autónoma, envío de comandos al hardware y mecanismos de seguridad para alternar entre modo manual y automático durante las pruebas.
+                    The goal is not just to make the car move, but to build a complete architecture: video capture, neural inference, mask post-processing, autonomous decision-making, hardware command delivery, and safety mechanisms for switching between manual and automatic modes during tests.
                 </p>
-                <div class="project-specs" aria-label="Neural autonomous driving project skills summary">
-                    <span><strong>autonomy</strong> seguimiento de pista, evasión de obstáculos, steering/throttle</span>
-                    <span><strong>neural model</strong> UNet, segmentación semántica, máscaras y ROI</span>
-                    <span><strong>ml pipeline</strong> anotación, preparación de dataset, PyTorch, métricas Dice/IoU</span>
-                    <span><strong>embedded</strong> streaming de vídeo, sockets UDP/TCP, watchdog de seguridad</span>
-                </div>
                 <div class="tech-stack">
                     <span>autonomous driving</span>
                     <span>python</span>
@@ -112,14 +100,14 @@
         
             <section class="project-card">
                 <div class="project-header">
-                    <h3>Péndulo Invertido</h3>
+                    <h3>Inverted Pendulum</h3>
                     
                 </div>
                     <hr class="project-divider" aria-hidden="true">
                 <img src="img/imagen-pendulo.jpeg" alt="Illustrative diagram of Inverted Pendulum closed-loop PID control system" class="project-image" loading="lazy">
                 <div class="project-subtitle">Closed-loop PID balancing demo with real-time feedback on ESP32.</div>
                 <p>
-                    Estabilización dinámica en tiempo real de un sistema mecánico inherentemente inestable. Implementación determinista de un controlador PID de lazo cerrado operando bajo un ciclo de trabajo estricto de 100 Hz sobre un microcontrolador ESP32. El sistema integra algoritmos de filtrado digital para mitigar el ruido en la adquisición de telemetría de los sensores, cálculo continuo del error de inclinación y ajuste fino empírico de las constantes proporcionales, integrales y derivativas (Kp, Ki, Kd). La salida del algoritmo genera señales PWM de alta resolución que comandan los drivers del motor, asegurando una corrección de position suave, milimétrica y sin oscilaciones parásitas.
+                    Real-time dynamic stabilization of an inherently unstable mechanical system. Deterministic implementation of a closed-loop PID controller running on a strict 100 Hz cycle on an ESP32 microcontroller. The system integrates digital filtering algorithms to reduce noise in sensor telemetry, continuously computes tilt error, and empirically tunes the proportional, integral, and derivative constants (Kp, Ki, Kd). The algorithm output generates high-resolution PWM signals for the motor drivers, enabling smooth, precise position correction without parasitic oscillations.
                 </p>
                 <div class="tech-stack">
                     <span>pid control loop</span>
@@ -140,7 +128,7 @@
                     <hr class="project-divider" aria-hidden="true">
                 <div class="project-subtitle">Next-gen vision system for opponent tracking and predictive maneuvering.</div>
                 <p>
-                    Evolución de la plataforma de combate Sumo hacia la percepción espacial avanzada. Este proyecto en fase de investigación busca sustituir la matriz de sensores infrarrojos unidimensionales por un sistema de visión artificial integrado en el chasis. La arquitectura delegará el procesamiento visual a un hardware dedicado ejecutando modelos ligeros de detección de objetos (OpenCV) para identificar la posición, distancia y trayectoria del oponente. Los datos vectoriales extraídos alimentarán el ESP32 principal para ejecutar algoritmos de navegación predictiva y tácticas de intercepción dinámica en el dohyo.
+                    Evolution of the Sumo combat platform toward advanced spatial perception. This research-stage project aims to replace the one-dimensional infrared sensor array with a computer vision system integrated into the chassis. The architecture will offload visual processing to dedicated hardware running lightweight object-detection models (OpenCV) to identify the opponent's position, distance, and trajectory. The extracted vector data will feed the main ESP32 so it can run predictive navigation algorithms and dynamic interception tactics on the dohyo.
                 </p>
                 <div class="tech-stack">
                     <span>computer vision</span>
@@ -165,10 +153,10 @@
             <a href="https://www.linkedin.com/in/juan-jos%C3%A9-prado-neira-820041252/?locale=en-US" target="_blank">LinkedIn</a> •
             <span class="copy-email">email</span>
         </div>
-        <button id="back-to-top">Volver arriba ↑</button>
+        <button id="back-to-top">Back to top ↑</button>
     </footer>
 
-    <div id="toast" class="toast">¡Email copiado!</div>
+    <div id="toast" class="toast">Email copied!</div>
 
     <script src="web.js"></script>
 </body>

@@ -1,4 +1,4 @@
-/* --- FONDO DINÁMICO --- */
+/* --- DYNAMIC BACKGROUND --- */
 #bg-canvas { 
     position: fixed; 
     top: 0; 
@@ -7,7 +7,7 @@
     background: #0b0f14; 
 }
 
-/* --- VARIABLES UNIFICADAS --- */
+/* --- SHARED VARIABLES --- */
 :root {
     --text-color: #f8fafc; 
     --accent-color: #38bdf8; 
@@ -41,7 +41,7 @@ body {
     padding: 0 2rem; 
 }
 
-/* --- NAVEGACIÓN --- */
+/* --- NAVIGATION --- */
 nav { 
     border-bottom: 1px solid var(--border-color); 
     padding: 1.5rem 0; 
@@ -142,7 +142,7 @@ nav .container {
     animation: loading 2s infinite linear; 
 }
 
-/* --- GRID DE PROYECTOS --- */
+/* --- PROJECT GRID --- */
 .project-grid { 
     display: grid; 
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
@@ -166,7 +166,7 @@ nav .container {
     box-shadow: 0 0 0 1px rgba(var(--neon-rgb), 0.32), 0 0 5px rgba(var(--neon-rgb), 0.16);
 }
 
-/* Multimedia (Imágenes/Vídeos) en Tarjetas */
+/* Card media (images/videos) */
 .project-media {
     width: 100%;
     height: 100%;
@@ -223,7 +223,6 @@ nav .container {
 /* TEXT AREA (lightest tone = current card background) */
 .project-subtitle,
 .project-card p,
-.project-specs,
 .tech-stack,
 .project-links {
     padding: 0.75rem 1.25rem;
@@ -333,31 +332,6 @@ video.project-media::cue {
     font-size: 0.82rem;
 }
 
-.project-specs {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    margin: 0;
-    padding: 0.75rem 1.25rem;
-}
-
-.project-specs span {
-    border: 1px solid var(--border-color);
-    background: rgba(56, 189, 248, 0.04);
-    color: #94a3b8;
-    font-size: 0.72rem;
-    line-height: 1.35;
-    padding: 0.65rem;
-}
-
-.project-specs strong {
-    display: block;
-    color: var(--text-color);
-    font-size: 0.68rem;
-    margin-bottom: 0.2rem;
-    text-transform: uppercase;
-}
-
 .tech-stack { 
     display: flex; 
     flex-wrap: wrap; 
@@ -372,10 +346,10 @@ video.project-media::cue {
     background: rgba(255,255,255,0.03); 
     border: 1px solid var(--border-color); 
     color: #94a3b8; 
-    text-transform: lowercase; /* Estilo Thavlik */
+    text-transform: lowercase; /* Thavlik style */
 }
 
-/* Botones y Enlaces de Proyectos */
+/* Project buttons and links */
 .project-links { 
     margin: 0;
     padding: 0.75rem 1.25rem;
@@ -393,7 +367,7 @@ video.project-media::cue {
     display: flex;
     align-items: center;
     gap: 8px;
-    text-transform: lowercase; /* Estilo Thavlik */
+    text-transform: lowercase; /* Thavlik style */
 }
 
 .project-links a:hover { 
@@ -401,7 +375,7 @@ video.project-media::cue {
     color: var(--text-color); 
 }
 
-/* Color especial para el botón de vídeo */
+/* Special color for the video button */
 .video-link {
     color: var(--wip-color) !important;
 }
@@ -495,8 +469,3 @@ footer hr {
     98% { transform: skewX(15deg); } 
 }
 
-@media (max-width: 520px) {
-    .project-specs {
-        grid-template-columns: 1fr;
-    }
-}
