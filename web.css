@@ -356,11 +356,11 @@ video.project-media::cue {
     --tag-rgb: 56, 189, 248;
     font-size: 0.7rem; 
     padding: 4px 10px; 
-    background: rgba(var(--tag-rgb), 0.06); 
-    border: 1px solid rgba(var(--tag-rgb), 0.28); 
+    background: rgba(var(--tag-rgb), 0.11); 
+    border: 1px solid rgba(var(--tag-rgb), 0.5); 
     color: rgb(var(--tag-rgb)); 
-    box-shadow: 0 0 8px rgba(var(--tag-rgb), 0.07);
-    text-transform: lowercase; /* Thavlik style */
+    box-shadow: 0 0 12px rgba(var(--tag-rgb), 0.16);
+    text-shadow: 0 0 10px rgba(var(--tag-rgb), 0.3);
 }
 
 .tech-stack span:nth-child(5n + 1) {
