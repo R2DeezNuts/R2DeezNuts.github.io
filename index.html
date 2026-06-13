@@ -104,7 +104,9 @@
                     
                 </div>
                     <hr class="project-divider" aria-hidden="true">
-                <img src="img/imagen-pendulo.jpeg" alt="Illustrative diagram of Inverted Pendulum closed-loop PID control system" class="project-image" loading="lazy">
+                <div class="image-preview">
+                    <img src="img/imagen-pendulo.jpeg" alt="Illustrative diagram of Inverted Pendulum closed-loop PID control system" class="project-image" loading="lazy">
+                </div>
                 <div class="project-subtitle">Closed-loop PID balancing demo with real-time feedback on ESP32.</div>
                 <p>
                     Real-time dynamic stabilization of an inherently unstable mechanical system. Deterministic implementation of a closed-loop PID controller running on a strict 100 Hz cycle on an ESP32 microcontroller. The system integrates digital filtering algorithms to reduce noise in sensor telemetry, continuously computes tilt error, and empirically tunes the proportional, integral, and derivative constants (Kp, Ki, Kd). The algorithm output generates high-resolution PWM signals for the motor drivers, enabling smooth, precise position correction without parasitic oscillations.
