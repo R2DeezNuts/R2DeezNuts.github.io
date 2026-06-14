@@ -371,23 +371,32 @@ video.project-media::cue {
     --tag-rgb: 181, 137, 255;
 }
 
-.tag-sensor-fusion,
-.tag-pid {
+.tag-sensor-fusion {
     --tag-rgb: 255, 180, 48;
 }
 
-.tag-autonomous,
-.tag-python {
+.tag-pid {
+    --tag-rgb: 214, 255, 64;
+}
+
+.tag-autonomous {
     --tag-rgb: 78, 190, 255;
+}
+
+.tag-python {
+    --tag-rgb: 90, 160, 255;
 }
 
 .tag-pytorch {
     --tag-rgb: 244, 114, 182;
 }
 
-.tag-opencv,
-.tag-classic-vision {
+.tag-opencv {
     --tag-rgb: 0, 217, 255;
+}
+
+.tag-classic-vision {
+    --tag-rgb: 45, 212, 191;
 }
 
 .tag-control {
