@@ -363,6 +363,41 @@ video.project-media::cue {
     text-shadow: 0 0 8px rgba(var(--tag-rgb), 0.18);
 }
 
+.tag-embedded {
+    --tag-rgb: 255, 132, 76;
+}
+
+.tag-cpp {
+    --tag-rgb: 181, 137, 255;
+}
+
+.tag-sensor-fusion,
+.tag-pid {
+    --tag-rgb: 255, 180, 48;
+}
+
+.tag-autonomous,
+.tag-python {
+    --tag-rgb: 78, 190, 255;
+}
+
+.tag-pytorch {
+    --tag-rgb: 244, 114, 182;
+}
+
+.tag-opencv,
+.tag-classic-vision {
+    --tag-rgb: 0, 217, 255;
+}
+
+.tag-control {
+    --tag-rgb: 76, 134, 255;
+}
+
+.tag-custom-pcb {
+    --tag-rgb: 34, 197, 94;
+}
+
 /* Project buttons and links */
 .project-links { 
     margin: 0;
