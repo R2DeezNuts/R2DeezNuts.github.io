@@ -363,30 +363,6 @@ video.project-media::cue {
     text-shadow: 0 0 8px rgba(var(--tag-rgb), 0.18);
 }
 
-.tech-stack span:nth-child(6n + 1) {
-    --tag-rgb: 255, 132, 76;
-}
-
-.tech-stack span:nth-child(6n + 2) {
-    --tag-rgb: 181, 137, 255;
-}
-
-.tech-stack span:nth-child(6n + 3) {
-    --tag-rgb: 255, 180, 48;
-}
-
-.tech-stack span:nth-child(6n + 4) {
-    --tag-rgb: 78, 190, 255;
-}
-
-.tech-stack span:nth-child(6n + 5) {
-    --tag-rgb: 0, 217, 255;
-}
-
-.tech-stack span:nth-child(6n + 6) {
-    --tag-rgb: 76, 134, 255;
-}
-
 /* Project buttons and links */
 .project-links { 
     margin: 0;
