@@ -197,11 +197,6 @@ nav .container {
     color: var(--text-color);
 }
 
-.project-divider {
-    /* keep any inserted <hr> hidden */
-    display: none;
-}
-
 /* MEDIA / CONTENT BACKGROUND (middle tone) */
 .video-preview,
 .image-preview {
@@ -263,12 +258,6 @@ nav .container {
     cursor: pointer;
     border-radius: 2px;
 }
-.play-overlay {
-    /* Hidden by default — no overlay play button on video previews */
-    display: none !important;
-    pointer-events: none;
-}
-
 /* Hover & focus styles to indicate clickability */
 .video-preview:hover .project-media {
     /* Keep the neon halo on the video itself so divider lines stay unchanged. */
@@ -283,72 +272,11 @@ video.project-media {
     object-fit: cover;
 }
 
-/* Hide native large play button overlays in Chromium/WebKit */
-video::-webkit-media-controls-start-playback-button,
-video::-webkit-media-controls-overlay-play-button {
-    display: none !important;
-    -webkit-appearance: none;
-}
-video::-webkit-media-controls {
-    display: none !important;
-}
-
-.youtube-embed {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    position: relative;
-    overflow: hidden;
-    border-radius: 2px;
-    background: #000;
-    margin-bottom: 1.5rem;
-}
-
-.youtube-frame {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
-.youtube-embed video,
-.youtube-embed iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    display: block;
-    object-fit: contain;
-}
-
-video.project-media::cue {
-    background: rgba(0, 0, 0, 0.8);
-}
-
-.tag { 
-    font-size: 0.65rem; 
-    padding: 2px 8px; 
-    border-radius: 2px; 
-    text-transform: uppercase; 
-    font-weight: bold; 
-}
-
-.tag-open { 
-    background: rgba(46, 204, 113, 0.1); 
-    color: #2ecc71; 
-    border: 1px solid #2ecc71; 
-}
-
 .project-card p {
     color: #cbd5e1;
     font-size: 0.9rem;
     margin: 0;
     padding: 0.75rem 1.25rem;
-}
-
-.project-card code {
-    color: var(--accent-color);
-    font-family: var(--font-main);
-    font-size: 0.82rem;
 }
 
 .tech-stack { 
@@ -359,7 +287,7 @@ video.project-media::cue {
     padding: 0.75rem 1.25rem;
 }
 
-.tech-stack span { 
+.tech-tag {
     --tag-rgb: 56, 189, 248;
     font-size: 0.7rem; 
     padding: 4px 10px; 
@@ -368,50 +296,6 @@ video.project-media::cue {
     color: rgb(var(--tag-rgb));
     box-shadow: none;
     text-shadow: 0 0 8px rgba(var(--tag-rgb), 0.18);
-}
-
-.tag-embedded {
-    --tag-rgb: 255, 132, 76;
-}
-
-.tag-cpp {
-    --tag-rgb: 181, 137, 255;
-}
-
-.tag-sensor-fusion {
-    --tag-rgb: 255, 180, 48;
-}
-
-.tag-pid {
-    --tag-rgb: 214, 255, 64;
-}
-
-.tag-autonomous {
-    --tag-rgb: 78, 190, 255;
-}
-
-.tag-python {
-    --tag-rgb: 90, 160, 255;
-}
-
-.tag-pytorch {
-    --tag-rgb: 244, 114, 182;
-}
-
-.tag-opencv {
-    --tag-rgb: 0, 217, 255;
-}
-
-.tag-classic-vision {
-    --tag-rgb: 45, 212, 191;
-}
-
-.tag-control {
-    --tag-rgb: 76, 134, 255;
-}
-
-.tag-custom-pcb {
-    --tag-rgb: 34, 197, 94;
 }
 
 /* Project buttons and links */
