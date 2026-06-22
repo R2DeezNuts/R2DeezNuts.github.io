@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     // --- 1. AUTONOMOUS NAVIGATION SIMULATOR (A* PATHFINDING) ---
     const canvas = document.getElementById('bg-canvas');
-    if (canvas) {
+    if (canvas && !prefersReducedMotion) {
         const ctx = canvas.getContext('2d');
         let w, h; // Full canvas width and height
         
@@ -470,13 +471,15 @@ document.addEventListener('DOMContentLoaded', () => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
-            if (target) target.scrollIntoView({ behavior: 'smooth' });
+            if (target) target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
         });
     });
 
     const backToTopBtn = document.getElementById('back-to-top');
     if (backToTopBtn) {
-        backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
     }
 
     document.querySelectorAll('video[data-playback-rate]').forEach(video => {
@@ -501,17 +504,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const toast = document.getElementById('toast');
-    document.querySelectorAll('.copy-email').forEach(btn => {
-        btn.addEventListener('click', () => {
-            navigator.clipboard.writeText('juanjosepradoneira@gmail.com').then(() => {
+    document.querySelectorAll('[data-copy-email]').forEach(link => {
+        link.addEventListener('click', async () => {
+            if (!navigator.clipboard || !window.isSecureContext) return;
+
+            try {
+                await navigator.clipboard.writeText(link.dataset.copyEmail);
+                if (!toast) return;
                 toast.classList.add('show');
                 setTimeout(() => toast.classList.remove('show'), 2000);
-            });
+            } catch (_) {
+                // mailto still works if clipboard permission is unavailable.
+            }
         });
     });
 
     // Ensure video previews attempt to autoplay and remove any residual play overlays
-    document.querySelectorAll('video.project-media').forEach(video => {
+    if (!prefersReducedMotion) document.querySelectorAll('video.project-media').forEach(video => {
         // try to play; if blocked, ensure muted and try again
         try {
             const p = video.play();
