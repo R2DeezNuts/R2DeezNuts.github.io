@@ -17,7 +17,8 @@
     --neon-rgb: 0, 255, 200; /* bright cyan-green neon */
     --header-bg: #0b0f14;
     --content-bg: #0f1724;
-    --font-main: 'JetBrains Mono', 'Courier New', monospace;
+    --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-mono: 'JetBrains Mono', 'Courier New', monospace;
 }
 
 /* --- RESET & BASE --- */
@@ -60,10 +61,12 @@ nav .container {
 
 .logo { 
     font-weight: bold; 
-    letter-spacing: -1px; 
+    letter-spacing: 0;
+    font-family: var(--font-mono);
 }
 
 .menu a { 
+    font-family: var(--font-mono);
     margin-left: 20px; 
     font-size: 0.9rem; 
     opacity: 0.8; 
@@ -75,6 +78,7 @@ nav .container {
     opacity: 1; 
 }
 .menu a:focus-visible,
+.hero-links a:focus-visible,
 .project-links a:focus-visible,
 .social-links a:focus-visible,
 #back-to-top:focus-visible {
@@ -84,7 +88,7 @@ nav .container {
 
 /* --- HERO SECTION --- */
 .hero { 
-    padding: 8rem 2rem; 
+    padding: 8rem 2rem 7rem;
     display: flex; 
     flex-direction: column; 
     align-items: center; 
@@ -96,57 +100,48 @@ nav .container {
     color: var(--accent-color); 
     text-shadow: 0 0 30px rgba(56, 189, 248, 0.3); 
     margin-bottom: 0.5rem; 
-    letter-spacing: -2px; 
+    letter-spacing: 0;
+    max-width: 900px;
+}
+
+.hero-eyebrow {
+    color: var(--wip-color);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
 }
 
 .description { 
     color: #94a3b8; 
-    max-width: 600px; 
+    max-width: 760px;
     font-size: 1.1rem; 
 }
 
-/* --- WIP SYSTEM --- */
-.wip-container { 
-    margin: 1.5rem 0; 
-    display: flex; 
-    flex-direction: column; 
-    align-items: center; 
-    gap: 8px; 
+.hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.75rem;
 }
 
-.wip-badge { 
-    color: var(--wip-color); 
-    font-size: 0.75rem; 
-    font-weight: bold; 
-    letter-spacing: 2px; 
-    display: flex; 
-    align-items: center; 
-    gap: 8px; 
-    animation: glitch 4s infinite; 
+.hero-links a {
+    border: 1px solid rgba(56, 189, 248, 0.38);
+    color: var(--accent-color);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    padding: 0.65rem 0.95rem;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
 }
 
-.pulse-dot { 
-    width: 8px; 
-    height: 8px; 
-    background-color: var(--wip-color); 
-    border-radius: 50%; 
-    animation: pulse 2s infinite; 
-}
-
-.progress-bar { 
-    width: 200px; 
-    height: 2px; 
-    background: rgba(243, 156, 18, 0.1); 
-    overflow: hidden; 
-    position: relative; 
-}
-
-.progress-fill { 
-    width: 100%; 
-    height: 100%; 
-    background: var(--wip-color); 
-    box-shadow: 0 0 10px var(--wip-color); 
-    animation: loading 2s infinite linear; 
+.hero-links a:hover {
+    background: rgba(56, 189, 248, 0.08);
+    border-color: var(--accent-color);
+    color: var(--text-color);
 }
 
 /* --- PROJECT GRID --- */
@@ -296,6 +291,7 @@ video.project-media {
     color: rgb(var(--tag-rgb));
     box-shadow: none;
     text-shadow: 0 0 8px rgba(var(--tag-rgb), 0.18);
+    font-family: var(--font-mono);
 }
 
 /* Project buttons and links */
@@ -307,6 +303,7 @@ video.project-media {
 }
 
 .project-links a { 
+    font-family: var(--font-mono);
     color: var(--accent-color); 
     text-decoration: none; 
     border-bottom: 1px solid transparent; 
@@ -368,7 +365,7 @@ footer hr {
     color: #777; 
     padding: 0.8rem 1.5rem; 
     cursor: pointer; 
-    font-family: var(--font-main); 
+    font-family: var(--font-mono);
     transition: 0.3s; 
     text-transform: lowercase;
 }
@@ -400,24 +397,6 @@ footer hr {
     opacity: 1; 
 }
 
-/* --- ANIMACIONES KEYFRAMES --- */
-@keyframes pulse { 
-    0% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0.7); } 
-    70% { box-shadow: 0 0 0 10px rgba(243, 156, 18, 0); } 
-    100% { box-shadow: 0 0 0 0 rgba(243, 156, 18, 0); } 
-}
-
-@keyframes loading { 
-    0% { transform: translateX(-100%); } 
-    100% { transform: translateX(100%); } 
-}
-
-@keyframes glitch { 
-    0%, 95% { transform: none; } 
-    96% { transform: skewX(-15deg); } 
-    98% { transform: skewX(15deg); } 
-}
-
 @media (max-width: 520px) {
     nav .container,
     .social-links {
@@ -434,6 +413,10 @@ footer hr {
 
     .hero {
         padding: 5rem 1rem;
+    }
+
+    .hero-links a {
+        width: 100%;
     }
 }
 
