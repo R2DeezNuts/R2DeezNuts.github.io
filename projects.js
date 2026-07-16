@@ -31,9 +31,9 @@ const PROJECTS = [
         ]
     },
     {
-        title: "Autonomous Driving with Neural Networks",
-        subtitle: "Scaled autonomous vehicle using computer vision and neural perception for lane keeping and obstacle avoidance.",
-        body: "Scaled autonomous driving platform built to perceive a track from camera input and convert that perception into steering and throttle decisions. The project brings together Python, PyTorch, OpenCV, semantic segmentation, dataset preparation, mask post-processing, real-time decision logic and embedded communication to create a complete loop from video capture to vehicle control. It demonstrates the full workflow behind applied machine learning in robotics: data, inference, interpretation and actuation.",
+        title: "Jetson Racer",
+        subtitle: "Scaled mobile robot using camera perception for lane keeping, obstacle handling and real-time control.",
+        body: "Built a scaled autonomous vehicle that turns camera frames into steering and throttle commands. The stack combines Python, PyTorch semantic segmentation, OpenCV mask post-processing, PID-style control and embedded communication, making the project a compact case study in perception-to-action autonomy on real hardware.",
         media: {
             type: "video",
             src: "img/video-coche-preview.mp4",
@@ -61,8 +61,8 @@ const PROJECTS = [
     },
     {
         title: "Vision-Based Sumo Control",
-        subtitle: "Computer vision control stack for turning live camera input into autonomous Sumo robot commands.",
-        body: "Vision-based control system for extending the Sumo platform with live perception and autonomous command generation. The project combines Python, OpenCV, UDP video streaming, perspective correction, ROI masking, contour-based line and object detection, PID-style steering, manual/automatic modes and a diagnostic dashboard to transform camera frames into safe, rate-limited robot actions. It shows how a robotics system can be structured into perception, decision and command layers while still remaining testable during real hardware runs.",
+        subtitle: "Camera-guided mobile robotics stack for detecting arena lines, tracking targets and sending safe Sumo commands.",
+        body: "Built a vision layer for the Sumo robot that converts streamed video into robot actions. The system uses Python, OpenCV, UDP video, perspective correction, ROI masking, contour detection, PID-style steering, manual/autonomous modes and a diagnostic dashboard, keeping commands rate-limited so perception, decision and control stay testable during hardware runs.",
         media: {
             type: "video",
             src: "img/sumo-vision-preview.mp4",

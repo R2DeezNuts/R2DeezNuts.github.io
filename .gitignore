@@ -2,3 +2,8 @@
 /ffmpeg.zip
 /tools/ffmpeg/
 
+# Full-size local videos; the site uses lightweight previews.
+/img/combate3-compressed.mp4
+/img/sumo-vision.mp4
+/img/video-coche.mp4
+
