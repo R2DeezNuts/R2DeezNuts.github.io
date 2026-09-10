@@ -76,11 +76,11 @@ const PROJECTS = [
     {
         title: "Low-Cost Autonomous USV",
         subtitle: "Personal project in progress, currently in the planning and design stage.",
-        body: "Planned low-cost unmanned surface vehicle for freshwater testing. The intended system combines a stable watertight hull, autopilot navigation, waypoint missions, return-to-home, geofencing, telemetry and a later front-facing computer-vision module. Safety and recoverability come first: manual override, link-loss failsafes, staged pool tests and measurable validation are part of the design before construction and integration.",
+        body: "Planned low-cost unmanned surface vehicle combining a watertight hull, autopilot navigation, telemetry and a later computer-vision module. The power system is intended to reuse 18650 cells from an e-bike battery only after capacity, internal-resistance and safety checks, with a BMS and fuse. Final validation targets an extended-duration mission; an estuary trial would only be attempted if permits, conditions and a safe recovery plan allow it.",
         media: {
             type: "image",
-            src: "img/usv-concept.svg",
-            alt: "Planned architecture for the personal autonomous USV project"
+            src: "img/usv-concept.png",
+            alt: "Concept illustration of the personal autonomous USV project"
         },
         tags: ["autonomous", "embedded", "sensorFusion"],
         links: [
