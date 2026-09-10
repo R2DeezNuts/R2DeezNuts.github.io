@@ -72,6 +72,20 @@ const PROJECTS = [
         links: [
             { label: "source", href: "https://github.com/R2DeezNuts/sumo-vision", icon: "fab fa-github" }
         ]
+    },
+    {
+        title: "Low-Cost Autonomous USV",
+        subtitle: "Personal project in progress focused on autonomous surface navigation and safe experimentation.",
+        body: "Personal USV project exploring the integration of a stable, watertight surface platform with autonomous waypoint navigation, return-to-home, geofencing, telemetry and a later computer-vision module. The design prioritizes recoverability, staged testing and measurable results in freshwater.",
+        media: {
+            type: "image",
+            src: "img/usv-concept.png",
+            alt: "Concept illustration of the personal autonomous USV project"
+        },
+        tags: ["autonomous", "embedded", "sensorFusion"],
+        links: [
+            { label: "project brief", href: "usv-proyecto-personal.pdf", icon: "fas fa-file-pdf" }
+        ]
     }
 ];
 
