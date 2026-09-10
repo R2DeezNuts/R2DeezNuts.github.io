@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" role="img" aria-labelledby="title desc">
+  <title id="title">Planned autonomous USV architecture</title>
+  <desc id="desc">A block diagram connecting sensors and camera to an onboard computer and autopilot, with telemetry and propulsion outputs.</desc>
+  <rect width="800" height="420" rx="24" fill="#0b1726"/>
+  <g font-family="Arial, sans-serif" fill="#e8f1fb" text-anchor="middle">
+    <text x="400" y="42" font-size="22" font-weight="700">Planned USV architecture</text>
+    <text x="400" y="68" font-size="14" fill="#9fb4ca">personal project · planning stage</text>
+    <g stroke="#4ebeff" stroke-width="3" fill="#132a41">
+      <rect x="45" y="125" width="170" height="72" rx="12"/><rect x="45" y="250" width="170" height="72" rx="12"/>
+      <rect x="315" y="105" width="170" height="92" rx="12" fill="#173b56"/><rect x="315" y="240" width="170" height="72" rx="12" fill="#173b56"/>
+      <rect x="585" y="125" width="170" height="72" rx="12"/><rect x="585" y="250" width="170" height="72" rx="12"/>
+    </g>
+    <g font-size="16">
+      <text x="130" y="155">GNSS / IMU</text><text x="130" y="178">position &amp; motion</text>
+      <text x="130" y="280">Front camera</text><text x="130" y="303">future perception</text>
+      <text x="400" y="143">Autopilot</text><text x="400" y="166" font-size="12">navigation · failsafes · logs</text>
+      <text x="400" y="269">Onboard computer</text><text x="400" y="292">high-level decisions</text>
+      <text x="670" y="155">Propulsion</text><text x="670" y="178">motors &amp; steering</text>
+      <text x="670" y="280">Radio / telemetry</text><text x="670" y="303">manual recovery</text>
+    </g>
+    <g stroke="#66e3c4" stroke-width="3" fill="none" marker-end="url(#arrow)">
+      <path d="M215 161h100"/><path d="M215 286h100"/><path d="M485 151h100"/>
+      <path d="M670 250V215H510V180H485"/><path d="M400 197v40" marker-start="url(#arrow-reverse)"/>
+    </g>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#66e3c4"/></marker>
+    <marker id="arrow-reverse" markerWidth="10" markerHeight="10" refX="1" refY="3" orient="auto"><path d="M9,0 L9,6 L0,3 z" fill="#66e3c4"/></marker>
+  </defs>
+</svg>
