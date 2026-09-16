@@ -97,7 +97,7 @@ const PROJECTS = [
     {
         "title": "Robot sumo Eggbots",
         "subtitle": "Integración y competición en equipo",
-        "body": "En este proyecto de competición contribuí al diseño 3D, la PCB, la integración electrónica y el software de control del robot. El trabajo consistió en reunir esos componentes en una plataforma física capaz de participar en combate sumo. Nuestro equipo consiguió el primer puesto en el torneo. La demostración permite ver el robot en competición y acompaña esta descripción de mi contribución. El repositorio de código se mantiene privado.",
+        "body": "En este proyecto de competición contribuí al diseño 3D, la PCB, la integración electrónica y el software de control del robot. El trabajo consistió en reunir esos componentes en una plataforma física capaz de participar en combate sumo. Nuestro equipo consiguió el primer puesto en el torneo. La demostración permite ver el robot en competición y el repositorio público permite consultar el código.",
         "media": {
             "type": "video",
             "src": "img/combate3-preview.mp4",
@@ -109,6 +109,11 @@ const PROJECTS = [
             "customPcb"
         ],
         "links": [
+            {
+                "label": "Código",
+                "href": "https://github.com/R2DeezNuts/EggBot-Sumo-Battlebot-",
+                "icon": "fab fa-github"
+            },
             {
                 "label": "Demostración",
                 "href": "https://youtu.be/11dywdyJRuc",
