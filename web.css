@@ -388,7 +388,7 @@ footer hr {
     }
 }
 
-#bg-canvas { opacity: 0.35; pointer-events: none; }
+#bg-canvas { opacity: 0.85; pointer-events: none; }
 .description { max-width: 720px; font-size: 1rem; line-height: 1.7; }
 .intro-note { max-width: 760px; margin-top: 1rem; font-size: 0.95rem; line-height: 1.7; }
 .project-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
@@ -408,5 +408,5 @@ footer hr {
     border: 1px solid var(--border-color);
     background: var(--header-bg);
 }
-#projects.section-panel { background: var(--content-bg); }
+#projects.section-panel { background: transparent; }
 .section-panel .project-grid { margin-bottom: 0; }
