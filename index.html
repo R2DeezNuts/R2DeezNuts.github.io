@@ -1,61 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Juan Prado's robotics portfolio: robots, embedded systems, computer vision and control projects.">
+    <meta name="description" content="Robótica móvil, visión artificial y control. Estudiante de último curso en USC. Prácticas curriculares de 300 horas desde el 8 de marzo de 2027.">
     <link rel="canonical" href="https://r2deeznuts.github.io/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Juan Prado // Robotics">
-    <meta property="og:description" content="Projects by Juan Prado in robotics, embedded systems, computer vision and control.">
+    <meta property="og:title" content="Juan José Prado Neira | Robótica aplicada">
+    <meta property="og:description" content="Proyectos de Juan José Prado Neira: percepción, control y electrónica integrados en robots físicos.">
     <meta property="og:url" content="https://r2deeznuts.github.io/">
     <meta property="og:image" content="https://r2deeznuts.github.io/img/combate3-poster.jpg">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Juan Prado // Robotics">
-    <meta name="twitter:description" content="Projects by Juan Prado in robotics, embedded systems, computer vision and control.">
+    <meta name="twitter:title" content="Juan José Prado Neira | Robótica aplicada">
+    <meta name="twitter:description" content="Proyectos de Juan José Prado Neira: percepción, control y electrónica integrados en robots físicos.">
     <meta name="twitter:image" content="https://r2deeznuts.github.io/img/combate3-poster.jpg">
-    <title>Juan Prado // Robotics</title>
+    <title>Juan José Prado Neira | Robótica aplicada</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="web.css">
 </head>
 <body>
-    <canvas id="bg-canvas"></canvas>
+    <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
     <nav>
         <div class="container">
             <span class="logo">Juan José Prado Neira</span>
             <div class="menu">
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
+                <a href="#projects">Proyectos</a>
+                <a href="#contact">Contacto</a>
             </div>
         </div>
     </nav>
 
     <header class="hero container">
-        <h1>Robotics student, still figuring things out</h1>
-        <div class="wip-container">
-            <div class="wip-badge"><span class="pulse-dot"></span>SYSTEM STATUS: WORK IN PROGRESS</div>
-            <div class="progress-bar"><div class="progress-fill"></div></div>
+        <h1>Robótica móvil, visión artificial y control</h1>
+        <p class="description">Soy Juan José Prado Neira, estudiante de último curso de Robótica en la USC. Integro visión artificial, control y electrónica en robots físicos dentro de proyectos académicos.</p>
+        <p class="availability">Prácticas curriculares · 300 horas<br>Desde el 8 de marzo de 2027 · Movilidad en Galicia desde Lugo</p>
+        <div class="hero-actions">
+            <a href="#projects">Ver proyectos</a>
+            <a href="#contact">Contactar</a>
         </div>
-        <p class="description">I build robots, test ideas, and learn from the parts that break.<br>Interested in robotics? <strong>Let's talk.</strong></p>
     </header>
 
     <main class="container" id="projects">
+        <h2>Proyectos</h2>
         <div class="project-grid" id="project-grid"></div>
     </main>
 
     <footer class="container" id="contact">
         <hr>
-        <p>&copy; Learning...</p>
+        <h2>Contacto</h2>
+        <p>Juan José Prado Neira · Lugo, Galicia</p>
         <div class="social-links">
-            <a href="https://github.com/R2DeezNuts" target="_blank" rel="noopener noreferrer">gitHub</a> •
-            <a href="https://www.linkedin.com/in/juan-jos%C3%A9-prado-neira-820041252/?locale=en-US" target="_blank" rel="noopener noreferrer">LinkedIn</a> •
-            <a href="mailto:juanjosepradoneira@gmail.com" class="copy-email" data-copy-email="juanjosepradoneira@gmail.com">email</a>
+            <a href="https://github.com/R2DeezNuts" target="_blank" rel="noopener noreferrer">GitHub</a> •
+            <a href="https://www.linkedin.com/in/juan-jos%C3%A9-prado-neira-820041252/" target="_blank" rel="noopener noreferrer">LinkedIn</a> •
+            <a href="mailto:juanjosepradoneira@gmail.com" class="copy-email" data-copy-email="juanjosepradoneira@gmail.com">juanjosepradoneira@gmail.com</a>
         </div>
-        <button id="back-to-top">Back to top ↑</button>
+        <button id="back-to-top">Volver al inicio</button>
     </footer>
 
-    <div id="toast" class="toast">Email copied!</div>
+    <div id="toast" class="toast" role="status">Correo copiado</div>
 
     <script type="module" src="web.js"></script>
 </body>

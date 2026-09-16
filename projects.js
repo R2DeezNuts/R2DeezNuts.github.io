@@ -1,90 +1,140 @@
 const TAGS = {
-    autonomous: { label: "autonomous robotics", rgb: "78, 190, 255" },
-    classicVision: { label: "classic vision", rgb: "45, 212, 191" },
-    control: { label: "control systems", rgb: "76, 134, 255" },
+    autonomous: { label: "robótica autónoma", rgb: "78, 190, 255" },
+    classicVision: { label: "visión clásica", rgb: "45, 212, 191" },
+    control: { label: "control", rgb: "76, 134, 255" },
     cpp: { label: "c++", rgb: "181, 137, 255" },
-    customPcb: { label: "custom PCB", rgb: "34, 197, 94" },
-    embedded: { label: "embedded systems", rgb: "255, 132, 76" },
+    customPcb: { label: "PCB propia", rgb: "34, 197, 94" },
+    embedded: { label: "sistemas embebidos", rgb: "255, 132, 76" },
     opencv: { label: "opencv", rgb: "0, 217, 255" },
     pid: { label: "PID", rgb: "214, 255, 64" },
     python: { label: "python", rgb: "90, 160, 255" },
     pytorch: { label: "pytorch", rgb: "244, 114, 182" },
-    sensorFusion: { label: "sensor fusion", rgb: "255, 180, 48" }
+    sensorFusion: { label: "fusión de sensores", rgb: "255, 180, 48" }
 };
 
 const PROJECTS = [
     {
-        title: "Sumo Battlebot",
-        subtitle: "Autonomous competition robot focused on real-time sensing, decision logic and robust embedded control.",
-        body: "Autonomous Sumo robot designed to react quickly in a constrained competitive arena. The project combines real-time embedded C++ control, sensor fusion, finite-state behavior, edge detection, opponent tracking and safety handling to turn noisy sensor input into reliable movement strategies such as searching, escaping, recovering and attacking. It highlights low-level robotics work where timing, robustness and clear control logic matter more than raw complexity.",
-        media: {
-            type: "video",
-            src: "img/combate3-preview.mp4",
-            poster: "img/combate3-poster.jpg",
-            href: "https://youtu.be/11dywdyJRuc",
-            label: "Open Sumo demo on YouTube"
+        "title": "Jetson Racer — percepción y control de vehículo",
+        "subtitle": "Proyecto académico · De la imagen al movimiento",
+        "body": "El objetivo era conectar lo que ve la cámara con el movimiento de un vehículo a escala. Implementé la percepción con una red neuronal de segmentación semántica e integré su salida con las órdenes de dirección y aceleración. Trabajé con Python y PyTorch para enlazar el procesamiento de imágenes con el control del vehículo. El código y la demostración permiten ver esa integración sobre la plataforma física.",
+        "media": {
+            "type": "video",
+            "src": "img/video-coche-preview.mp4",
+            "poster": "img/video-coche-poster.jpg"
         },
-        tags: ["embedded", "cpp", "sensorFusion", "autonomous", "customPcb"],
-        links: [
-            { label: "source", href: "https://github.com/R2DeezNuts/EggBot-Sumo-Battlebot-", icon: "fab fa-github" },
-            { label: "video demo", href: "https://youtu.be/11dywdyJRuc", icon: "fas fa-play-circle", variant: "video" }
+        "tags": [
+            "python",
+            "pytorch",
+            "opencv",
+            "control"
+        ],
+        "links": [
+            {
+                "label": "Código",
+                "href": "https://github.com/R2DeezNuts/jetson-racer",
+                "icon": "fab fa-github"
+            },
+            {
+                "label": "Demostración",
+                "href": "https://youtu.be/iftXwQ2Pxf0",
+                "icon": "fas fa-play-circle",
+                "variant": "video"
+            }
         ]
     },
     {
-        title: "Autonomous Driving with Neural Networks",
-        subtitle: "Scaled autonomous vehicle using computer vision and neural perception for lane keeping and obstacle avoidance.",
-        body: "Scaled autonomous driving platform built to perceive a track from camera input and convert that perception into steering and throttle decisions. The project brings together Python, PyTorch, OpenCV, semantic segmentation, dataset preparation, mask post-processing, real-time decision logic and embedded communication to create a complete loop from video capture to vehicle control. It demonstrates the full workflow behind applied machine learning in robotics: data, inference, interpretation and actuation.",
-        media: {
-            type: "video",
-            src: "img/video-coche-preview.mp4",
-            poster: "img/video-coche-poster.jpg"
+        "title": "Sumo Vision — retirada autónoma de obstáculos",
+        "subtitle": "Proyecto académico · Visión y decisiones sobre una plataforma reutilizada",
+        "body": "Reutilicé el robot sumo como plataforma para un prototipo quitanieves que retirase obstáculos dentro de un área delimitada. Implementé la visión con ESP32-CAM y OpenCV y la conecté con la lógica de decisión y los comandos UDP enviados al robot. El prototipo localizó y retiró obstáculos de forma autónoma. El repositorio recoge el sistema de percepción y control; la demostración muestra su funcionamiento sobre la plataforma física.",
+        "media": {
+            "type": "video",
+            "src": "img/sumo-vision-preview.mp4",
+            "poster": "img/sumo-vision-poster.jpg"
         },
-        tags: ["autonomous", "python", "pytorch", "opencv", "pid", "embedded"],
-        links: [
-            { label: "source", href: "https://github.com/R2DeezNuts/jetson-racer", icon: "fab fa-github" },
-            { label: "video demo", href: "https://youtu.be/iftXwQ2Pxf0", icon: "fas fa-play-circle", variant: "video" }
+        "tags": [
+            "python",
+            "opencv",
+            "embedded",
+            "autonomous"
+        ],
+        "links": [
+            {
+                "label": "Código",
+                "href": "https://github.com/R2DeezNuts/sumo-vision",
+                "icon": "fab fa-github"
+            },
+            {
+                "label": "Demostración",
+                "href": "img/sumo-vision-preview.mp4",
+                "icon": "fas fa-play-circle",
+                "variant": "video"
+            }
         ]
     },
     {
-        title: "Inverted Pendulum",
-        subtitle: "Closed-loop control project for stabilizing an inherently unstable dynamic system.",
-        body: "Inverted pendulum control project focused on stabilizing an inherently unstable mechanical system through closed-loop feedback. It applies real-time embedded control, PID tuning, digital signal filtering, sensor telemetry processing and actuator command generation to continuously estimate the tilt error and correct the system with smooth, precise motor response. The project is a compact example of control engineering, where measurement quality and tuning discipline directly shape physical behavior.",
-        media: {
-            type: "image",
-            src: "img/imagen-pendulo.jpeg",
-            alt: "Illustrative diagram of Inverted Pendulum closed-loop PID control system"
+        "title": "Robot sumo Eggbots — integración y competición",
+        "subtitle": "Proyecto en equipo · Primer puesto en el torneo de robots sumo",
+        "body": "En este proyecto de competición contribuí al diseño 3D, la PCB, la integración electrónica y el software de control del robot. El trabajo consistió en reunir esos componentes en una plataforma física capaz de participar en combate sumo. Nuestro equipo consiguió el primer puesto en el torneo. La demostración permite ver el robot en competición y acompaña esta descripción de mi contribución. El repositorio de código se mantiene privado.",
+        "media": {
+            "type": "video",
+            "src": "img/combate3-preview.mp4",
+            "poster": "img/combate3-poster.jpg"
         },
-        tags: ["control", "pid", "embedded", "cpp", "customPcb"],
-        links: [
-            { label: "source", href: "https://github.com/R2DeezNuts/Pendulo-Invertido", icon: "fab fa-github" }
+        "tags": [
+            "cpp",
+            "embedded",
+            "customPcb"
+        ],
+        "links": [
+            {
+                "label": "Demostración",
+                "href": "https://youtu.be/11dywdyJRuc",
+                "icon": "fas fa-play-circle",
+                "variant": "video"
+            }
         ]
     },
     {
-        title: "Vision-Based Sumo Control",
-        subtitle: "Computer vision control stack for turning live camera input into autonomous Sumo robot commands.",
-        body: "Vision-based control system for extending the Sumo platform with live perception and autonomous command generation. The project combines Python, OpenCV, UDP video streaming, perspective correction, ROI masking, contour-based line and object detection, PID-style steering, manual/automatic modes and a diagnostic dashboard to transform camera frames into safe, rate-limited robot actions. It shows how a robotics system can be structured into perception, decision and command layers while still remaining testable during real hardware runs.",
-        media: {
-            type: "video",
-            src: "img/sumo-vision-preview.mp4",
-            poster: "img/sumo-vision-poster.jpg"
+        "title": "Péndulo invertido — control sobre ESP32",
+        "subtitle": "Proyecto académico · PID, filtrado y telemetría",
+        "body": "El péndulo invertido plantea un problema de control en el que la medición de los sensores alimenta las órdenes al actuador. Implementé un controlador PID sobre ESP32, con filtrado de sensores y telemetría. Añadí una interfaz web para observar el estado y ajustar los parámetros del controlador. El repositorio permite revisar esa implementación. La imagen es un esquema ilustrativo; no se presentan aquí medidas de estabilidad ni una validación experimental cuantificada.",
+        "media": {
+            "type": "image",
+            "src": "img/imagen-pendulo.jpeg",
+            "alt": "Esquema ilustrativo del control PID de un péndulo invertido"
         },
-        tags: ["embedded", "opencv", "classicVision", "autonomous", "pid", "python", "cpp"],
-        links: [
-            { label: "source", href: "https://github.com/R2DeezNuts/sumo-vision", icon: "fab fa-github" }
+        "tags": [
+            "cpp",
+            "pid",
+            "embedded"
+        ],
+        "links": [
+            {
+                "label": "Código e interfaz",
+                "href": "https://github.com/R2DeezNuts/Pendulo-Invertido",
+                "icon": "fab fa-github"
+            }
         ]
     },
     {
-        title: "Low-Cost Autonomous USV",
-        subtitle: "Personal project in progress, currently in the planning and design stage.",
-        body: "Planned low-cost unmanned surface vehicle combining a watertight hull, autopilot navigation, telemetry and a later computer-vision module. The power system is intended to reuse 18650 cells from an e-bike battery only after capacity, internal-resistance and safety checks, with a BMS and fuse. Final validation targets an extended-duration mission; an estuary trial would only be attempted if permits, conditions and a safe recovery plan allow it.",
-        media: {
-            type: "image",
-            src: "img/usv-concept.png",
-            alt: "Concept illustration of the personal autonomous USV project"
+        "title": "USV — proyecto personal en planteamiento",
+        "subtitle": "Concepto · Sin prototipo construido ni resultados de navegación",
+        "body": "Estoy planteando un vehículo de superficie no tripulado para explorar aplicaciones de la robótica en el entorno marino. El concepto contempla navegación con piloto automático y telemetría, con visión artificial en una fase posterior. Parte de mi interés por estas aplicaciones y de pruebas básicas previas con ArduPilot en un tanque y un dron. El proyecto está en fase de planteamiento: la imagen es conceptual y el documento recoge objetivos y decisiones pendientes.",
+        "media": {
+            "type": "image",
+            "src": "img/usv-concept.png",
+            "alt": "Ilustración conceptual del USV; no representa un prototipo construido"
         },
-        tags: ["autonomous", "embedded", "sensorFusion"],
-        links: [
-            { label: "project brief", href: "usv-proyecto-personal.pdf", icon: "fas fa-file-pdf" }
+        "tags": [
+            "autonomous",
+            "embedded"
+        ],
+        "links": [
+            {
+                "label": "Planteamiento del proyecto",
+                "href": "usv-proyecto-personal.pdf",
+                "icon": "fas fa-file-pdf"
+            }
         ]
     }
 ];
@@ -126,7 +176,9 @@ function createMedia(media) {
     if (media.type === "video") {
         const video = document.createElement("video");
         video.className = "project-media";
-        video.autoplay = true;
+        video.autoplay = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        video.controls = true;
+        video.setAttribute("aria-label", "Demostración del proyecto");
         video.muted = true;
         video.loop = true;
         video.playsInline = true;
