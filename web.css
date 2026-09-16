@@ -406,7 +406,6 @@ footer hr {
     margin: 2rem auto;
     padding: clamp(1rem, 3vw, 2rem);
     border: 1px solid var(--border-color);
-    background: var(--header-bg);
+    background: transparent;
 }
-#projects.section-panel { background: transparent; }
 .section-panel .project-grid { margin-bottom: 0; }
