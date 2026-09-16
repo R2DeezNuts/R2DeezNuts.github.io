@@ -395,7 +395,6 @@ footer hr {
 .project-status { padding: 0.25rem 0.5rem; border: 1px solid var(--accent-color); color: var(--accent-color); font-size: 0.7rem; line-height: 1.4; }
 #projects > h2, footer h2 { font-size: 1.1rem; font-weight: 600; }
 #projects, #contact { scroll-margin-top: 8rem; }
-#projects > h2 { margin-bottom: 1rem; }
 .project-links { margin-top: auto; flex-wrap: wrap; }
 .social-links { flex-wrap: wrap; overflow-wrap: anywhere; }
 @media (max-width: 520px) { .logo { font-size: .9rem; } }
