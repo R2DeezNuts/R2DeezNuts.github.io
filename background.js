@@ -5,7 +5,7 @@ export function initBackground({ prefersReducedMotion }) {
     const ctx = canvas.getContext("2d");
     const cellSize = 28;
     const blockerPadding = 10;
-    const robot = { x: 0, y: 0, col: 0, row: 0, speed: 0.8, radius: 5 };
+    const robot = { x: 0, y: 0, col: 0, row: 0, speed: 1.6, radius: 5 };
     const target = { col: -1, row: -1, active: false };
     let w = 0;
     let h = 0;
