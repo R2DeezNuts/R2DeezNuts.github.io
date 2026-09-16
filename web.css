@@ -387,10 +387,9 @@ footer hr {
 }
 
 #bg-canvas { opacity: 0.35; pointer-events: none; }
-.hero h1 { font-size: clamp(1.7rem, 3.5vw, 2.6rem); letter-spacing: -1px; }
 .description { max-width: 850px; font-size: 1rem; }
 #projects, #contact { scroll-margin-top: 8rem; }
 #projects > h2 { margin-bottom: 1rem; }
 .project-links { margin-top: auto; flex-wrap: wrap; }
 .social-links { flex-wrap: wrap; overflow-wrap: anywhere; }
-@media (max-width: 520px) { .hero h1 { font-size: 1.65rem; } .logo { font-size: .9rem; } }
+@media (max-width: 520px) { .logo { font-size: .9rem; } }
