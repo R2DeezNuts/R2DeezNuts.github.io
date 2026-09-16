@@ -399,3 +399,14 @@ footer hr {
 .project-links { margin-top: auto; flex-wrap: wrap; }
 .social-links { flex-wrap: wrap; overflow-wrap: anywhere; }
 @media (max-width: 520px) { .logo { font-size: .9rem; } }
+
+/* Recuadros independientes para presentación y proyectos. */
+.section-panel {
+    width: min(1200px, calc(100% - 2rem));
+    margin: 2rem auto;
+    padding: clamp(1rem, 3vw, 2rem);
+    border: 1px solid var(--border-color);
+    background: var(--header-bg);
+}
+#projects.section-panel { background: var(--content-bg); }
+.section-panel .project-grid { margin-bottom: 0; }
