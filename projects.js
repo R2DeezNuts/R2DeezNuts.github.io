@@ -12,10 +12,33 @@ const TAGS = {
     sensorFusion: { label: "fusión de sensores", rgb: "255, 180, 48" }
 };
 
+// Del proyecto más reciente al más antiguo.
 const PROJECTS = [
     {
-        "title": "Jetson Racer — percepción y control de vehículo",
-        "subtitle": "Proyecto académico · De la imagen al movimiento",
+        "title": "USV",
+        "subtitle": "Vehículo de superficie no tripulado · Proyecto personal",
+        "body": "Estoy planteando un vehículo de superficie no tripulado para explorar aplicaciones de la robótica en el entorno marino. El concepto contempla navegación con piloto automático y telemetría, con visión artificial en una fase posterior. Parte de mi interés por estas aplicaciones y de pruebas básicas previas con ArduPilot en un tanque y un dron. El proyecto está en fase de planteamiento: la imagen es conceptual y el documento recoge objetivos y decisiones pendientes.",
+        "media": {
+            "type": "image",
+            "src": "img/usv-concept.png",
+            "alt": "Ilustración conceptual del USV; no representa un prototipo construido"
+        },
+        "tags": [
+            "autonomous",
+            "embedded"
+        ],
+        "links": [
+            {
+                "label": "Planteamiento del proyecto",
+                "href": "usv-proyecto-personal.pdf",
+                "icon": "fas fa-file-pdf"
+            }
+        ],
+        "status": "En planteamiento"
+    },
+    {
+        "title": "Jetson Racer",
+        "subtitle": "Percepción y control de un vehículo a escala",
         "body": "El objetivo era conectar lo que ve la cámara con el movimiento de un vehículo a escala. Implementé la percepción con una red neuronal de segmentación semántica e integré su salida con las órdenes de dirección y aceleración. Trabajé con Python y PyTorch para enlazar el procesamiento de imágenes con el control del vehículo. El código y la demostración permiten ver esa integración sobre la plataforma física.",
         "media": {
             "type": "video",
@@ -43,8 +66,8 @@ const PROJECTS = [
         ]
     },
     {
-        "title": "Sumo Vision — retirada autónoma de obstáculos",
-        "subtitle": "Proyecto académico · Visión y decisiones sobre una plataforma reutilizada",
+        "title": "Sumo Vision",
+        "subtitle": "Retirada autónoma de obstáculos",
         "body": "Reutilicé el robot sumo como plataforma para un prototipo quitanieves que retirase obstáculos dentro de un área delimitada. Implementé la visión con ESP32-CAM y OpenCV y la conecté con la lógica de decisión y los comandos UDP enviados al robot. El prototipo localizó y retiró obstáculos de forma autónoma. El repositorio recoge el sistema de percepción y control; la demostración muestra su funcionamiento sobre la plataforma física.",
         "media": {
             "type": "video",
@@ -72,8 +95,8 @@ const PROJECTS = [
         ]
     },
     {
-        "title": "Robot sumo Eggbots — integración y competición",
-        "subtitle": "Proyecto en equipo · Primer puesto en el torneo de robots sumo",
+        "title": "Robot sumo Eggbots",
+        "subtitle": "Integración y competición en equipo",
         "body": "En este proyecto de competición contribuí al diseño 3D, la PCB, la integración electrónica y el software de control del robot. El trabajo consistió en reunir esos componentes en una plataforma física capaz de participar en combate sumo. Nuestro equipo consiguió el primer puesto en el torneo. La demostración permite ver el robot en competición y acompaña esta descripción de mi contribución. El repositorio de código se mantiene privado.",
         "media": {
             "type": "video",
@@ -95,8 +118,8 @@ const PROJECTS = [
         ]
     },
     {
-        "title": "Péndulo invertido — control sobre ESP32",
-        "subtitle": "Proyecto académico · PID, filtrado y telemetría",
+        "title": "Péndulo invertido",
+        "subtitle": "Control PID sobre ESP32",
         "body": "El péndulo invertido plantea un problema de control en el que la medición de los sensores alimenta las órdenes al actuador. Implementé un controlador PID sobre ESP32, con filtrado de sensores y telemetría. Añadí una interfaz web para observar el estado y ajustar los parámetros del controlador. El repositorio permite revisar esa implementación. La imagen es un esquema ilustrativo; no se presentan aquí medidas de estabilidad ni una validación experimental cuantificada.",
         "media": {
             "type": "image",
@@ -113,27 +136,6 @@ const PROJECTS = [
                 "label": "Código e interfaz",
                 "href": "https://github.com/R2DeezNuts/Pendulo-Invertido",
                 "icon": "fab fa-github"
-            }
-        ]
-    },
-    {
-        "title": "USV — proyecto personal en planteamiento",
-        "subtitle": "Concepto · Sin prototipo construido ni resultados de navegación",
-        "body": "Estoy planteando un vehículo de superficie no tripulado para explorar aplicaciones de la robótica en el entorno marino. El concepto contempla navegación con piloto automático y telemetría, con visión artificial en una fase posterior. Parte de mi interés por estas aplicaciones y de pruebas básicas previas con ArduPilot en un tanque y un dron. El proyecto está en fase de planteamiento: la imagen es conceptual y el documento recoge objetivos y decisiones pendientes.",
-        "media": {
-            "type": "image",
-            "src": "img/usv-concept.png",
-            "alt": "Ilustración conceptual del USV; no representa un prototipo construido"
-        },
-        "tags": [
-            "autonomous",
-            "embedded"
-        ],
-        "links": [
-            {
-                "label": "Planteamiento del proyecto",
-                "href": "usv-proyecto-personal.pdf",
-                "icon": "fas fa-file-pdf"
             }
         ]
     }
@@ -220,6 +222,7 @@ function createProjectCard(project) {
     const header = document.createElement("div");
     header.className = "project-header";
     appendTextElement(header, "h3", "", project.title);
+    if (project.status) appendTextElement(header, "span", "project-status", project.status);
     card.append(header, createMedia(project.media));
 
     appendTextElement(card, "div", "project-subtitle", project.subtitle);
