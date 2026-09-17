@@ -125,11 +125,11 @@ const PROJECTS = [
     {
         "title": "Péndulo invertido",
         "subtitle": "Control PID sobre ESP32",
-        "body": "El péndulo invertido plantea un problema de control en el que la medición de los sensores alimenta las órdenes al actuador. Implementé un controlador PID sobre ESP32, con filtrado de sensores y telemetría. Añadí una interfaz web para observar el estado y ajustar los parámetros del controlador. El repositorio permite revisar esa implementación. La imagen es un esquema ilustrativo; no se presentan aquí medidas de estabilidad ni una validación experimental cuantificada.",
+        "body": "El péndulo invertido plantea un problema de control en el que la medición de los sensores alimenta las órdenes al actuador. Implementé un controlador PID sobre ESP32, con filtrado de sensores y telemetría. Añadí una interfaz web para observar el estado y ajustar los parámetros del controlador. El repositorio permite revisar esa implementación. La fotografía muestra el robot; no se presentan aquí medidas de estabilidad ni una validación experimental cuantificada.",
         "media": {
             "type": "image",
             "src": "img/imagen-pendulo.jpeg",
-            "alt": "Esquema ilustrativo del control PID de un péndulo invertido"
+            "alt": "Fotografía del robot de dos ruedas del proyecto de péndulo invertido"
         },
         "tags": [
             "cpp",
