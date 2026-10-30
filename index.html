@@ -6,15 +6,15 @@
     <meta name="description" content="Portfolio de Juan José Prado Neira: robótica móvil, visión artificial y control.">
     <link rel="canonical" href="https://r2deeznuts.github.io/">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Juan José Prado Neira | Robótica aplicada">
+    <meta property="og:title" content="Juan José Prado Neira | Robótica">
     <meta property="og:description" content="Proyectos de Juan José Prado Neira: percepción, control y electrónica integrados en robots físicos.">
     <meta property="og:url" content="https://r2deeznuts.github.io/">
     <meta property="og:image" content="https://r2deeznuts.github.io/img/combate3-poster.jpg">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Juan José Prado Neira | Robótica aplicada">
+    <meta name="twitter:title" content="Juan José Prado Neira | Robótica">
     <meta name="twitter:description" content="Proyectos de Juan José Prado Neira: percepción, control y electrónica integrados en robots físicos.">
     <meta name="twitter:image" content="https://r2deeznuts.github.io/img/combate3-poster.jpg">
-    <title>Juan José Prado Neira | Robótica aplicada</title>
+    <title>Juan José Prado Neira | Robótica</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="web.css">
 </head>
@@ -32,13 +32,24 @@
     </nav>
 
     <header class="hero container section-panel">
-        <h1>Estudiante de Robótica | USC</h1>
-        <p class="description">Soy Juan José Prado Neira. Desarrollo proyectos que conectan visión artificial y control con robots físicos, desde el software hasta la electrónica.</p>
-        <p class="intro-note">Aquí encontrarás los proyectos en los que he trabajado, sus demostraciones y las herramientas que he ido utilizando.</p>
+        <p class="eyebrow">Robótica · Percepción, control y sistemas embebidos</p>
+        <h1>Juan José Prado Neira</h1>
+        <p class="description">Desarrollo proyectos que conectan software y electrónica sobre robots físicos: desde la imagen de una cámara hasta las órdenes que mueven una plataforma.</p>
+        <p class="intro-note">Estudiante de Robótica en la USC · Lugo, Galicia · En GitHub, R2DeezNuts</p>
+        <div class="hero-links"><a href="#projects">Ver proyectos</a><a href="cv.pdf">Descargar CV</a><a href="#contact">Contacto</a></div>
     </header>
 
-    <main class="container section-panel" id="projects">
-        <div class="project-grid" id="project-grid"></div>
+    <main>
+        <section class="container section-panel" id="projects" aria-labelledby="projects-title">
+            <h2 id="projects-title">Proyectos seleccionados</h2>
+            <p class="section-intro">Percepción, control e integración sobre plataformas físicas. Código, demostraciones y resultados de cada proyecto.</p>
+            <div class="project-grid" id="project-grid"></div>
+        </section>
+        <section class="container section-panel" id="in-progress" aria-labelledby="in-progress-title">
+            <h2 id="in-progress-title">En desarrollo</h2>
+            <p class="section-intro">Ideas y decisiones pendientes, separadas de los prototipos ya probados.</p>
+            <div class="project-grid" id="in-progress-grid"></div>
+        </section>
     </main>
 
     <footer class="container" id="contact">

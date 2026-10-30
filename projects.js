@@ -12,34 +12,12 @@ const TAGS = {
     sensorFusion: { label: "fusión de sensores", rgb: "255, 180, 48" }
 };
 
-// Del proyecto más reciente al más antiguo.
+// Proyectos demostrados primero; conceptos en una sección independiente.
 const PROJECTS = [
-    {
-        "title": "USV",
-        "subtitle": "Vehículo de superficie no tripulado · Proyecto personal",
-        "body": "Estoy planteando un vehículo de superficie no tripulado para explorar aplicaciones de la robótica en el entorno marino. El concepto contempla navegación con piloto automático y telemetría, con visión artificial en una fase posterior. Parte de mi interés por estas aplicaciones y de pruebas básicas previas con ArduPilot en un tanque y un dron. El proyecto está en fase de planteamiento: la imagen es conceptual y el documento recoge objetivos y decisiones pendientes.",
-        "media": {
-            "type": "image",
-            "src": "img/usv-concept.png",
-            "alt": "Ilustración conceptual del USV; no representa un prototipo construido"
-        },
-        "tags": [
-            "autonomous",
-            "embedded"
-        ],
-        "links": [
-            {
-                "label": "Planteamiento del proyecto",
-                "href": "usv-proyecto-personal.pdf",
-                "icon": "fas fa-file-pdf"
-            }
-        ],
-        "status": "En planteamiento"
-    },
     {
         "title": "Jetson Racer",
         "subtitle": "Percepción y control de un vehículo a escala",
-        "body": "El objetivo era conectar lo que ve la cámara con el movimiento de un vehículo a escala. Implementé la percepción con una red neuronal de segmentación semántica e integré su salida con las órdenes de dirección y aceleración. Trabajé con Python y PyTorch para enlazar el procesamiento de imágenes con el control del vehículo. El código y la demostración permiten ver esa integración sobre la plataforma física.",
+        "body": "La prueba integrada conectó captura de vídeo, segmentación del circuito y cajas, cálculo de dirección y aceleración y envío de órdenes al coche. Entrené el modelo con PyTorch y el runtime usa ONNX y OpenCV en el portátil. La cámara y la latencia de red condicionan el control; no presento una evaluación formal de rendimiento.",
         "media": {
             "type": "video",
             "src": "img/video-coche-preview.mp4",
@@ -63,7 +41,9 @@ const PROJECTS = [
                 "icon": "fas fa-play-circle",
                 "variant": "video"
             }
-        ]
+        ],
+        "id": "jetson-racer",
+        "summary": "Integré segmentación semántica y control de un vehículo a escala. La Jetson captura vídeo y acciona el coche; el portátil ejecuta la inferencia y calcula las órdenes."
     },
     {
         "title": "Sumo Vision",
@@ -92,7 +72,9 @@ const PROJECTS = [
                 "icon": "fas fa-play-circle",
                 "variant": "video"
             }
-        ]
+        ],
+        "id": "sumo-vision",
+        "summary": "Reutilicé una plataforma sumo para retirar obstáculos. Integré ESP32-CAM, OpenCV y órdenes UDP; el prototipo localizó y retiró obstáculos de forma autónoma."
     },
     {
         "title": "Robot sumo Eggbots",
@@ -120,7 +102,9 @@ const PROJECTS = [
                 "icon": "fas fa-play-circle",
                 "variant": "video"
             }
-        ]
+        ],
+        "id": "eggbots",
+        "summary": "En un proyecto de competición en equipo, contribuí al diseño 3D, la PCB, la integración electrónica y el software de control."
     },
     {
         "title": "Péndulo invertido",
@@ -142,7 +126,34 @@ const PROJECTS = [
                 "href": "https://github.com/R2DeezNuts/Pendulo-Invertido",
                 "icon": "fab fa-github"
             }
-        ]
+        ],
+        "id": "pendulo-invertido",
+        "summary": "Implementé control PID sobre ESP32, filtrado de sensores y telemetría, con una interfaz web para ajustar parámetros. La estabilidad queda pendiente de una validación cuantitativa."
+    },
+    {
+        "title": "USV",
+        "subtitle": "Vehículo de superficie no tripulado · Proyecto personal",
+        "body": "Estoy planteando un vehículo de superficie no tripulado para explorar aplicaciones de la robótica en el entorno marino. El concepto contempla navegación con piloto automático y telemetría, con visión artificial en una fase posterior. Parte de mi interés por estas aplicaciones y de pruebas básicas previas con ArduPilot en un tanque y un dron. El proyecto está en fase de planteamiento: la imagen es conceptual y el documento recoge objetivos y decisiones pendientes.",
+        "media": {
+            "type": "image",
+            "src": "img/usv-concept.png",
+            "alt": "Ilustración conceptual del USV; no representa un prototipo construido"
+        },
+        "tags": [
+            "autonomous",
+            "embedded"
+        ],
+        "links": [
+            {
+                "label": "Planteamiento del proyecto",
+                "href": "usv-proyecto-personal.pdf",
+                "icon": "fas fa-file-pdf"
+            }
+        ],
+        "status": "En planteamiento",
+        "inProgress": true,
+        "id": "usv",
+        "summary": "Planteamiento de un vehículo de superficie no tripulado como proyecto personal. Navegación y telemetría son los primeros objetivos; la imagen es conceptual y aún no hay un prototipo construido."
     }
 ];
 
@@ -223,6 +234,7 @@ function createTag(tagId) {
 function createProjectCard(project) {
     const card = document.createElement("section");
     card.className = "project-card";
+    card.id = project.id;
 
     const header = document.createElement("div");
     header.className = "project-header";
@@ -231,7 +243,12 @@ function createProjectCard(project) {
     card.append(header, createMedia(project.media));
 
     appendTextElement(card, "div", "project-subtitle", project.subtitle);
-    appendTextElement(card, "p", "", project.body);
+    appendTextElement(card, "p", "", project.summary);
+
+    const details = document.createElement("details");
+    appendTextElement(details, "summary", "", "Aportación y resultados");
+    appendTextElement(details, "p", "", project.body);
+    card.append(details);
 
     const stack = document.createElement("div");
     stack.className = "tech-stack";
@@ -248,5 +265,7 @@ function createProjectCard(project) {
 
 export function renderProjects(container = document.getElementById("project-grid")) {
     if (!container) return;
-    container.replaceChildren(...PROJECTS.map(createProjectCard));
+    container.replaceChildren(...PROJECTS.filter(project => !project.inProgress).map(createProjectCard));
+    const inProgress = document.getElementById("in-progress-grid");
+    if (inProgress) inProgress.replaceChildren(...PROJECTS.filter(project => project.inProgress).map(createProjectCard));
 }
