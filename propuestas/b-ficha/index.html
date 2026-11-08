@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta B · Ficha técnica</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+<nav>
+  <div class="wrap nav-row">
+    <a class="brand" href="#top">JJPN<span>/robótica</span></a>
+    <div class="nav-links">
+      <a href="#p1">Proyectos</a>
+      <a href="#contacto">Contacto</a>
+      <a href="../../cv.pdf">CV ↓</a>
+    </div>
+  </div>
+</nav>
+
+<header class="wrap hero" id="top">
+  <div class="sheet-id">REF. JJPN-2026 · rev. oct</div>
+  <h1>Juan José Prado Neira</h1>
+  <p class="lead">Estudiante de Robótica. Construyo el camino completo entre un sensor y un motor: percepción, decisión, control y la electrónica que lo sostiene.</p>
+
+  <dl class="spec hero-spec">
+    <div><dt>Formación</dt><dd>Robótica · Universidade de Santiago de Compostela</dd></div>
+    <div><dt>Base</dt><dd>Lugo, Galicia</dd></div>
+    <div><dt>Áreas</dt><dd>Percepción · Control · Sistemas embebidos</dd></div>
+    <div><dt>Plataformas</dt><dd>ESP32 · Jetson Nano · ArduPilot</dd></div>
+    <div><dt>Código</dt><dd><a href="https://github.com/R2DeezNuts">github.com/R2DeezNuts</a></dd></div>
+  </dl>
+</header>
+
+<main class="wrap">
+  <aside class="index" aria-label="Índice de proyectos">
+    <p>Índice</p>
+    <ol>
+      <li><a href="#p1">01 Jetson Racer</a></li>
+      <li><a href="#p2">02 Sumo Vision</a></li>
+      <li><a href="#p3">03 Eggbots</a></li>
+      <li><a href="#p4">04 Péndulo invertido</a></li>
+      <li><a href="#p5">05 USV <i>wip</i></a></li>
+    </ol>
+  </aside>
+
+  <div class="sheets">
+    <article class="sheet project-card" id="p1">
+      <header class="sheet-head"><span class="num">01</span><h2>Jetson Racer</h2><span class="tag">probado en hardware</span></header>
+      <div class="sheet-body">
+        <div class="media">
+          <video autoplay muted loop playsinline controls poster="../../img/video-coche-poster.jpg" aria-label="Demostración de Jetson Racer"><source src="../../img/video-coche-preview.mp4" type="video/mp4"></video>
+        </div>
+        <div class="text">
+          <p class="claim">Coche a escala que sigue un circuito y esquiva cajas con una U-Net entrenada por mí.</p>
+          <dl class="spec">
+            <div><dt>Plataforma</dt><dd>Coche a escala con Jetson Nano</dd></div>
+            <div><dt>Percepción</dt><dd>U-Net, 2 salidas: circuito y obstáculos · PyTorch → ONNX</dd></div>
+            <div><dt>Cómputo</dt><dd>Inferencia y órdenes en portátil · captura y actuación en Jetson</dd></div>
+            <div><dt>Enlace</dt><dd>Vídeo y órdenes por red</dd></div>
+            <div><dt>Límite</dt><dd>La latencia de red condiciona el control · sin benchmark formal</dd></div>
+          </dl>
+          <p class="links"><a href="https://github.com/R2DeezNuts/jetson-racer">Código →</a><a class="amber" href="https://youtu.be/iftXwQ2Pxf0">Vídeo completo ↗</a></p>
+        </div>
+      </div>
+    </article>
+
+    <article class="sheet project-card" id="p2">
+      <header class="sheet-head"><span class="num">02</span><h2>Sumo Vision</h2><span class="tag">probado en hardware</span></header>
+      <div class="sheet-body">
+        <div class="media">
+          <video autoplay muted loop playsinline controls poster="../../img/sumo-vision-poster.jpg" aria-label="Demostración de Sumo Vision"><source src="../../img/sumo-vision-preview.mp4" type="video/mp4"></video>
+        </div>
+        <div class="text">
+          <p class="claim">Robot sumo reconvertido en quitanieves: localiza obstáculos y los saca del área sin intervención.</p>
+          <dl class="spec">
+            <div><dt>Plataforma</dt><dd>Robot sumo reutilizado · ESP32</dd></div>
+            <div><dt>Percepción</dt><dd>ESP32-CAM · líneas y obstáculos con OpenCV</dd></div>
+            <div><dt>Cómputo</dt><dd>Python en ordenador · modo automático y manual</dd></div>
+            <div><dt>Enlace</dt><dd>Vídeo UDP :5005 · órdenes UDP :9999</dd></div>
+            <div><dt>Resultado</dt><dd>Retiró obstáculos de forma autónoma (vídeo)</dd></div>
+          </dl>
+          <p class="links"><a href="https://github.com/R2DeezNuts/sumo-vision">Código →</a><a class="amber" href="../../img/sumo-vision-preview.mp4">Demo ↗</a></p>
+        </div>
+      </div>
+    </article>
+
+    <article class="sheet project-card" id="p3">
+      <header class="sheet-head"><span class="num">03</span><h2>Eggbots</h2><span class="tag tag-blue">1.º puesto · [torneo, fecha]</span></header>
+      <div class="sheet-body">
+        <div class="media">
+          <video autoplay muted loop playsinline controls poster="../../img/combate3-poster.jpg" aria-label="Combate del robot Eggbots"><source src="../../img/combate3-preview.mp4" type="video/mp4"></video>
+        </div>
+        <div class="text">
+          <p class="claim">Robot de combate sumo diseñado y construido en equipo.</p>
+          <dl class="spec">
+            <div><dt>Mi papel</dt><dd>Diseño 3D · PCB · integración electrónica · software de control</dd></div>
+            <div><dt>Lenguaje</dt><dd>C++</dd></div>
+            <div><dt>Equipo</dt><dd>Eggbots · <a href="https://battlebots.robotica.gal/Eggbots/">web del equipo ↗</a></dd></div>
+            <div><dt>Resultado</dt><dd>Primer puesto · [contexto del torneo]</dd></div>
+          </dl>
+          <p class="links"><a href="https://github.com/R2DeezNuts/EggBot-Sumo-Battlebot-">Código →</a><a class="amber" href="https://youtu.be/11dywdyJRuc">Combate ↗</a></p>
+        </div>
+      </div>
+    </article>
+
+    <article class="sheet project-card" id="p4">
+      <header class="sheet-head"><span class="num">04</span><h2>Péndulo invertido</h2><span class="tag tag-muted">implementado · validación pendiente</span></header>
+      <div class="sheet-body">
+        <div class="media">
+          <img src="../../img/imagen-pendulo.jpeg" alt="Robot de dos ruedas del péndulo invertido" loading="lazy">
+        </div>
+        <div class="text">
+          <p class="claim">Robot de dos ruedas que se equilibra con PID sobre ESP32.</p>
+          <dl class="spec">
+            <div><dt>Sensor</dt><dd>MPU6050 · filtro complementario</dd></div>
+            <div><dt>Control</dt><dd>PID en tarea FreeRTOS a 100 Hz · corte a 30°</dd></div>
+            <div><dt>Actuación</dt><dd>2 motores DC · puente H</dd></div>
+            <div><dt>Interfaz</dt><dd>Servidor web: telemetría y ajuste de parámetros</dd></div>
+          </dl>
+          <p class="links"><a href="https://github.com/R2DeezNuts/Pendulo-Invertido">Código e interfaz →</a></p>
+        </div>
+      </div>
+    </article>
+
+    <article class="sheet sheet-wip project-card" id="p5">
+      <header class="sheet-head"><span class="num">05</span><h2>USV</h2><span class="tag tag-amber">en planteamiento</span></header>
+      <div class="text">
+        <p class="claim">Vehículo de superficie no tripulado, proyecto personal.</p>
+        <dl class="spec">
+          <div><dt>Fase 0</dt><dd>✓ Pruebas con ArduPilot en un tanque y un dron</dd></div>
+          <div><dt>Fase 1</dt><dd>Navegación con piloto automático y telemetría</dd></div>
+          <div><dt>Fase 2</dt><dd>Visión artificial a bordo</dd></div>
+        </dl>
+        <p class="links"><a href="../../usv-proyecto-personal.pdf">Planteamiento (PDF) ↗</a></p>
+      </div>
+    </article>
+  </div>
+</main>
+
+<footer class="wrap" id="contacto">
+  <div class="foot-grid">
+    <div>
+      <p class="sheet-id">Contacto</p>
+      <a class="mail" href="mailto:juanjosepradoneira@gmail.com">juanjosepradoneira@gmail.com</a>
+    </div>
+    <ul>
+      <li><a href="https://www.linkedin.com/in/juan-jos%C3%A9-prado-neira-820041252/">LinkedIn ↗</a></li>
+      <li><a href="https://github.com/R2DeezNuts">GitHub ↗</a></li>
+      <li><a href="../../cv.pdf">CV (PDF) ↓</a></li>
+    </ul>
+  </div>
+  <p class="fine">El punto ámbar que cruza la página es un pequeño planificador A* que esquiva las fichas.</p>
+</footer>
+
+<script type="module">
+  import { initBackground } from "../../background.js";
+  initBackground({ prefersReducedMotion: matchMedia("(prefers-reduced-motion: reduce)").matches });
+  // resalta en el índice la ficha visible
+  const links = new Map([...document.querySelectorAll(".index a")].map(a => [a.hash.slice(1), a]));
+  const io = new IntersectionObserver(entries => entries.forEach(e => {
+    if (e.isIntersecting) { links.forEach(a => a.classList.remove("on")); links.get(e.target.id)?.classList.add("on"); }
+  }), { rootMargin: "-45% 0px -50% 0px" });
+  document.querySelectorAll(".sheet").forEach(s => io.observe(s));
+</script>
+</body>
+</html>

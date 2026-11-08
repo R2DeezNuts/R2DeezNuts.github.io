@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Portfolio de Juan José Prado Neira: robots reales en movimiento, de la cámara a los motores.">
+<title>Propuesta D · Cinematográfica</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+<script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+<a class="skip" href="#cap-1">Saltar al primer proyecto</a>
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+<nav aria-label="Principal">
+  <div class="nav-row">
+    <a class="brand" href="#inicio">J. J. Prado Neira</a>
+    <ul class="nav-links">
+      <li class="hide-s"><a href="#cap-1">Proyectos</a></li>
+      <li class="hide-s"><a href="#usv">USV</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+      <li><a href="../../cv.pdf">CV</a></li>
+    </ul>
+  </div>
+  <div class="reel" aria-hidden="true"><span class="reel-head"></span></div>
+</nav>
+
+<header class="hero" id="inicio">
+  <div class="finder" aria-hidden="true">
+    <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
+    <span class="cross"></span>
+  </div>
+  <p class="hero-meta" aria-hidden="true"><span class="rec">REC</span> <span id="hero-tc">00:00:00:00</span></p>
+  <p class="hero-loc">Lugo, Galicia</p>
+
+  <div class="hero-main" data-avoid>
+    <h1>Juan José<br>Prado Neira</h1>
+    <p class="hero-role">Estudiante de Robótica en la Universidade de Santiago de Compostela. Percepción, control y sistemas embebidos.</p>
+    <p class="hero-lead">Conecto software y electrónica sobre robots físicos, desde la imagen de una cámara hasta las órdenes que mueven una plataforma. Aquí hablan los robots: cada proyecto es una toma.</p>
+    <p class="hero-links">
+      <a class="btn" href="#cap-1">Ver los proyectos</a>
+      <a class="btn ghost" href="../../cv.pdf">Descargar CV (PDF)</a>
+      <a class="btn ghost" href="https://github.com/R2DeezNuts">GitHub: R2DeezNuts</a>
+    </p>
+  </div>
+
+  <nav class="hero-index" aria-label="Proyectos" data-avoid>
+    <ol>
+      <li><a href="#cap-1"><span>Cap. 1</span> Jetson Racer</a></li>
+      <li><a href="#cap-2"><span>Cap. 2</span> Sumo Vision</a></li>
+      <li><a href="#cap-3"><span>Cap. 3</span> Eggbots</a></li>
+      <li><a href="#cap-4"><span>Cap. 4</span> Péndulo invertido</a></li>
+    </ol>
+    <p><a href="#usv">USV, en planteamiento</a></p>
+  </nav>
+  <p class="hero-hint" aria-hidden="true">El punto ámbar es un robot que planifica su ruta con A* y esquiva el texto.</p>
+</header>
+
+<main>
+  <!-- Capítulo 1 -->
+  <section class="chapter" id="cap-1" aria-labelledby="t-1">
+    <div class="stage">
+      <header class="ch-title" data-avoid>
+        <h2 id="t-1">Jetson Racer</h2>
+        <p class="ch-links"><a href="https://github.com/R2DeezNuts/jetson-racer">Código</a> <a href="https://youtu.be/iftXwQ2Pxf0">Vídeo completo</a></p>
+      </header>
+      <div class="ch-meta" data-avoid>
+        <span>Cap. 1 de 4</span>
+        <span class="tc" aria-hidden="true">00:00.00</span>
+        <button class="play" type="button" aria-label="Pausar vídeo de Jetson Racer">Pausar</button>
+      </div>
+      <div class="frame">
+        <video muted loop playsinline controls preload="none" poster="../../img/video-coche-poster.jpg" aria-label="Jetson Racer conduciendo por el circuito">
+          <source src="../../img/video-coche-preview.mp4" type="video/mp4">
+        </video>
+        <div class="hud" aria-hidden="true"><span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span><span class="cross"></span></div>
+        <ol class="flow" aria-label="Flujo de datos">
+          <li>Cámara en la Jetson</li>
+          <li>Vídeo por red</li>
+          <li>Portátil: OpenCV + ONNX</li>
+          <li>Dirección y aceleración</li>
+          <li>Jetson acciona el coche</li>
+        </ol>
+      </div>
+      <div class="subs">
+        <p data-flow="0">Coche a escala con una Jetson Nano. Conduce a partir de lo que ve su cámara.</p>
+        <p data-flow="2">Una U-Net entrenada en PyTorch con dos salidas: circuito y obstáculos. El modelo se exporta a ONNX.</p>
+        <p data-flow="1,2,3,4">La Jetson manda el vídeo por red a un portátil. Allí OpenCV y ONNX calculan dirección y aceleración, y la Jetson acciona el coche. También admite mando manual.</p>
+        <p data-flow="1"><b>Límite:</b> la latencia de red condiciona el control. Aún no hay una evaluación formal de FPS ni de latencia.</p>
+      </div>
+    </div>
+    <div class="track" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  </section>
+
+  <!-- Capítulo 2 -->
+  <section class="chapter" id="cap-2" aria-labelledby="t-2">
+    <div class="stage">
+      <header class="ch-title" data-avoid>
+        <h2 id="t-2">Sumo Vision</h2>
+        <p class="ch-links"><a href="https://github.com/R2DeezNuts/sumo-vision">Código</a></p>
+      </header>
+      <div class="ch-meta" data-avoid>
+        <span>Cap. 2 de 4</span>
+        <span class="tc" aria-hidden="true">00:00.00</span>
+        <button class="play" type="button" aria-label="Pausar vídeo de Sumo Vision">Pausar</button>
+      </div>
+      <div class="frame">
+        <video muted loop playsinline controls preload="none" poster="../../img/sumo-vision-poster.jpg" aria-label="Sumo Vision retirando obstáculos del área">
+          <source src="../../img/sumo-vision-preview.mp4" type="video/mp4">
+        </video>
+        <div class="hud" aria-hidden="true"><span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span><span class="cross"></span></div>
+        <ol class="flow" aria-label="Flujo de datos">
+          <li>ESP32-CAM</li>
+          <li>Vídeo UDP :5005</li>
+          <li>Ordenador: Python + OpenCV</li>
+          <li>Órdenes UDP :9999</li>
+          <li>ESP32 del robot: motores</li>
+        </ol>
+      </div>
+      <div class="subs">
+        <p data-flow="">Un robot de sumo reutilizado como prototipo quitanieves: localiza obstáculos dentro de un área delimitada y los saca de ella.</p>
+        <p data-flow="0,1,2">Una ESP32-CAM envía vídeo por UDP al puerto 5005. En el ordenador, Python y OpenCV detectan las líneas del área y los obstáculos, y deciden la maniobra.</p>
+        <p data-flow="3,4">Las órdenes vuelven por UDP al puerto 9999 hasta la ESP32 del robot, que mueve los motores. Tiene modo automático y modo manual.</p>
+        <p data-flow="0,1,2,3,4"><b>Resultado:</b> retiró obstáculos de forma autónoma, como se ve en el vídeo.</p>
+      </div>
+    </div>
+    <div class="track" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  </section>
+
+  <!-- Capítulo 3 -->
+  <section class="chapter" id="cap-3" aria-labelledby="t-3">
+    <div class="stage">
+      <header class="ch-title" data-avoid>
+        <h2 id="t-3">Eggbots</h2>
+        <p class="ch-links"><a href="https://github.com/R2DeezNuts/EggBot-Sumo-Battlebot-">Código</a> <a href="https://youtu.be/11dywdyJRuc">Vídeo completo</a> <a href="https://battlebots.robotica.gal/Eggbots/">Web del equipo</a></p>
+      </header>
+      <div class="ch-meta" data-avoid>
+        <span>Cap. 3 de 4</span>
+        <span class="tc" aria-hidden="true">00:00.00</span>
+        <button class="play" type="button" aria-label="Pausar vídeo de Eggbots">Pausar</button>
+      </div>
+      <div class="frame">
+        <video muted loop playsinline controls preload="none" poster="../../img/combate3-poster.jpg" aria-label="Combate de sumo de Eggbots">
+          <source src="../../img/combate3-preview.mp4" type="video/mp4">
+        </video>
+        <div class="hud" aria-hidden="true"><span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span><span class="cross"></span></div>
+        <ol class="flow" aria-label="Mi aportación al equipo">
+          <li>Diseño 3D</li>
+          <li>PCB</li>
+          <li>Integración electrónica</li>
+          <li>Software de control en C++</li>
+        </ol>
+      </div>
+      <div class="subs">
+        <p data-flow="">Robot de combate de sumo, construido en equipo.</p>
+        <p data-flow="0,1,2,3">Mi parte: diseño 3D, PCB, integración electrónica y software de control en C++.</p>
+        <p data-flow="0,1,2,3"><b>Primer puesto</b> en el torneo [torneo, fecha].</p>
+      </div>
+    </div>
+    <div class="track" aria-hidden="true"><i></i><i></i><i></i></div>
+  </section>
+
+  <!-- Capítulo 4 -->
+  <section class="chapter still" id="cap-4" aria-labelledby="t-4">
+    <div class="stage">
+      <header class="ch-title" data-avoid>
+        <h2 id="t-4">Péndulo invertido</h2>
+        <p class="ch-links"><a href="https://github.com/R2DeezNuts/Pendulo-Invertido">Código</a></p>
+      </header>
+      <div class="ch-meta" data-avoid>
+        <span>Cap. 4 de 4</span>
+        <span class="tc">Sin vídeo: fotograma fijo</span>
+      </div>
+      <div class="frame">
+        <img src="../../img/imagen-pendulo.jpeg" alt="Robot péndulo invertido de dos ruedas sobre una mesa, con la ESP32 y la MPU6050 en la placa superior" loading="lazy" width="1365" height="768">
+        <div class="hud" aria-hidden="true"><span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span></div>
+        <svg class="tilt" viewBox="0 0 200 120" aria-hidden="true" focusable="false">
+          <path d="M100 110 L100 10" class="axis"/>
+          <path d="M100 110 L50 23.4" class="lim"/>
+          <path d="M100 110 L150 23.4" class="lim"/>
+          <path d="M70 58 A60 60 0 0 1 130 58" class="arc"/>
+          <text x="30" y="18">−30°</text><text x="150" y="18">+30°</text>
+        </svg>
+        <ol class="flow" aria-label="Flujo de control">
+          <li>MPU6050</li>
+          <li>Filtro complementario</li>
+          <li>PID, FreeRTOS, 100 Hz</li>
+          <li>Puente H: 2 motores DC</li>
+          <li>Servidor web: telemetría</li>
+        </ol>
+      </div>
+      <div class="subs">
+        <p data-flow="">Robot de dos ruedas que se mantiene en equilibrio. De este proyecto no hay vídeo todavía: solo esta foto.</p>
+        <p data-flow="0,1">Una ESP32 lee la MPU6050, acelerómetro y giroscopio, y combina las dos medidas con un filtro complementario.</p>
+        <p data-flow="2,3">Un PID corre en una tarea de FreeRTOS a 100 Hz y mueve dos motores DC con un puente H. Si la inclinación pasa de 30° durante más de 1 s, corta los motores.</p>
+        <p data-flow="4">Un servidor web muestra la telemetría y deja ajustar parámetros. <b>Pendiente:</b> validar la estabilidad con medidas cuantitativas.</p>
+      </div>
+    </div>
+    <div class="track" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  </section>
+
+  <!-- USV -->
+  <section class="usv" id="usv" aria-labelledby="t-usv">
+    <div class="usv-head" data-avoid>
+      <p class="usv-state">En planteamiento, sin rodar</p>
+      <h2 id="t-usv">USV</h2>
+      <p>Vehículo de superficie no tripulado. Es un proyecto personal: todavía no hay metraje, solo un guion de trabajo.</p>
+      <p><a class="btn ghost" href="../../usv-proyecto-personal.pdf">Leer el planteamiento (PDF)</a></p>
+    </div>
+    <figure class="usv-concept" data-avoid>
+      <img src="../../img/usv-concept.png" alt="Ilustración conceptual de un vehículo de superficie no tripulado" loading="lazy" decoding="async" width="1536" height="1024">
+      <figcaption>Imagen conceptual. No es una foto de un vehículo construido.</figcaption>
+    </figure>
+    <ol class="board" data-avoid>
+      <li class="done"><h3>Hecho</h3><p>Pruebas básicas con ArduPilot en un tanque y en un dron.</p></li>
+      <li><h3>Siguiente</h3><p>Navegación con piloto automático y telemetría.</p></li>
+      <li><h3>Después</h3><p>Visión artificial.</p></li>
+    </ol>
+  </section>
+
+  <!-- Créditos -->
+  <section class="credits" id="contacto" aria-labelledby="t-credits">
+    <div class="credits-inner" data-avoid>
+      <h2 id="t-credits">Créditos</h2>
+      <dl class="roll">
+        <div><dt>Lenguajes</dt><dd>Python, C, C++, MATLAB</dd></div>
+        <div><dt>Visión y aprendizaje</dt><dd>PyTorch, OpenCV, ONNX</dd></div>
+        <div><dt>Robótica</dt><dd>ROS, ArduPilot</dd></div>
+        <div><dt>Hardware</dt><dd>ESP32, Jetson Nano, KiCad</dd></div>
+        <div><dt>Sistema</dt><dd>Linux, Docker</dd></div>
+      </dl>
+      <h3 class="contact-title">Contacto</h3>
+      <p class="mail"><a href="mailto:juanjosepradoneira@gmail.com">juanjosepradoneira<wbr>@gmail.com</a></p>
+      <p class="contact-links">
+        <a href="https://github.com/R2DeezNuts">GitHub</a>
+        <a href="https://www.linkedin.com/in/juan-jos%C3%A9-prado-neira-820041252/">LinkedIn</a>
+        <a href="../../cv.pdf">CV (PDF)</a>
+      </p>
+      <p class="sign">Juan José Prado Neira. Lugo, Galicia.</p>
+    </div>
+  </section>
+</main>
+
+<script type="module" src="cine.js"></script>
+</body>
+</html>
